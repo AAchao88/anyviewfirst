@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class JdbcUtils_DBCP {
+
     private static BasicDataSource dataSource = null;
 
     static{
@@ -20,7 +21,6 @@ public class JdbcUtils_DBCP {
             properties.load(in);
 
             dataSource = BasicDataSourceFactory.createDataSource(properties);
-
 
         }catch (Exception e){
             e.printStackTrace();
