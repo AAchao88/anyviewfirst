@@ -2,15 +2,15 @@ package com.chao.www.po;
 
 public class Category {
 
-    private int id;
+    private Integer id;
     private String category_name;
-    private int create_user_id;
+    private Integer create_user_id;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -26,11 +26,11 @@ public class Category {
         return create_user_id;
     }
 
-    public void setCreate_user_id(int create_user_id) {
+    public void setCreate_user_id(Integer create_user_id) {
         this.create_user_id = create_user_id;
     }
 
-    public Category(int id, String category_name, int create_user_id) {
+    public Category(Integer id, String category_name, Integer create_user_id) {
         this.id = id;
         this.category_name = category_name;
         this.create_user_id = create_user_id;

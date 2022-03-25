@@ -1,20 +1,19 @@
 package com.chao.www.po;
 
-public class User {
+public class Users {
 
-    private int id;
+    private Integer id;
     private String username;
     private String password;
-    private String nick;
     private String sex;
-    private String telephone;
+    private Integer telephone;
     private String email;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,13 +33,6 @@ public class User {
         this.password = password;
     }
 
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
 
     public String getSex() {
         return sex;
@@ -50,11 +42,11 @@ public class User {
         this.sex = sex;
     }
 
-    public String getTelephone() {
+    public Integer getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(String telephone) {
+    public void setTelephone(Integer telephone) {
         this.telephone = telephone;
     }
 
@@ -66,17 +58,16 @@ public class User {
         this.email = email;
     }
 
-    public User(int id, String username, String password, String nick, String sex, String telephone, String email) {
+    public Users(Integer id, String username, String password, String sex, Integer telephone, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.nick = nick;
         this.sex = sex;
         this.telephone = telephone;
         this.email = email;
     }
 
-    public User() {
+    public Users() {
     }
 
 }

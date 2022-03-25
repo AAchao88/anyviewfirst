@@ -3,22 +3,22 @@ package com.chao.www.po;
 import java.util.Date;
 
 public class Article {
-    private int id;
+    private Integer id;
     private String title;
     private String content;
     private String author_id;
     private Date create_time;
     private Date update_time;
-    private int like;
-    private int collect;
+    private Integer like;
+    private Integer collect;
     private String comment;
-    private int category_id;
+    private Integer category_id;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -62,19 +62,19 @@ public class Article {
         this.update_time = update_time;
     }
 
-    public int getLike() {
+    public Integer getLike() {
         return like;
     }
 
-    public void setLike(int like) {
+    public void setLike(Integer like) {
         this.like = like;
     }
 
-    public int getCollect() {
+    public Integer getCollect() {
         return collect;
     }
 
-    public void setCollect(int collect) {
+    public void setCollect(Integer collect) {
         this.collect = collect;
     }
 
@@ -86,15 +86,15 @@ public class Article {
         this.comment = comment;
     }
 
-    public int getCategory_id() {
+    public Integer getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(int category_id) {
+    public void setCategory_id(Integer category_id) {
         this.category_id = category_id;
     }
 
-    public Article(int id, String title, String content, String author_id, Date create_time, Date update_time, int like, int collect, String comment, int category_id) {
+    public Article(Integer id, String title, String content, String author_id, Date create_time, Date update_time, Integer like, Integer collect, String comment, Integer category_id) {
         this.id = id;
         this.title = title;
         this.content = content;

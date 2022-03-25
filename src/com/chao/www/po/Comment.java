@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class Comment {
 
-    private int id;
+    private Integer id;
     private String content;
     private String create_user;
-    private int article_id;
+    private Integer article_id;
     private Date create_time;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,11 +34,11 @@ public class Comment {
         this.create_user = create_user;
     }
 
-    public int getArticle_id() {
+    public Integer getArticle_id() {
         return article_id;
     }
 
-    public void setArticle_id(int article_id) {
+    public void setArticle_id(Integer article_id) {
         this.article_id = article_id;
     }
 
@@ -50,7 +50,7 @@ public class Comment {
         this.create_time = create_time;
     }
 
-    public Comment(int id, String content, String create_user, int article_id, Date create_time) {
+    public Comment(Integer id, String content, String create_user, Integer article_id, Date create_time) {
         this.id = id;
         this.content = content;
         this.create_user = create_user;
