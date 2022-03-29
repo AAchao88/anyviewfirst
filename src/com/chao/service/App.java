@@ -21,13 +21,10 @@ public class App {
             menu.menuMain();
             int item = verify.MenuItemVerify(1,4);
             switch(item){
-                case 1:
-                    Login login = new Login();
-
-                    break;
-                case 2:break;
-                case 3:break;
-                case 4:break;
+                case 1: Login login = new Login(); login.input(); break;
+                case 2: Register register = new Register(); register.input(); break;
+                case 3: break;
+                case 4: System.exit(0); break;
                 default:
             }
         }
@@ -40,19 +37,21 @@ public class App {
         Menu menu = new Menu();
         Verify verify = new Verify();
 
-        menu.menuHomeUser();
-        int item = verify.MenuItemVerify(1,9);
-        switch(item){
-            case 1:break;
-            case 2:break;
-            case 3:break;
-            case 4:break;
-            case 5:break;
-            case 6:break;
-            case 7:break;
-            case 8:break;
-            case 9:break;
-            default:
+        while(true){
+            menu.menuHomeUser();
+            int item = verify.MenuItemVerify(1,9);
+            switch(item){
+                case 1:break;
+                case 2:break;
+                case 3:break;
+                case 4:break;
+                case 5:break;
+                case 6:break;
+                case 7:break;
+                case 8:break;
+                case 9:break;
+                default:
+            }
         }
     }
 

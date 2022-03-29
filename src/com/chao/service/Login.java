@@ -23,7 +23,7 @@ public class Login implements Input {
         for( i=0;i<5;i++){
             System.out.println("请输入正确的用户名：");
             String input = scanner.nextLine();
-            if(verify.usernameVerify(input)){
+            if(verify.usernameVerify_login(input)){
                 break;
             }
         }
