@@ -7,6 +7,9 @@ import com.chao.controler.verify.Verify;
  * 入口类
  */
 public class App {
+
+    public static Integer userId = null;
+
     //程序入口
     public static void main(String[] args) {
         App app = new App();
@@ -23,7 +26,7 @@ public class App {
             switch(item){
                 case 1: Login login = new Login(); login.input(); break;
                 case 2: Register register = new Register(); register.input(); break;
-                case 3: break;
+                case 3: //游客   break;
                 case 4: System.exit(0); break;
                 default:
             }
