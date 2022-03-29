@@ -1,6 +1,6 @@
-package com.chao.www.dao;
+package com.chao.dao;
 
-import com.chao.www.utils.JdbcUtils_DBCP;
+import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

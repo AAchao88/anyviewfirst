@@ -1,4 +1,4 @@
-package com.chao.www.controler.menu;
+package com.chao.controler.menu;
 
 //每一个菜单都要有一句输入提示
 
@@ -7,5 +7,5 @@ package com.chao.www.controler.menu;
  */
 
 public interface NextStep {
-    public abstract void nextStep();
+    void nextStep();
 }

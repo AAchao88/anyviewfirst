@@ -1,4 +1,4 @@
-package com.chao.www.po;
+package com.chao.po;
 
 public class Like {
     private Integer id;
