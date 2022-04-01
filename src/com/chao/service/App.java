@@ -8,7 +8,7 @@ import com.chao.controler.verify.Verify;
  */
 public class App {
 
-    public static Integer userId = null;
+    //public static Integer userId = null;
 
     //程序入口
     public static void main(String[] args) {

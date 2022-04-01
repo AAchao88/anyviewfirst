@@ -1,6 +1,7 @@
 package com.chao.controler.verify;
 
 import com.chao.dao.Insert;
+import com.chao.dao.Select;
 import com.chao.po.Users;
 
 import java.util.Scanner;
@@ -67,7 +68,10 @@ public class Verify {
     }
 
     public Boolean usernameVerify_register(String s){
+        Select select = new Select();
+
         //在数据库中查找，是否存在
+        select.selectUsers(users,)
         if(存在){
             System.out.println("该用户名已经存在，请更换一个用户名");
             return false;
@@ -90,6 +94,20 @@ public class Verify {
         }
     }
 
+    public Boolean sexVerify(){
+        Scanner scanner = new Scanner(System.in);
+        Select select = new Select();
+        String regex = "[1-2]{1}";
+        System.out.println("1.男   2.女 ");
+        while(true){
+            System.out.println("请根据性别输入数字：");
+            String input = scanner.nextLine();
+            if(input.matches(regex)){
+
+            }
+        }
+
+    }
 
 
 

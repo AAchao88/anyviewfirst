@@ -1,7 +1,9 @@
 package com.chao.service;
 
 import com.chao.controler.verify.Verify;
-import com.chao.service.Operate.Input;
+import com.chao.dao.Select;
+import com.chao.po.Users;
+import com.chao.service.OperateImp.Input;
 
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class Login implements Input {
         //先实例化所需对象
         Scanner scanner = new Scanner(System.in);
         Verify verify = new Verify();
-
+        Users users = new Users();
         //String input = null;
         int i;
         //循环因子
@@ -25,6 +27,7 @@ public class Login implements Input {
             System.out.println("请输入正确的用户名：");
             String input = scanner.nextLine();
             if(verify.usernameVerify_login(input)){
+                users.setUsername(input);
                 break;
             }
         }
@@ -46,10 +49,12 @@ public class Login implements Input {
         }else{
             //登录成功
             App app = new App();
+            Select select = new Select();
             /**
              * 登陆时必须App.userId = 通过查询获取
              */
-            App.userId ;
+
+            //App.userId = select.selectUsers(users) ;
             app.HomeUser();
 
         }

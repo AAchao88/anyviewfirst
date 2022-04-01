@@ -10,23 +10,25 @@ public interface SelectImp {
      *   查询用户
      * @param users
      */
-    void selectUsers(Users users);
+    Boolean selectUsers(Users users,int flag);
 
     /**
      *  查询文章
      * @param article
      */
-    void selectArticle(Article article);
+    Boolean selectArticle(Article article);
 
     /**
      *  查询评论
      * @param comment
      */
-    void selectComment(Comment comment);
+    Boolean selectComment(Comment comment);
 
     /**
      *     查询收藏
      * @param favorite
      */
-    void selectFavorite(Favorite favorite);
+    Boolean selectFavorite(Favorite favorite);
+
+   // Boolean selectSex(Users users);
 }

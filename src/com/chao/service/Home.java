@@ -3,6 +3,8 @@ package com.chao.service;
 import com.chao.controler.Print;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.dao.Select;
+import com.chao.po.Users;
 import com.chao.service.modify.ModifyMine;
 
 public class Home {
@@ -15,8 +17,10 @@ public class Home {
          */
         Menu menu = new Menu();
         Verify verify = new Verify();
+        Users users = new Users();
         ModifyMine modifyMine = new ModifyMine();
-        Print print =new Print();
+        //Print print =new Print();
+        Select select = new Select();
 
         while(true){
             menu.menuModifyMine();
@@ -26,8 +30,8 @@ public class Home {
                 return ;
             }
             switch(item){
-                case 1: print.printMine();break;
-                case 2: modifyMine.modifyUsername(); break;
+                case 1: select.selectUsers(users,1);break;
+                case 2: modifyMine.modifyUsername(users); break;
                 case 3: modifyMine.modifyPassword(); break;
                 case 4: modifyMine.modifySex(); break;
                 case 5: modifyMine.modifyTelephone();break;
