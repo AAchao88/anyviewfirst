@@ -10,9 +10,11 @@ public class Article {
     private Date create_time;
     private Date update_time;
     private Integer like;
-    private Integer collect;
+    private Integer favorite;
     private String comment;
-    private Integer category_id;
+    private Integer knowledgebase_id;
+    private String tag;
+    private Integer permission;
 
     public Integer getId() {
         return id;
@@ -70,12 +72,12 @@ public class Article {
         this.like = like;
     }
 
-    public Integer getCollect() {
-        return collect;
+    public Integer getFavorite() {
+        return favorite;
     }
 
-    public void setCollect(Integer collect) {
-        this.collect = collect;
+    public void setFavorite(Integer favorite) {
+        this.favorite = favorite;
     }
 
     public String getComment() {
@@ -86,15 +88,31 @@ public class Article {
         this.comment = comment;
     }
 
-    public Integer getCategory_id() {
-        return category_id;
+    public Integer getKnowledgebase_id() {
+        return knowledgebase_id;
     }
 
-    public void setCategory_id(Integer category_id) {
-        this.category_id = category_id;
+    public void setKnowledgebase_id(Integer knowledgebase_id) {
+        this.knowledgebase_id = knowledgebase_id;
     }
 
-    public Article(Integer id, String title, String content, String author_id, Date create_time, Date update_time, Integer like, Integer collect, String comment, Integer category_id) {
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Integer getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Integer permission) {
+        this.permission = permission;
+    }
+
+    public Article(Integer id, String title, String content, String author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer permission) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -102,9 +120,11 @@ public class Article {
         this.create_time = create_time;
         this.update_time = update_time;
         this.like = like;
-        this.collect = collect;
+        this.favorite = favorite;
         this.comment = comment;
-        this.category_id = category_id;
+        this.knowledgebase_id = knowledgebase_id;
+        this.tag = tag;
+        this.permission = permission;
     }
 
     public Article() {

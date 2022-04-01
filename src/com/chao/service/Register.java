@@ -1,10 +1,11 @@
 package com.chao.service;
 
 import com.chao.controler.verify.Verify;
+import com.chao.service.Operate.Input;
 
 import java.util.Scanner;
 
-public class Register implements Input{
+public class Register implements Input {
 
     @Override
     public void input() {

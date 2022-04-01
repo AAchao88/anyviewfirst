@@ -1,10 +1,14 @@
 package com.chao.controler.verify;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.chao.dao.Insert;
+import com.chao.po.Users;
 
 import java.util.Scanner;
 
 public class Verify {
+
+    Insert insert = new Insert();
+    Users users = new Users();
 
     //验证菜单项的方法
     public int MenuItemVerify(int min,int max){
@@ -68,6 +72,8 @@ public class Verify {
             System.out.println("该用户名已经存在，请更换一个用户名");
             return false;
         }else{
+
+            users.setUsername(s);
             //调用写入函数，将用户名存进数据库
             return true;
         }
@@ -75,6 +81,8 @@ public class Verify {
     public Boolean passwordVerify_register(String s){
         String regex = "[0-9a-zA-Z]{6,40}";
         if(s.matches(regex)){
+            users.setPassword(s);
+            insert.insertUsers(users);
             return true;
         }else{
             System.out.println("输入的密码不符合格式，请重新输入！");
