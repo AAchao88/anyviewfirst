@@ -108,7 +108,7 @@ public class ModifyMine implements ModifyMineImp {
                 update.updateUsers(users);
                 return;
             }
-            System.out.println("请输入您的联系电话：");
+            System.out.println("输入有误，请重新输入联系电话。");
             input = scanner.nextLine();
         }
     }
@@ -127,7 +127,7 @@ public class ModifyMine implements ModifyMineImp {
                 update.updateUsers(users);
                 return;
             }
-            System.out.println("请输入您的电子邮箱：");
+            System.out.println("输入有误，请重新输入电子邮箱。");
             input = scanner.nextLine();
         }
     }

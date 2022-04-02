@@ -22,7 +22,7 @@ public class Home {
 
         while(true){
             menu.menuModifyMine();
-            int item = verify.MenuItemVerify(1,7);
+            int item = verify.menuItemVerify(1,7);
             //返回首页
             if(item==7){
                 return ;

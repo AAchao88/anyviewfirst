@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Verify {
     //验证菜单项的方法
-    public int MenuItemVerify(int min,int max){
+    public int menuItemVerify(int min, int max){
         //创建Scanner输入对象
         Scanner scanner = new Scanner(System.in);
         //正则表达式
@@ -98,9 +98,4 @@ public class Verify {
             }
         }
     }
-
-
-
-
-
 }
