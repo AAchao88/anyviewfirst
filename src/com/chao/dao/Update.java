@@ -25,11 +25,11 @@ public class Update implements UpdateImp{
            // String sql = "update users set ";
             String sql = null;
             switch(modifyMine.getFlag()){
-                case 1: sql ="";st.setString(1,); break;
-                case 2:sql = "";break;
-                case 3:sql = "";break;
-                case 4:sql = "";break;
-                case 5:sql = "";break;
+                case 1: sql ="";st.setString(1,users.getUsername()); break;
+                case 2:sql = "";st.setString(1,users.getPassword()); break;
+                case 3:sql = "";st.setString(1,users.getSex()); break;
+                case 4:sql = "";st.setInt(1,users.getTelephone()); break;
+                case 5:sql = "";st.setString(1,users.getEmail()); break;
                 default:
             }
             st = conn.prepareStatement(sql);

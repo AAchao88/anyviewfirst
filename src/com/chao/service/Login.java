@@ -19,6 +19,7 @@ public class Login implements Input {
         //先实例化所需对象
         Scanner scanner = new Scanner(System.in);
         Verify verify = new Verify();
+        Select select = new Select();
         Users users = new Users();
         //String input = null;
         int i;
@@ -39,7 +40,8 @@ public class Login implements Input {
         for( i=0;i<5;i++){
             System.out.println("请输入正确的密码：");
             String input = scanner.nextLine();
-            if(verify.passwordVerify(input)){
+            if(verify.passwordVerify_login(input)){
+                users.setPassword(input);
                 break;
             }
         }
@@ -49,14 +51,18 @@ public class Login implements Input {
         }else{
             //登录成功
             App app = new App();
-            Select select = new Select();
+
             /**
-             * 登陆时必须App.userId = 通过查询获取
+             *
+             * 登陆时必须users.userId = 通过查询获取
+             * 此步在用户名验证的查询中完成
              */
 
             //App.userId = select.selectUsers(users) ;
+            //users.setId(select.selectUsers(users,2));
+            //select.selectUsers(users.getUsername(),2);
             app.HomeUser();
-
+            return;
         }
     }
 }

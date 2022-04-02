@@ -1,16 +1,11 @@
 package com.chao.controler.verify;
 
-import com.chao.dao.Insert;
 import com.chao.dao.Select;
 import com.chao.po.Users;
 
 import java.util.Scanner;
 
 public class Verify {
-
-    Insert insert = new Insert();
-    Users users = new Users();
-
     //验证菜单项的方法
     public int MenuItemVerify(int min,int max){
         //创建Scanner输入对象
@@ -35,27 +30,23 @@ public class Verify {
 
     //验证用户名的方法
     public Boolean usernameVerify_login(String s){
-       // String regex = "[0-9]{9}";
-        //if(s.matches(regex)){
             //在数据库中查看是否有此用户名
-            if(存在){
+        Select select = new Select();
+            if(select.selectUsers(s,2)){
                 return true;
             }else{
                 System.out.println("输入的用户名有误，请检查！\n");
                 return false;
             }
-//        }else{
-//            System.out.println("输入的用户名有误，请检查！\n");
-//            return false;
-//        }
     }
 
     //验证密码的方法
-    public Boolean passwordVerify(String s){
+    public Boolean passwordVerify_login(String s){
         String regex = "[0-9a-zA-Z]{6,40}";
+        Select select = new Select();
         if(s.matches(regex)){
             //在数据库中查看密码是否正确
-            if(正确){
+            if(select.selectUsers(s,4)){
                 return true;
             }else{
                 System.out.println("密码输入错误！请检查。");
@@ -69,24 +60,21 @@ public class Verify {
 
     public Boolean usernameVerify_register(String s){
         Select select = new Select();
-
+        Users users = new Users();
         //在数据库中查找，是否存在
-        select.selectUsers(users,)
-        if(存在){
-            System.out.println("该用户名已经存在，请更换一个用户名");
+        if(select.selectUsers(s,3)){
+            System.out.println("该用户名已经存在，请更换一个用户名!");
             return false;
         }else{
-
             users.setUsername(s);
-            //调用写入函数，将用户名存进数据库
             return true;
         }
     }
     public Boolean passwordVerify_register(String s){
         String regex = "[0-9a-zA-Z]{6,40}";
+        Users users = new Users();
         if(s.matches(regex)){
             users.setPassword(s);
-            insert.insertUsers(users);
             return true;
         }else{
             System.out.println("输入的密码不符合格式，请重新输入！");
@@ -94,20 +82,23 @@ public class Verify {
         }
     }
 
-    public Boolean sexVerify(){
+    public int sexVerify(){
         Scanner scanner = new Scanner(System.in);
-        Select select = new Select();
-        String regex = "[1-2]{1}";
+        //Select select = new Select();
+        String regex1 = "[1]{1}";
+        String regex2 = "[2]{1}";
         System.out.println("1.男   2.女 ");
         while(true){
             System.out.println("请根据性别输入数字：");
             String input = scanner.nextLine();
-            if(input.matches(regex)){
-
+            if(input.matches(regex1)){
+                return 1;
+            }else{
+                return 2;
             }
         }
-
     }
+
 
 
 

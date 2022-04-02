@@ -29,4 +29,6 @@ public interface UpdateImp {
      * @param favorite
      */
     void updateFavorite(Favorite favorite);
+
+
 }

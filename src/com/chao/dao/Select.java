@@ -16,13 +16,16 @@ public class Select implements SelectImp{
     /**
      * flag变量用来判断查询的内容，实现一个方法完成多个功能，
      *      1代表通过用户id查询user表的一整行数据，即一个用户的全部信息，用于查看个人信息
-     *      2代表通过用户名查询并返回用户id，用于登陆时获取App.userId,
+     *      2代表通过用户名查询并返回用户id，用于登陆时获取users.userId,
+     *      3传入用户的输入查询用户名是否已经存在
+     *      4输入可能的密码查询密码是否正确
      * @param users
      * @param flag
      * @return
      */
     @Override
-    public Boolean selectUsers(Users users,int flag) {
+    public <T>Boolean selectUsers(T input,int flag) {
+        Users users = new Users();
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -32,14 +35,20 @@ public class Select implements SelectImp{
             //String sql = "select * from users where id = ? ";
             String sql = null;
             switch(flag){
-                case 1:sql = "select * from users where id +?";
+                case 1:sql = "select * from users where id = ?";
                         st = conn.prepareStatement(sql);
-                        st.setInt(1, users.getId());
+                        st.setObject(1, input);
                         break;
                 case 2:sql = "select `id` from users where username = ?";
                         st = conn.prepareStatement(sql);
-                        st.setString(1,users.getUsername());
+                        st.setObject(1,input);
                         break;
+                case 3:sql = "select `username` from users where id = ? ";st = conn.prepareStatement(sql);
+                    st.setObject(1,input);break;
+                case 4:sql = "select `password` from users where password = ?";
+                                st = conn.prepareStatement(sql);
+                                st.setObject(1,input);
+                                break;
                 default:
             }
             //st = conn.prepareStatement(sql);
@@ -62,9 +71,16 @@ public class Select implements SelectImp{
                        System.out.println("您的联系电话是："+rs.getString("telephone"));
                        System.out.println("您的电子邮箱是："+rs.getString("email"));
                        break;
-                   case 2:break;
+                   case 2:users.setId(rs.getInt("id"));
+                       break;
+                   case 3:break;
+                   case 4:break;
                    default:
                }
+               return true;
+           }else{
+               //System.out.println("查无！");
+               return false;
            }
 
 
