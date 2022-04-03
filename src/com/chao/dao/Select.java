@@ -19,7 +19,8 @@ public class Select implements SelectImp{
      * @param flag
      * @return
      */
-    private Boolean returnValue;
+    private Boolean returnValue1;
+    private Integer returnValue2;
     @Override
     public <T>Boolean selectUsers(T input,int flag,Users users) {
         Connection conn = null;
@@ -67,15 +68,15 @@ public class Select implements SelectImp{
                        System.out.println("您的性别是："+rs.getString("sex"));
                        System.out.println("您的联系电话是："+rs.getString("telephone"));
                        System.out.println("您的电子邮箱是："+rs.getString("email"));
-                       returnValue = true;break;
+                       returnValue1 = true;break;
                    case 2:users.setId(rs.getInt("id"));
-                       returnValue = true; break;
-                   case 3:returnValue = true;break;
+                       returnValue1 = true; break;
+                   case 3:returnValue1 = true;break;
                    case 4:if(input.equals(rs.getString("passoword"))){
-                       returnValue = true;
+                       returnValue1 = true;
                        break;
                    }else{
-                       returnValue = false;
+                       returnValue1 = false;
                        break;
                    }
                    default:
@@ -83,7 +84,7 @@ public class Select implements SelectImp{
 
            }else{
                //System.out.println("查无！");
-               returnValue = false;
+               returnValue1 = false;
            }
 
 
@@ -91,7 +92,7 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return returnValue;
+            return returnValue1;
         }
     }
 
@@ -111,7 +112,7 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public String[] selectPersonalKnowledgeBase(Users users, int flag,String[] storeKnowledgeName) {
+    public String[] selectKnowledgeBase(Users users, int flag,String[] storeKnowledgeName) {
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -121,19 +122,16 @@ public class Select implements SelectImp{
             //区别    //使用？ 占位符代替参数
             //String sql = "select * from users where id = ? ";
             String sql = null;
+            sql = "select * from knowledgebase where `create_user_id` = ? and `category` =  ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
             switch (flag){
-                case 1:sql = "select * from knowledgebase where `create_user_id` = ? and `category` =  ?";
-                    st = conn.prepareStatement(sql);
-                    st.setInt(1,users.getId());
+                case 1:
                     st.setString(2,"个人知识库");
-                    rs = st.executeQuery();
-                    for(int i=0;rs.next();i++){
-                        storeKnowledgeName[i] = rs.getString("knowledgebase_name");
-                    }
                     break;
-                case 2:sql = "select `id` from knowledgebase where `knowledge_name` = ?";
-                    st = conn.prepareStatement(sql);
-                    st.setString(1,knowledgeBase.getKnowledgebase_name());
+                case 2:st.setString(2,"协作知识库");
+                    break;
+                default:
             }
             //st = conn.prepareStatement(sql);
             //预编译SQL，先写sql,然后不执行
@@ -145,25 +143,46 @@ public class Select implements SelectImp{
             //注意点：sql/date   数据库
             //          utils.Date  java    new Date().getTime() 获得时间戳
             rs = st.executeQuery();
-
-            if(rs.next()){
-
-            }else{
-
-               // returnValue = false;
+            for(int i=0;rs.next();i++){
+                storeKnowledgeName[i] = rs.getString("knowledgebase_name");
             }
-
-
         }catch (SQLException e){
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            if(flag == 1){
-                return storeKnowledgeName;
-            }else {
-                return null;
-            }
+            return storeKnowledgeName;
         }
 
+    }
+
+    @Override
+    public Integer selectIdByName(String name) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+
+            sql = "select `id` from knowledgebase where knowledgebase_name = ?";
+            st = conn.prepareStatement(sql);
+            //预编译SQL，先写sql,然后不执行
+            st.setString(1,name);
+            //手动给参数赋值
+
+            //注意点：sql/date   数据库       utils.Date  java    new Date().getTime() 获得时间戳
+            rs = st.executeQuery();
+            if(rs.next()){
+                returnValue2 = rs.getInt("id");
+            }else{
+                returnValue2 = null;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return returnValue2;
+        }
     }
 }

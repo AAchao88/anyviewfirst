@@ -6,7 +6,7 @@ public class Article {
     private Integer id;
     private String title;
     private String content;
-    private String author_id;
+    private Integer author_id;
     private Date create_time;
     private Date update_time;
     private Integer like;
@@ -40,11 +40,11 @@ public class Article {
         this.content = content;
     }
 
-    public String getAuthor_id() {
+    public Integer getAuthor_id() {
         return author_id;
     }
 
-    public void setAuthor_id(String author_id) {
+    public void setAuthor_id(Integer author_id) {
         this.author_id = author_id;
     }
 
@@ -112,7 +112,7 @@ public class Article {
         this.permission = permission;
     }
 
-    public Article(Integer id, String title, String content, String author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer permission) {
+    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer permission) {
         this.id = id;
         this.title = title;
         this.content = content;

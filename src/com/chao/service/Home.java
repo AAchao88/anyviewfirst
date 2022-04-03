@@ -4,6 +4,7 @@ import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Insert;
 import com.chao.dao.Select;
+import com.chao.po.Article;
 import com.chao.po.KnowledgeBase;
 import com.chao.po.Users;
 import com.chao.service.OperateImp.HomeImp;
@@ -70,20 +71,37 @@ public class Home implements HomeImp {
         Select select = new Select();
         Verify verify = new Verify();
         Scanner scanner = new Scanner(System.in);
-        int count = 0;
-        //用于计数个人知识库的数量
+        KnowledgeBase knowledgeBase = new KnowledgeBase();
+
         String[] storeKnowledgeName = new String[20];
-        storeKnowledgeName = select.selectPersonalKnowledgeBase(users,1,storeKnowledgeName);
-        for(int i = 0;storeKnowledgeName[i] != null;i++){
+
+        storeKnowledgeName = select.selectKnowledgeBase(users,1,storeKnowledgeName);
+        int i;
+        for( i = 0;storeKnowledgeName[i] != null;i++){
             System.out.println(i+"."+storeKnowledgeName[i]);
         }
-        System.out.println("请正确输入想进入的知识库名字：");
-        for(int i = 0;storeKnowledgeName[i] != null;i++){
-            String input = scanner.nextLine();
-            if(input.equals(storeKnowledgeName[i])){
-                select.selectPersonalKnowledgeBase(users,2,storeKnowledgeName);
+        //System.out.println("当前共有"+(i-1)+"个个人知识库\n");
+        Boolean judge = true;
+        while(judge){
+            System.out.println("请正确输入想进入的知识库名字：");
+            for( i = 0;storeKnowledgeName[i] != null;i++){
+                String input = scanner.nextLine();
+                if(input.equals(storeKnowledgeName[i])){
+                    knowledgeBase.setId(select.selectIdByName(input));
+                    judge = false;
+                    break;
+                }else {
+                    System.out.println("输入错误，请检查并重新输入！");
+                }
             }
         }
+        System.out.println("1.新建文章     2.编辑已有文章  ");
+        if(verify.menuItemVerify(1,2) == 1){
+
+        }else {
+
+        }
+
 
     }
 
@@ -134,6 +152,25 @@ public class Home implements HomeImp {
 
     @Override
     public void recycleBin(Users users) {
+
+    }
+
+    @Override
+    public void newArticle(Users users,KnowledgeBase knowledgeBase) {
+        Insert insert = new Insert();
+        Article article = new Article();
+        Scanner scanner = new Scanner(System.in);
+
+        article.setAuthor_id(users.getId());
+        article.setKnowledgebase_id(knowledgeBase.getId());
+        System.out.println("请输入文章的题目：\t（注意不超过30个字）");
+        String inputName = scanner.nextLine();
+        article.setTitle(inputName);
+        System.out.println("请输入文章的标签：\t（注意不超过20个字）");
+        String inputTag = scanner.nextLine();
+        article.setTag(inputTag);
+        System.out.println("请输入文章的内容：");
+
 
     }
 

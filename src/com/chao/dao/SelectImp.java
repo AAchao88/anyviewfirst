@@ -13,7 +13,7 @@ public interface SelectImp {
      *  查询文章
      * @param article
      */
-    Boolean selectArticle(Article article);
+    Boolean selectArticle(KnowledgeBase knowledgeBase);
 
     /**
      *  查询评论
@@ -33,5 +33,7 @@ public interface SelectImp {
      * 2表示通过知识库名字获取知识库id
      * @return
      */
-    String[] selectPersonalKnowledgeBase(Users users, String[] storeKnowledgeName);
+    String[] selectKnowledgeBase(Users users, int flag,String[] storeKnowledgeName);
+
+    Integer selectIdByName(String name);
 }

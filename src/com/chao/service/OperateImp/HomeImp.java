@@ -1,5 +1,6 @@
 package com.chao.service.OperateImp;
 
+import com.chao.po.KnowledgeBase;
 import com.chao.po.Users;
 
 public interface HomeImp {
@@ -76,5 +77,7 @@ public interface HomeImp {
      *   否则  打印文章的title，询问是否复原
      */
      void recycleBin(Users users);
+
+     void newArticle(Users users, KnowledgeBase knowledgeBase);
 
 }
