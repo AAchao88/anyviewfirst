@@ -1,9 +1,6 @@
 package com.chao.dao;
 
-import com.chao.po.Article;
-import com.chao.po.Comment;
-import com.chao.po.Favorite;
-import com.chao.po.Users;
+import com.chao.po.*;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -25,7 +22,6 @@ public class Select implements SelectImp{
     private Boolean returnValue;
     @Override
     public <T>Boolean selectUsers(T input,int flag,Users users) {
-        //Users users = new Users();
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -112,5 +108,62 @@ public class Select implements SelectImp{
     @Override
     public Boolean selectFavorite(Favorite favorite) {
         return true;
+    }
+
+    @Override
+    public String[] selectPersonalKnowledgeBase(Users users, int flag,String[] storeKnowledgeName) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            //区别    //使用？ 占位符代替参数
+            //String sql = "select * from users where id = ? ";
+            String sql = null;
+            switch (flag){
+                case 1:sql = "select * from knowledgebase where `create_user_id` = ? and `category` =  ?";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,users.getId());
+                    st.setString(2,"个人知识库");
+                    rs = st.executeQuery();
+                    for(int i=0;rs.next();i++){
+                        storeKnowledgeName[i] = rs.getString("knowledgebase_name");
+                    }
+                    break;
+                case 2:sql = "select `id` from knowledgebase where `knowledge_name` = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,knowledgeBase.getKnowledgebase_name());
+            }
+            //st = conn.prepareStatement(sql);
+            //预编译SQL，先写sql,然后不执行
+
+            //st.setInt(1,);
+
+            //手动给参数赋值
+
+            //注意点：sql/date   数据库
+            //          utils.Date  java    new Date().getTime() 获得时间戳
+            rs = st.executeQuery();
+
+            if(rs.next()){
+
+            }else{
+
+               // returnValue = false;
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            if(flag == 1){
+                return storeKnowledgeName;
+            }else {
+                return null;
+            }
+        }
+
     }
 }

@@ -2,12 +2,21 @@ package com.chao.po;
 
 import java.util.Date;
 
-public class Knowledgebase {
+public class KnowledgeBase {
     private Integer id;
     private String knowledgebase_name;
     private Integer create_user_id;
     private Date create_time;
     private String tag;
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Integer getId() {
         return id;
@@ -33,8 +42,8 @@ public class Knowledgebase {
         this.create_user_id = create_user_id;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public java.sql.Date getCreate_time() {
+        return (java.sql.Date) create_time;
     }
 
     public void setCreate_time(Date create_time) {
@@ -49,14 +58,15 @@ public class Knowledgebase {
         this.tag = tag;
     }
 
-    public Knowledgebase(Integer id, String knowledgebase_name, Integer create_user_id, Date create_time, String tag) {
+    public KnowledgeBase(Integer id, String knowledgebase_name, Integer create_user_id, Date create_time, String tag,String category) {
         this.id = id;
         this.knowledgebase_name = knowledgebase_name;
         this.create_user_id = create_user_id;
         this.create_time = create_time;
         this.tag = tag;
+        this.category = category;
     }
 
-    public Knowledgebase() {
+    public KnowledgeBase() {
     }
 }

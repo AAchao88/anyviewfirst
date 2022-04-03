@@ -2,10 +2,15 @@ package com.chao.service;
 
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.dao.Insert;
 import com.chao.dao.Select;
+import com.chao.po.KnowledgeBase;
 import com.chao.po.Users;
 import com.chao.service.OperateImp.HomeImp;
 import com.chao.service.modify.ModifyMine;
+
+import java.util.Date;
+import java.util.Scanner;
 
 public class Home implements HomeImp {
 
@@ -51,8 +56,34 @@ public class Home implements HomeImp {
 
     }
 
+    /**
+     *   个人知识库
+     *   获取知识库id，将其赋到文章信息
+     *   可以输出、新建、编辑、tag标签、删除、（投稿）文章
+     */
     @Override
     public void personal_Knowledge_base(Users users) {
+        /**
+         *
+         * 通过user.id查询所有个人知识库
+         */
+        Select select = new Select();
+        Verify verify = new Verify();
+        Scanner scanner = new Scanner(System.in);
+        int count = 0;
+        //用于计数个人知识库的数量
+        String[] storeKnowledgeName = new String[20];
+        storeKnowledgeName = select.selectPersonalKnowledgeBase(users,1,storeKnowledgeName);
+        for(int i = 0;storeKnowledgeName[i] != null;i++){
+            System.out.println(i+"."+storeKnowledgeName[i]);
+        }
+        System.out.println("请正确输入想进入的知识库名字：");
+        for(int i = 0;storeKnowledgeName[i] != null;i++){
+            String input = scanner.nextLine();
+            if(input.equals(storeKnowledgeName[i])){
+                select.selectPersonalKnowledgeBase(users,2,storeKnowledgeName);
+            }
+        }
 
     }
 
@@ -64,7 +95,36 @@ public class Home implements HomeImp {
      */
     @Override
     public void create_knowledge_base(Users users) {
+        KnowledgeBase knowledgeBase = new KnowledgeBase();
+        Scanner scanner = new Scanner(System.in);
+        Insert insert = new Insert();
 
+        knowledgeBase.setCreate_user_id(users.getId());
+        System.out.println("请输入知识库的名称：\t（注意不超过20个字）");
+        String inputName = scanner.nextLine();
+        knowledgeBase.setKnowledgebase_name(inputName);
+        System.out.println("请输入知识库的标签：\t（注意不超过30个字）");
+        String inputTag = scanner.nextLine();
+        knowledgeBase.setTag(inputTag);
+
+        System.out.println("请输入数字选择知识库的类别：");
+        System.out.println("1.个人知识库     2.协作知识库   ");
+        String regex1 = "[1]{1}";
+        String regex2 = "[2]{1}";
+        while(true){
+            String input = scanner.nextLine();
+            if(input.matches(regex1)){
+                knowledgeBase.setCategory("个人知识库");break;
+            }
+            if(input.matches(regex2)){
+                knowledgeBase.setCategory("协作知识库");break;
+            }
+            System.out.println("输入有误，请重新输入。");
+        }
+
+        knowledgeBase.setCreate_time(new Date(System.currentTimeMillis()));
+        insert.insertKnowledgeBase(knowledgeBase);
+        return;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.chao.dao;
 
-import com.chao.po.Article;
-import com.chao.po.Comment;
-import com.chao.po.Favorite;
-import com.chao.po.Users;
+import com.chao.po.*;
 
 public interface SelectImp {
     /**
@@ -30,5 +27,11 @@ public interface SelectImp {
      */
     Boolean selectFavorite(Favorite favorite);
 
-   // Boolean selectSex(Users users);
+    /**
+     * 查询知识库
+     * 1表示通过user.id查询所有个人知识库，并获取知识库名字
+     * 2表示通过知识库名字获取知识库id
+     * @return
+     */
+    String[] selectPersonalKnowledgeBase(Users users, String[] storeKnowledgeName);
 }

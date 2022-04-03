@@ -31,5 +31,5 @@ public interface InsertImp {
      * 保存知识库信息
      * @param knowledgebase
      */
-    void insertKnowledge(Knowledgebase knowledgebase);
+    void insertKnowledgeBase(KnowledgeBase knowledgebase);
 }
