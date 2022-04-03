@@ -28,7 +28,7 @@ public class Update implements UpdateImp{
                 case 1: sql ="";st.setString(1,users.getUsername()); break;
                 case 2:sql = "";st.setString(1,users.getPassword()); break;
                 case 3:sql = "";st.setString(1,users.getSex()); break;
-                case 4:sql = "";st.setInt(1,users.getTelephone()); break;
+                case 4:sql = "";st.setString(1,users.getTelephone()); break;
                 case 5:sql = "";st.setString(1,users.getEmail()); break;
                 default:
             }

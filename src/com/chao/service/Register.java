@@ -19,7 +19,8 @@ public class Register implements Input {
         while(true){
             System.out.println("请输入您的用户名：");
             String input = scanner.nextLine();
-            if(verify.usernameVerify_register(input)){
+            if(verify.usernameVerify_register(input,users)){
+                users.setUsername(input);
                 break;
             }
         }
@@ -27,6 +28,7 @@ public class Register implements Input {
             System.out.println("请输入您的密码：\t（密码由数字或大小字母组成，且至少6位）");
             String input = scanner.nextLine();
             if(verify.passwordVerify_register(input)){
+                users.setPassword(input);
                 break;
             }
         }
@@ -44,7 +46,7 @@ public class Register implements Input {
         String input1 = scanner.nextLine();
         while(true){
             if(input1.matches(regex_telephone)){
-                users.setTelephone(Integer.parseInt(input1));
+                users.setTelephone(input1);
                 break;
             }
             System.out.println("输入有误，请重新输入联系电话。");

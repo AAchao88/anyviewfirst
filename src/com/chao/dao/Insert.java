@@ -19,17 +19,17 @@ public class Insert implements InsertImp {
         try{
             conn = JdbcUtils_DBCP.getConnection();
             //区别    //使用？ 占位符代替参数
-            String sql = "insert into users(`id`,`username`,`password`,`sex`,`telephone`,`email`)values(?,?,?,?,?,?)";
+            String sql = "insert into users(`username`,`password`,`sex`,`telephone`,`email`)values(?,?,?,?,?)";
             st = conn.prepareStatement(sql);
             //预编译SQL，先写sql,然后不执行
 
             //手动给参数赋值
-            st.setInt(1,users.getId());
-            st.setString(2,users.getUsername());
-            st.setString(3,users.getPassword());
-            st.setString(4,users.getSex());
-            st.setInt(5,users.getTelephone());
-            st.setString(6,users.getEmail());
+           // st.setInt(1,users.getId());
+            st.setString(1,users.getUsername());
+            st.setString(2,users.getPassword());
+            st.setString(3,users.getSex());
+            st.setString(4,users.getTelephone());
+            st.setString(5,users.getEmail());
 
 
             //注意点：sql/date   数据库

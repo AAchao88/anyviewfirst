@@ -1,6 +1,7 @@
 package com.chao.service.modify;
 
 import com.chao.controler.verify.Verify;
+import com.chao.dao.Select;
 import com.chao.dao.Update;
 import com.chao.po.Users;
 import com.chao.service.OperateImp.ModifyMineImp;
@@ -37,9 +38,9 @@ public class ModifyMine implements ModifyMineImp {
         while(true){
             System.out.println("请输入您新的用户名：");
             String input = scanner.nextLine();
-            if(verify.usernameVerify_register(input)){
+            if(verify.usernameVerify_register(input,users)){
                 //存进数据库
-                //users.setUsername(input);
+                users.setUsername(input);
                 update.updateUsers(users);
                 System.out.println("修改成功！");
                 return ;
@@ -53,21 +54,27 @@ public class ModifyMine implements ModifyMineImp {
         Scanner scanner = new Scanner(System.in);
         Verify verify = new Verify();
         Update update = new Update();
+        Select select = new Select();
         flag = 2;
-
-//        while(true){
-//            System.out.println("请输入您当前的密码：");
-//            String input = scanner.nextLine();
-//            if(verify.passwordVerify_register(input)){
-//                break;
-//            }
-//        }
+        System.out.println("请先输入原来的密码：");
+        for (int i = 0; i < 5; i++) {
+            String inputOld = scanner.nextLine();
+            if(select.selectUsers(inputOld,4,users)){
+                break;
+            }else {
+                if(i == 4){
+                    return;
+                }else {
+                    System.out.println("密码错误！请重新输入，您还有"+(4-i)+"次机会。");
+                }
+            }
+        }
         while(true){
             System.out.println("请输入您新的密码：");
-            String input = scanner.nextLine();
-            if(verify.passwordVerify_register(input)){
+            String inputNew = scanner.nextLine();
+            if(verify.passwordVerify_register(inputNew)){
                 //存进数据库
-               // users.setPassword(input);
+                users.setPassword(inputNew);
                 update.updateUsers(users);
                 System.out.println("修改成功！");
                 return ;
@@ -104,7 +111,7 @@ public class ModifyMine implements ModifyMineImp {
         String input = scanner.nextLine();
         while(true){
             if(input.matches(regex)){
-                users.setTelephone(Integer.parseInt(input));
+                users.setTelephone(input);
                 update.updateUsers(users);
                 return;
             }

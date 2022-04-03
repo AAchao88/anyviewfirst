@@ -3,13 +3,14 @@ package com.chao.dao;
 import com.chao.po.Article;
 import com.chao.po.Comment;
 import com.chao.po.Favorite;
+import com.chao.po.Users;
 
 public interface SelectImp {
     /**
      *   查询用户
      * @param
      */
-    <T> Boolean selectUsers(T input,int flag);
+    <T> Boolean selectUsers(T input, int flag, Users users);
 
     /**
      *  查询文章

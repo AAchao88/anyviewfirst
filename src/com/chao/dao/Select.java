@@ -4,7 +4,6 @@ import com.chao.po.Article;
 import com.chao.po.Comment;
 import com.chao.po.Favorite;
 import com.chao.po.Users;
-import com.chao.service.App;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -23,12 +22,14 @@ public class Select implements SelectImp{
      * @param flag
      * @return
      */
+    private Boolean returnValue;
     @Override
-    public <T>Boolean selectUsers(T input,int flag) {
-        Users users = new Users();
+    public <T>Boolean selectUsers(T input,int flag,Users users) {
+        //Users users = new Users();
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+
         try{
             conn = JdbcUtils_DBCP.getConnection();
             //区别    //使用？ 占位符代替参数
@@ -43,11 +44,11 @@ public class Select implements SelectImp{
                         st = conn.prepareStatement(sql);
                         st.setObject(1,input);
                         break;
-                case 3:sql = "select `username` from users where id = ? ";st = conn.prepareStatement(sql);
+                case 3:sql = "select * from users where username  = ? ";st = conn.prepareStatement(sql);
                     st.setObject(1,input);break;
-                case 4:sql = "select `password` from users where password = ?";
+                case 4:sql = "select `password` from users where username = ?";
                                 st = conn.prepareStatement(sql);
-                                st.setObject(1,input);
+                                st.setObject(1,users.getUsername());
                                 break;
                 default:
             }
@@ -70,40 +71,46 @@ public class Select implements SelectImp{
                        System.out.println("您的性别是："+rs.getString("sex"));
                        System.out.println("您的联系电话是："+rs.getString("telephone"));
                        System.out.println("您的电子邮箱是："+rs.getString("email"));
-                       break;
+                       returnValue = true;break;
                    case 2:users.setId(rs.getInt("id"));
+                       returnValue = true; break;
+                   case 3:returnValue = true;break;
+                   case 4:if(input.equals(rs.getString("passoword"))){
+                       returnValue = true;
                        break;
-                   case 3:break;
-                   case 4:break;
+                   }else{
+                       returnValue = false;
+                       break;
+                   }
                    default:
                }
-               return true;
+
            }else{
                //System.out.println("查无！");
-               return false;
+               returnValue = false;
            }
-
 
 
         }catch (SQLException e){
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
+            return returnValue;
         }
     }
 
     @Override
     public Boolean selectArticle(Article article) {
-
+        return true;
     }
 
     @Override
     public Boolean selectComment(Comment comment) {
-
+        return true;
     }
 
     @Override
     public Boolean selectFavorite(Favorite favorite) {
-
+        return true;
     }
 }

@@ -29,10 +29,10 @@ public class Verify {
     }
 
     //验证用户名的方法
-    public Boolean usernameVerify_login(String s){
+    public Boolean usernameVerify_login(String s,Users users){
             //在数据库中查看是否有此用户名
         Select select = new Select();
-            if(select.selectUsers(s,2)){
+            if(select.selectUsers(s,3,users)){
                 return true;
             }else{
                 System.out.println("输入的用户名有误，请检查！\n");
@@ -41,12 +41,12 @@ public class Verify {
     }
 
     //验证密码的方法
-    public Boolean passwordVerify_login(String s){
+    public Boolean passwordVerify_login(String s,Users users){
         String regex = "[0-9a-zA-Z]{6,40}";
         Select select = new Select();
         if(s.matches(regex)){
             //在数据库中查看密码是否正确
-            if(select.selectUsers(s,4)){
+            if(select.selectUsers(s,4,users)){
                 return true;
             }else{
                 System.out.println("密码输入错误！请检查。");
@@ -58,15 +58,15 @@ public class Verify {
         }
     }
 
-    public Boolean usernameVerify_register(String s){
+    public Boolean usernameVerify_register(String s,Users users){
         Select select = new Select();
-        Users users = new Users();
+        //Users users = new Users();
         //在数据库中查找，是否存在
-        if(select.selectUsers(s,3)){
+        if(select.selectUsers(s,3,users)){
             System.out.println("该用户名已经存在，请更换一个用户名!");
             return false;
         }else{
-            users.setUsername(s);
+           // users.setUsername(s);
             return true;
         }
     }
@@ -74,7 +74,7 @@ public class Verify {
         String regex = "[0-9a-zA-Z]{6,40}";
         Users users = new Users();
         if(s.matches(regex)){
-            users.setPassword(s);
+           // users.setPassword(s);
             return true;
         }else{
             System.out.println("输入的密码不符合格式，请重新输入！");

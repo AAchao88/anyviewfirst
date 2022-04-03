@@ -27,7 +27,7 @@ public class Login implements Input {
         for( i=0;i<5;i++){
             System.out.println("请输入正确的用户名：");
             String input = scanner.nextLine();
-            if(verify.usernameVerify_login(input)){
+            if(verify.usernameVerify_login(input,users)){
                 users.setUsername(input);
                 break;
             }
@@ -40,7 +40,7 @@ public class Login implements Input {
         for( i=0;i<5;i++){
             System.out.println("请输入正确的密码：");
             String input = scanner.nextLine();
-            if(verify.passwordVerify_login(input)){
+            if(verify.passwordVerify_login(input,users)){
                 users.setPassword(input);
                 break;
             }
@@ -57,11 +57,8 @@ public class Login implements Input {
              * 登陆时必须users.userId = 通过查询获取
              * 此步在用户名验证的查询中完成
              */
-
-            //App.userId = select.selectUsers(users) ;
-            //users.setId(select.selectUsers(users,2));
-            //select.selectUsers(users.getUsername(),2);
-            app.HomeUser();
+            select.selectUsers(users.getUsername(),2,users);
+            app.HomeUser(users);
             return;
         }
     }

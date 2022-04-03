@@ -2,6 +2,7 @@ package com.chao.service;
 
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.po.Users;
 
 /**
  * 入口类
@@ -25,7 +26,7 @@ public class App {
         Verify verify = new Verify();
         while(true){
             menu.menuMain();
-            int item = verify.MenuItemVerify(1,4);
+            int item = verify.menuItemVerify(1,4);
             switch(item){
                 case 1: Login login = new Login(); login.input(); break;
                 case 2: Register register = new Register(); register.input(); break;
@@ -39,7 +40,7 @@ public class App {
     /**
      * 已注册的用户登录首页
      */
-    public void HomeUser(){
+    public void HomeUser(Users users){
         //先new所需的对象
         Menu menu = new Menu();
         Verify verify = new Verify();
@@ -47,9 +48,9 @@ public class App {
 
         while(true){
             menu.menuHomeUser();
-            int item = verify.MenuItemVerify(1,9);
+            int item = verify.menuItemVerify(1,9);
             switch(item){
-                case 1:home.mine();break;
+                case 1:home.mine(users);break;
                 case 2:home.square();break;
                 case 3:home.team();break;
                 case 4:home.favorite();break;
@@ -69,8 +70,6 @@ public class App {
     public void HomeTourist(){
         Menu menu = new Menu();
         Verify verify = new Verify();
-
-
 
     }
 }

@@ -6,7 +6,7 @@ public class Users {
     private String username;
     private String password;
     private String sex;
-    private Integer telephone;
+    private String telephone;
     private String email;
 
     public Integer getId() {
@@ -42,11 +42,11 @@ public class Users {
         this.sex = sex;
     }
 
-    public Integer getTelephone() {
+    public String  getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(Integer telephone) {
+    public void setTelephone(String  telephone) {
         this.telephone = telephone;
     }
 
@@ -58,7 +58,7 @@ public class Users {
         this.email = email;
     }
 
-    public Users(Integer id, String username, String password, String sex, Integer telephone, String email) {
+    public Users(Integer id, String username, String password, String sex, String telephone, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
