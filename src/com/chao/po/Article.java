@@ -14,7 +14,7 @@ public class Article {
     private String comment;
     private Integer knowledgebase_id;
     private String tag;
-    private Integer permission;
+    private Integer shared;
 
     public Integer getId() {
         return id;
@@ -48,7 +48,7 @@ public class Article {
         this.author_id = author_id;
     }
 
-    public Date getCreate_time() {
+    public java.sql.Date getCreate_time() {
         return create_time;
     }
 
@@ -104,15 +104,15 @@ public class Article {
         this.tag = tag;
     }
 
-    public Integer getPermission() {
-        return permission;
+    public Integer getShared() {
+        return shared;
     }
 
-    public void setPermission(Integer permission) {
-        this.permission = permission;
+    public void setShared(Integer shared) {
+        this.shared = shared;
     }
 
-    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer permission) {
+    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer shared) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -124,7 +124,7 @@ public class Article {
         this.comment = comment;
         this.knowledgebase_id = knowledgebase_id;
         this.tag = tag;
-        this.permission = permission;
+        this.shared = shared;
     }
 
     public Article() {

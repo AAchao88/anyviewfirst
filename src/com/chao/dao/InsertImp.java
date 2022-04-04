@@ -10,7 +10,7 @@ public interface InsertImp {
     void insertUsers(Users users);
 
     /**
-     * 保存文章信息
+     * 新建文章
      */
     void insertArticle(Article article);
 

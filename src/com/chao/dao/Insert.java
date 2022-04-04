@@ -18,22 +18,14 @@ public class Insert implements InsertImp {
 
         try {
             conn = JdbcUtils_DBCP.getConnection();
-            //区别    //使用？ 占位符代替参数
+
             String sql = "insert into users(`username`,`password`,`sex`,`telephone`,`email`)values(?,?,?,?,?)";
             st = conn.prepareStatement(sql);
-            //预编译SQL，先写sql,然后不执行
-
-            //手动给参数赋值
-            // st.setInt(1,users.getId());
             st.setString(1, users.getUsername());
             st.setString(2, users.getPassword());
             st.setString(3, users.getSex());
             st.setString(4, users.getTelephone());
             st.setString(5, users.getEmail());
-
-
-            //注意点：sql/date   数据库
-            //          utils.Date  java    new Date().getTime() 获得时间戳
             int i = st.executeUpdate();
             if (i > 0) {
                 System.out.println("保存成功！");
@@ -50,7 +42,30 @@ public class Insert implements InsertImp {
      */
     @Override
     public void insertArticle(Article article) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = JdbcUtils_DBCP.getConnection();
 
+            String sql = "insert into article(`author_id`,`knowbase_id`,`title`,`tag`,`content`,`shared`,`create_time`)values (?,?,?,?,?,?,?) ";
+            st = conn.prepareStatement(sql); //预编译SQL，先写sql,然后不执行
+            st.setInt(1,article.getAuthor_id());
+            st.setInt(2,article.getKnowledgebase_id());
+            st.setString(3,article.getTitle());
+            st.setString(4,article.getTag());
+            st.setString(5,article.getContent());
+            st.setInt(6,article.getShared());
+            st.setDate(7,article.getCreate_time());
+            int i = st.executeUpdate();
+            if (i > 0) {
+                System.out.println("保存成功！");
+            }
+        } catch (SQLException e) {
+            System.out.println("新建失败！请重试。");
+            //e.printStackTrace();
+        } finally {
+            JdbcUtils_DBCP.release(conn, st, null);
+        }
     }
 
     /**

@@ -49,15 +49,6 @@ public class Select implements SelectImp{
                                 break;
                 default:
             }
-            //st = conn.prepareStatement(sql);
-            //预编译SQL，先写sql,然后不执行
-
-            //st.setInt(1,);
-
-            //手动给参数赋值
-
-            //注意点：sql/date   数据库
-            //          utils.Date  java    new Date().getTime() 获得时间戳
            rs = st.executeQuery();
            if(rs.next()){
                //System.out.println(rs.getString("name"));
@@ -119,8 +110,6 @@ public class Select implements SelectImp{
 
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            //区别    //使用？ 占位符代替参数
-            //String sql = "select * from users where id = ? ";
             String sql = null;
             sql = "select * from knowledgebase where `create_user_id` = ? and `category` =  ?";
             st = conn.prepareStatement(sql);
@@ -133,15 +122,6 @@ public class Select implements SelectImp{
                     break;
                 default:
             }
-            //st = conn.prepareStatement(sql);
-            //预编译SQL，先写sql,然后不执行
-
-            //st.setInt(1,);
-
-            //手动给参数赋值
-
-            //注意点：sql/date   数据库
-            //          utils.Date  java    new Date().getTime() 获得时间戳
             rs = st.executeQuery();
             for(int i=0;rs.next();i++){
                 storeKnowledgeName[i] = rs.getString("knowledgebase_name");

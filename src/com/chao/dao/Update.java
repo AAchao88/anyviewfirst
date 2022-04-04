@@ -21,8 +21,6 @@ public class Update implements UpdateImp{
         PreparedStatement st = null;
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            //区别    //使用？ 占位符代替参数
-           // String sql = "update users set ";
             String sql = null;
             switch(modifyMine.getFlag()){
                 case 1: sql ="";st.setString(1,users.getUsername()); break;
@@ -33,19 +31,6 @@ public class Update implements UpdateImp{
                 default:
             }
             st = conn.prepareStatement(sql);
-            //预编译SQL，先写sql,然后不执行
-
-            //手动给参数赋值
-//            st.setInt(1,users.getId());
-//            st.setString(2,users.getUsername());
-//            st.setString(3,users.getPassword());
-//            st.setString(4,users.getSex());
-//            st.setInt(5,users.getTelephone());
-//            st.setString(6,users.getEmail());
-
-
-            //注意点：sql/date   数据库
-            //          utils.Date  java    new Date().getTime() 获得时间戳
             int i = st.executeUpdate();
             if(i>0){
                 //System.out.println("保存成功！");
@@ -56,8 +41,6 @@ public class Update implements UpdateImp{
         }finally{
             JdbcUtils_DBCP.release(conn,st,null);
         }
-
-
     }
 
     @Override

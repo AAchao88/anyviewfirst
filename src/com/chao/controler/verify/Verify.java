@@ -11,7 +11,7 @@ public class Verify {
         //创建Scanner输入对象
         Scanner scanner = new Scanner(System.in);
         //正则表达式
-        String regex = "[1-9]{1}";
+        String regex = "[1-9]{1,}";
         while(true){
             System.out.println("请输入正确的数字，最小是："+min+"\t"+"最大是："+max);
             String input = scanner.nextLine();

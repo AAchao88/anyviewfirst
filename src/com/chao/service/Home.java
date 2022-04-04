@@ -10,6 +10,9 @@ import com.chao.po.Users;
 import com.chao.service.OperateImp.HomeImp;
 import com.chao.service.modify.ModifyMine;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -160,6 +163,7 @@ public class Home implements HomeImp {
         Insert insert = new Insert();
         Article article = new Article();
         Scanner scanner = new Scanner(System.in);
+        Verify verify = new Verify();
 
         article.setAuthor_id(users.getId());
         article.setKnowledgebase_id(knowledgeBase.getId());
@@ -169,9 +173,27 @@ public class Home implements HomeImp {
         System.out.println("请输入文章的标签：\t（注意不超过20个字）");
         String inputTag = scanner.nextLine();
         article.setTag(inputTag);
-        System.out.println("请输入文章的内容：");
-
-
+        //使用 BufferedReader 在控制台读取字符
+        // 使用 System.in 创建 BufferedReader
+        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+        String str = null;
+        StringBuilder sb = new StringBuilder();
+        System.out.println("请输入文本：");
+        System.out.println("注意 换行输入'退出'以结束编辑。");
+        do {
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            sb.append(str+"\n");
+        }while (!str.equals("退出"));
+        article.setContent(String.valueOf(sb));
+        System.out.println("1.共享文档    2.非共享文档    3.暂不设置");
+        System.out.println("请输入数字设置对文章共享的管理：");
+        article.setShared(verify.menuItemVerify(1,3));
+        article.setCreate_time(new Date(System.currentTimeMillis()));
+        insert.insertArticle(article);
     }
 
 
