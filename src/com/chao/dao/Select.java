@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class Select implements SelectImp{
     /**
@@ -29,8 +30,6 @@ public class Select implements SelectImp{
 
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            //区别    //使用？ 占位符代替参数
-            //String sql = "select * from users where id = ? ";
             String sql = null;
             switch(flag){
                 case 1:sql = "select * from users where id = ?";
@@ -72,13 +71,10 @@ public class Select implements SelectImp{
                    }
                    default:
                }
-
            }else{
                //System.out.println("查无！");
                returnValue1 = false;
            }
-
-
         }catch (SQLException e){
             e.printStackTrace();
         }finally{
@@ -88,8 +84,43 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public Boolean selectArticle(Article article) {
-        return true;
+    public LinkedList<Article> selectArticle(KnowledgeBase knowledgeBase) {
+        LinkedList<Article> listArticle = new LinkedList<>();
+      Connection conn = null;
+      PreparedStatement st = null;
+      ResultSet rs = null;
+      try{
+          conn = JdbcUtils_DBCP.getConnection();
+          String sql = null;
+          sql = "select * from article where knowbase_id = ?";
+          st = conn.prepareStatement(sql);
+          st.setInt(1,knowledgeBase.getId());
+          rs = st.executeQuery();
+          int i =0 ;
+          while (rs.next()){
+                listArticle.get(i).setId(rs.getInt("id"));
+                listArticle.get(i).setTitle(rs.getString("title"));
+              listArticle.get(i).setContent(rs.getString("content"));
+              listArticle.get(i).setId(rs.getInt("author_id"));
+              listArticle.get(i).setCreate_time(rs.getDate("create_time"));
+              listArticle.get(i).setUpdate_time(rs.getDate("update_time"));
+              listArticle.get(i).setLike(rs.getInt("like"));
+              listArticle.get(i).setFavorite(rs.getInt("favorite"));
+              listArticle.get(i).setComment(rs.getString("comment"));
+              listArticle.get(i).setTag(rs.getString("tag"));
+              listArticle.get(i).setKnowledgebase_id(rs.getInt("knowledge_id"));
+              listArticle.get(i).setShared(rs.getInt("shared"));
+              i++;
+          }
+      }catch (SQLException e){
+          System.out.println("查询失败！");
+          e.printStackTrace();
+      }finally{
+          JdbcUtils_DBCP.release(conn,st,rs);
+          return listArticle;
+      }
+
+
     }
 
     @Override

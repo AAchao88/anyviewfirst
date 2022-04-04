@@ -2,6 +2,8 @@ package com.chao.dao;
 
 import com.chao.po.*;
 
+import java.util.LinkedList;
+
 public interface SelectImp {
     /**
      *   查询用户
@@ -11,9 +13,9 @@ public interface SelectImp {
 
     /**
      *  查询文章
-     * @param article
+     * @param knowledgeBase
      */
-    Boolean selectArticle(KnowledgeBase knowledgeBase);
+    LinkedList<Article> selectArticle(KnowledgeBase knowledgeBase);
 
     /**
      *  查询评论

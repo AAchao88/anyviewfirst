@@ -80,4 +80,6 @@ public interface HomeImp {
 
      void newArticle(Users users, KnowledgeBase knowledgeBase);
 
+     void editArticle(Users users, KnowledgeBase knowledgeBase);
+
 }

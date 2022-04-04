@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Home implements HomeImp {
@@ -63,7 +64,7 @@ public class Home implements HomeImp {
     /**
      *   个人知识库
      *   获取知识库id，将其赋到文章信息
-     *   可以输出、新建、编辑、tag标签、删除、（投稿）文章
+     *   可以输出、新建、编辑、tag标签、删除
      */
     @Override
     public void personal_Knowledge_base(Users users) {
@@ -100,11 +101,20 @@ public class Home implements HomeImp {
         }
         System.out.println("1.新建文章     2.编辑已有文章  ");
         if(verify.menuItemVerify(1,2) == 1){
-
+            newArticle(users,knowledgeBase);
         }else {
 
         }
 
+
+    }
+
+    @Override
+    public void editArticle(Users users, KnowledgeBase knowledgeBase) {
+        Select select = new Select();
+        Menu menu = new Menu();
+        Verify verify = new Verify();
+        LinkedList<Article> listArticle = select.selectArticle(knowledgeBase);
 
     }
 
@@ -195,6 +205,8 @@ public class Home implements HomeImp {
         article.setCreate_time(new Date(System.currentTimeMillis()));
         insert.insertArticle(article);
     }
+
+
 
 
 }
