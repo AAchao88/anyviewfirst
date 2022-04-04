@@ -1,18 +1,17 @@
 package com.chao.service;
 
+import com.chao.controler.helper.HelperArticle;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Insert;
 import com.chao.dao.Select;
+import com.chao.dao.Update;
 import com.chao.po.Article;
 import com.chao.po.KnowledgeBase;
 import com.chao.po.Users;
 import com.chao.service.OperateImp.HomeImp;
 import com.chao.service.modify.ModifyMine;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -114,7 +113,48 @@ public class Home implements HomeImp {
         Select select = new Select();
         Menu menu = new Menu();
         Verify verify = new Verify();
+        Update update = new Update();
+        Scanner scanner = new Scanner(System.in);
         LinkedList<Article> listArticle = select.selectArticle(knowledgeBase);
+        int i = 0;
+        //循环因子
+        for(Article article: listArticle){
+            System.out.println("i."+article);
+            i++;
+        }
+        System.out.println("请正确输入要编辑的文档的名字或id：");
+        Boolean judge = true;
+        //双重循环的判断退出变量
+        while(judge){
+            String input = scanner.nextLine();
+            for(i = 0;!listArticle.isEmpty();i++){
+                if(input.equals(listArticle.get(i).getTitle()) || Integer.parseInt(input) == listArticle.get(i).getId()){
+                    judge = false;
+                    break;
+                }
+            }
+            if(judge == true){
+                System.out.println("输入有误，请检查并重新输入。");
+            }
+        }
+        menu.menuModeifyArticle();
+        int flag = verify.menuItemVerify(1,7);
+        switch (flag){
+            case 1:
+                System.out.println("请输入新的文档标题：");
+                String inputTitle = scanner.nextLine();
+                listArticle.get(i).setTitle(inputTitle);break;
+            case 2:System.out.println("请输入新的文档标签：");
+                String inputTag = scanner.nextLine();
+                listArticle.get(i).setTitle(inputTag);break;
+            case 3:break;
+            case 4:break;
+            case 5:break;
+            case 6:break;
+            case 7:break;
+            default:
+        }
+        update.updateArticle(listArticle.get(i),flag);
 
     }
 
@@ -172,6 +212,7 @@ public class Home implements HomeImp {
     public void newArticle(Users users,KnowledgeBase knowledgeBase) {
         Insert insert = new Insert();
         Article article = new Article();
+        HelperArticle helperArticle = new HelperArticle();
         Scanner scanner = new Scanner(System.in);
         Verify verify = new Verify();
 
@@ -183,22 +224,8 @@ public class Home implements HomeImp {
         System.out.println("请输入文章的标签：\t（注意不超过20个字）");
         String inputTag = scanner.nextLine();
         article.setTag(inputTag);
-        //使用 BufferedReader 在控制台读取字符
-        // 使用 System.in 创建 BufferedReader
-        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
-        String str = null;
-        StringBuilder sb = new StringBuilder();
-        System.out.println("请输入文本：");
-        System.out.println("注意 换行输入'退出'以结束编辑。");
-        do {
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            sb.append(str+"\n");
-        }while (!str.equals("退出"));
-        article.setContent(String.valueOf(sb));
+
+        article.setContent(helperArticle.helperWrite());
         System.out.println("1.共享文档    2.非共享文档    3.暂不设置");
         System.out.println("请输入数字设置对文章共享的管理：");
         article.setShared(verify.menuItemVerify(1,3));

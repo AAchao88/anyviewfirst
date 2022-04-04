@@ -16,6 +16,24 @@ public class Article {
     private String tag;
     private Integer shared;
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", author_id=" + author_id +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                ", like=" + like +
+                ", favorite=" + favorite +
+                ", comment='" + comment + '\'' +
+                ", knowledgebase_id=" + knowledgebase_id +
+                ", tag='" + tag + '\'' +
+                ", shared=" + shared +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
@@ -48,7 +66,7 @@ public class Article {
         this.author_id = author_id;
     }
 
-    public java.sql.Date getCreate_time() {
+    public Date getCreate_time() {
         return create_time;
     }
 

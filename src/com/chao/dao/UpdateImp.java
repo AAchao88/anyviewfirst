@@ -10,13 +10,13 @@ public interface UpdateImp {
      *
      * @param users
      */
-    void updateUsers(Users users);
+    void updateUsers(Users users,int flag);
 
     /**
      *
      * @param article
      */
-    void updateArticle(Article article);
+    void updateArticle(Article article,int flag);
 
     /**
      *

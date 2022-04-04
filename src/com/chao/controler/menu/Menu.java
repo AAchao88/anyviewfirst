@@ -47,5 +47,18 @@ public class Menu {
             System.out.println("----------------------------------------------------------");
         }
 
+        public void menuModeifyArticle(){
+            System.out.println("        1.修改文档题目");
+            System.out.println("        2.修改文档标签");
+            System.out.println("        3.修改文档内容");
+            System.out.println("        4.回复评论");
+            System.out.println("        5.显示文档的相关信息（点赞数、收藏数、评论数、修改时间等）");
+            System.out.println("        6.导出文档到本地");
+            System.out.println("        7.删除文档");
+            //System.out.println("        1.修改文章题目");
+            //System.out.println("        1.修改文章题目");
+        }
+
+
 }
 
