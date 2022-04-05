@@ -8,6 +8,7 @@ import com.chao.po.Users;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -29,16 +30,20 @@ public class Delete implements DeleteImp{
         PreparedStatement st = null;
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = "delete from article where id = ?";
+            String sql = "update article set delete_status = ?,delete_time = ? where id = ?";
             st = conn.prepareStatement(sql);
-            st.setInt(1,article.getId());
+
+            st.setInt(1,1);
+            st.setDate(2,new Date(System.currentTimeMillis()));
+            st.setInt(3,article.getId());
+
             int i = st.executeUpdate();
             if(i>0){
 
                 System.out.println("删除成功！");
             }
         }catch (SQLException e){
-            System.out.println("修改失败！");
+            System.out.println("删除失败！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,null);

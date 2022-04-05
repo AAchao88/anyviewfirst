@@ -211,6 +211,29 @@ public class Home implements HomeImp {
 
     @Override
     public void recycleBin(Users users) {
+        Select select = new Select();
+        Verify verify = new Verify();
+        Update update = new Update();
+        HelperArticle helperArticle = new HelperArticle();
+        LinkedList<Article> listRecycleBin = select.selectRecycleBin(users);
+        LinkedList<Article> listRecovery = new LinkedList<>();
+        int i = 0,j=0;
+        //循环因子
+        Long now = System.currentTimeMillis();
+        Date nowTime = new Date(now);
+        //获取当前时间
+        for(i = 0,j=0; !listRecycleBin.isEmpty();i++){
+            if(helperArticle.computationDayTime(listRecycleBin.get(i).getDeleteTime(),nowTime) <= 7){
+                listRecovery.add(listRecycleBin.get(i));
+                j++;
+                System.out.println(j+"."+listRecovery.get(j-1).getTitle());
+            }
+        }
+        System.out.println("请输入要复原的文档的序号：");
+        int serialNumber = verify.menuItemVerify(1,j);
+        update.updateArticle(listRecovery.get(serialNumber-1),5);
+
+
 
     }
 

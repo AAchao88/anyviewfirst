@@ -15,7 +15,24 @@ public class Article {
     private Integer knowledgebase_id;
     private String tag;
     private Integer shared;
-    //private Date delete_time;
+    private Date deleteTime;
+    private Integer deleteStatus;
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
 
     @Override
     public String toString() {
@@ -32,6 +49,8 @@ public class Article {
                 ", knowledgebase_id=" + knowledgebase_id +
                 ", tag='" + tag + '\'' +
                 ", shared=" + shared +
+                ", deleteTime=" + deleteTime +
+                ", deleteStatus=" + deleteStatus +
                 '}';
     }
 
@@ -131,20 +150,20 @@ public class Article {
         this.shared = shared;
     }
 
-    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer shared) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.author_id = author_id;
-        this.create_time = create_time;
-        this.update_time = update_time;
-        this.like = like;
-        this.favorite = favorite;
-        this.comment = comment;
-        this.knowledgebase_id = knowledgebase_id;
-        this.tag = tag;
-        this.shared = shared;
-    }
+//    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer shared) {
+//        this.id = id;
+//        this.title = title;
+//        this.content = content;
+//        this.author_id = author_id;
+//        this.create_time = create_time;
+//        this.update_time = update_time;
+//        this.like = like;
+//        this.favorite = favorite;
+//        this.comment = comment;
+//        this.knowledgebase_id = knowledgebase_id;
+//        this.tag = tag;
+//        this.shared = shared;
+//    }
 
     public Article() {
     }

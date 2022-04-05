@@ -3,6 +3,7 @@ package com.chao.controler.helper;
 import com.chao.po.Article;
 
 import java.io.*;
+import java.util.Date;
 import java.util.Scanner;
 
 public class HelperArticle {
@@ -135,4 +136,16 @@ public class HelperArticle {
             }
         }
     }
+
+    public Long computationDayTime(Date startTime, Date endTime) {
+        final long ND = 86400000;
+        try {
+            long diff = endTime.getTime() - startTime.getTime();
+            long day = diff / ND;
+            return day;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

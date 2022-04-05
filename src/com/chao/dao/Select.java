@@ -92,7 +92,7 @@ public class Select implements SelectImp{
       try{
           conn = JdbcUtils_DBCP.getConnection();
           String sql = null;
-          sql = "select * from article where knowbase_id = ?";
+          sql = "select * from article where knowbase_id = ? and delete_status = 0";
           st = conn.prepareStatement(sql);
           st.setInt(1,knowledgeBase.getId());
           rs = st.executeQuery();
@@ -120,6 +120,36 @@ public class Select implements SelectImp{
           return listArticle;
       }
 
+
+    }
+
+    @Override
+    public LinkedList<Article> selectRecycleBin(Users users) {
+        LinkedList<Article> listArticle = new LinkedList<>();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+            sql = "select * from article where author_id = ? and delete_status = 1";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
+            rs = st.executeQuery();
+            int i =0 ;
+            while (rs.next()){
+                listArticle.get(i).setId(rs.getInt("id"));
+                listArticle.get(i).setTitle(rs.getString("title"));
+                listArticle.get(i).setDeleteTime(rs.getDate("delete_time"));
+                i++;
+            }
+        }catch (SQLException e){
+            System.out.println("查询失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listArticle;
+        }
 
     }
 

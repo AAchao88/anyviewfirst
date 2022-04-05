@@ -17,6 +17,9 @@ public interface SelectImp {
      */
     LinkedList<Article> selectArticle(KnowledgeBase knowledgeBase);
 
+    LinkedList<Article> selectRecycleBin(Users users);
+
+
     /**
      *  查询评论
      * @param comment
@@ -38,4 +41,6 @@ public interface SelectImp {
     String[] selectKnowledgeBase(Users users, int flag,String[] storeKnowledgeName);
 
     Integer selectIdByName(String name);
+
+
 }
