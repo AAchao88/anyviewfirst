@@ -3,6 +3,7 @@ package com.chao.service;
 import com.chao.controler.helper.HelperArticle;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.dao.Delete;
 import com.chao.dao.Insert;
 import com.chao.dao.Select;
 import com.chao.dao.Update;
@@ -114,7 +115,9 @@ public class Home implements HomeImp {
         Menu menu = new Menu();
         Verify verify = new Verify();
         Update update = new Update();
+        Delete delete = new Delete();
         Scanner scanner = new Scanner(System.in);
+        HelperArticle helperArticle = new HelperArticle();
         LinkedList<Article> listArticle = select.selectArticle(knowledgeBase);
         int i = 0;
         //循环因子
@@ -147,14 +150,17 @@ public class Home implements HomeImp {
             case 2:System.out.println("请输入新的文档标签：");
                 String inputTag = scanner.nextLine();
                 listArticle.get(i).setTitle(inputTag);break;
-            case 3:break;
-            case 4:break;
-            case 5:break;
-            case 6:break;
-            case 7:break;
+            case 3: listArticle.get(i).setContent(helperArticle.helperEdit(listArticle.get(i).getContent()));
+                    break;
+            case 4:break;//回复评论
+            case 5:helperArticle.printInformation(listArticle.get(i));break;
+            case 6:helperArticle.exportLocal(listArticle.get(i));break;
+            case 7:delete.deleteArticle(listArticle.get(i));break;
             default:
         }
-        update.updateArticle(listArticle.get(i),flag);
+        if(flag>=1 && flag<=4){
+            update.updateArticle(listArticle.get(i),flag);
+        }
 
     }
 

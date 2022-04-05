@@ -31,8 +31,7 @@ public class Update implements UpdateImp{
 
             int i = st.executeUpdate();
             if(i>0){
-                //System.out.println("保存成功！");
-                return ;
+                System.out.println("修改成功！");
             }
         }catch (SQLException e){
             System.out.println("修改失败！");
@@ -50,25 +49,35 @@ public class Update implements UpdateImp{
             conn = JdbcUtils_DBCP.getConnection();
             String sql = null;
             switch(flag){
-                case 1: sql ="update article set title = ";
-                st = conn.prepareStatement(sql);st.setString(1,users.getUsername()); break;
-                case 2:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getPassword()); break;
-                case 3:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getSex()); break;
-                case 4:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getTelephone()); break;
-                case 5:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getEmail()); break;
+                case 1: {
+                    sql ="update article set title = ? where id = ? ";
+                    st = conn.prepareStatement(sql);st.setString(1,article.getTitle());
+                    break;
+                }
+                case 2:{
+                    sql = "update article set tag = ? where id = ?";st = conn.prepareStatement(sql);
+                    st.setString(1,article.getTag()); break;
+                }
+                case 3:{
+                    sql = "update article set content = ? where id = ?";st = conn.prepareStatement(sql);
+                    st.setString(1,article.getContent()); break;
+                }
+                case 4:{
+
+                }
                 default:
             }
-
+            st.setInt(2,article.getId());
             int i = st.executeUpdate();
             if(i>0){
-                //System.out.println("保存成功！");
-                return ;
+                System.out.println("修改成功！");
             }
         }catch (SQLException e){
             System.out.println("修改失败！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,null);
+            return;
         }
     }
 

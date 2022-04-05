@@ -15,6 +15,7 @@ public class Article {
     private Integer knowledgebase_id;
     private String tag;
     private Integer shared;
+    //private Date delete_time;
 
     @Override
     public String toString() {
