@@ -1,6 +1,7 @@
 package com.chao.service;
 
 import com.chao.controler.helper.HelperArticle;
+import com.chao.controler.helper.IvCodeGenerator;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Delete;
@@ -9,6 +10,7 @@ import com.chao.dao.Select;
 import com.chao.dao.Update;
 import com.chao.po.Article;
 import com.chao.po.KnowledgeBase;
+import com.chao.po.Team;
 import com.chao.po.Users;
 import com.chao.service.OperateImp.HomeImp;
 import com.chao.service.modify.ModifyMine;
@@ -53,8 +55,51 @@ public class Home implements HomeImp {
 
     @Override
     public void team(Users users) {
+        Menu menu = new Menu();
+        Verify verify = new Verify();
+        Scanner scanner = new Scanner(System.in);
+        Insert insert = new Insert();
+        menu.menuTeam1();
+        int serialNumber = verify.menuItemVerify(1,4);
 
+        switch (serialNumber){
+            case 1:{
+                IvCodeGenerator ivCodeGenerator = new IvCodeGenerator();
+                System.out.println("请输入团队名称：");
+                String input = scanner.nextLine();
+                System.out.println("请任意输入一个正数: (系统将自动设置一个只读文档权限邀请码)");
+                int num1 = scanner.nextInt();
+                System.out.println("请任意输入一个正数: (系统将自动设置一个评论文档权限邀请码)");
+                int num2 = scanner.nextInt();
+                System.out.println("请任意输入一个正数: (系统将自动设置一个修改文档权限邀请码)");
+                int num3 = scanner.nextInt();
+                Team team = new Team(users.getId(),input,ivCodeGenerator.inviCode(num1),ivCodeGenerator.inviCode(num2),ivCodeGenerator.inviCode(num3));
+                insert.insertTeam(team);
+                break;
+            }
+            case 2:{
+                Select select = new Select();
+                LinkedList<Team> listMaTeam = new LinkedList<>();
+                listMaTeam = select.selectManageTeam(users);
+
+
+
+            }
+            case 3:{
+                Select select = new Select();
+                LinkedList<Team> listJoTeam = new LinkedList<>();
+                listJoTeam = select.selectJoinTeam(users);
+
+
+            }
+            case 4:{
+
+            }
+            default:
+        }
     }
+
+
 
     @Override
     public void favorite(Users users) {
@@ -62,51 +107,41 @@ public class Home implements HomeImp {
     }
 
     /**
-     *   个人知识库
+     *   知识库
      *   获取知识库id，将其赋到文章信息
      *   可以输出、新建、编辑、tag标签、删除
      */
     @Override
-    public void personal_Knowledge_base(Users users) {
+    public void Knowledge_base(Users users, int item) {
         /**
          *
-         * 通过user.id查询所有个人知识库
+         * 通过user.id查询所有知识库,分为个人知识库和协作知识库
          */
         Select select = new Select();
         Verify verify = new Verify();
         Scanner scanner = new Scanner(System.in);
         KnowledgeBase knowledgeBase = new KnowledgeBase();
-
-        String[] storeKnowledgeName = new String[20];
-
-        storeKnowledgeName = select.selectKnowledgeBase(users,1,storeKnowledgeName);
-        int i;
-        for( i = 0;storeKnowledgeName[i] != null;i++){
-            System.out.println(i+"."+storeKnowledgeName[i]);
+        LinkedList<String > storeKnowledgeName =  new LinkedList<>();
+        storeKnowledgeName = select.selectKnowledgeBase(users,item);
+        if(storeKnowledgeName == null){
+            return;
         }
-        //System.out.println("当前共有"+(i-1)+"个个人知识库\n");
-        Boolean judge = true;
-        while(judge){
-            System.out.println("请正确输入想进入的知识库名字：");
-            for( i = 0;storeKnowledgeName[i] != null;i++){
-                String input = scanner.nextLine();
-                if(input.equals(storeKnowledgeName[i])){
-                    knowledgeBase.setId(select.selectIdByName(input));
-                    judge = false;
-                    break;
-                }else {
-                    System.out.println("输入错误，请检查并重新输入！");
-                }
-            }
+        if(item == 5){
+
         }
+        int i = 0;
+        for(i=0;!storeKnowledgeName.isEmpty();i++){
+            System.out.println((i+1)+"."+storeKnowledgeName.get(i));
+        }
+        System.out.println("请正确输入想进入的知识库的序号：");
+        int serialNumber = verify.menuItemVerify(1,i);
+        knowledgeBase.setId(select.selectIdByName(storeKnowledgeName.get(serialNumber-1)));
         System.out.println("1.新建文章     2.编辑已有文章  ");
         if(verify.menuItemVerify(1,2) == 1){
             newArticle(users,knowledgeBase);
         }else {
-
+            editArticle(users,knowledgeBase);
         }
-
-
     }
 
     @Override
@@ -204,10 +239,6 @@ public class Home implements HomeImp {
         return;
     }
 
-    @Override
-    public void cooperate_knowledge_base(Users users) {
-
-    }
 
     @Override
     public void recycleBin(Users users) {
@@ -261,8 +292,5 @@ public class Home implements HomeImp {
         article.setCreate_time(new Date(System.currentTimeMillis()));
         insert.insertArticle(article);
     }
-
-
-
 
 }

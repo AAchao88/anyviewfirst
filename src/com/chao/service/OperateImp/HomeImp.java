@@ -51,7 +51,7 @@ public interface HomeImp {
      *   获取知识库id，将其赋到文章信息
      *   可以输出、新建、编辑、tag标签、删除、（投稿）文章
      */
-     void personal_Knowledge_base(Users users);
+     void Knowledge_base(Users users);
 
     /**
      *   新建知识库
@@ -67,7 +67,7 @@ public interface HomeImp {
      *   显示知识库信息，管理员、文章、自己的权限、tag
      *   可以根据权限   输出、新建、编辑、tag标签、删除、（投稿）文章
      */
-    void cooperate_knowledge_base(Users users);
+
 
     /**
      *   回收站
@@ -80,6 +80,8 @@ public interface HomeImp {
 
      void newArticle(Users users, KnowledgeBase knowledgeBase);
 
-     void editArticle(Users users, KnowledgeBase knowledgeBase);
+    void Knowledge_base(Users users, int item);
+
+    void editArticle(Users users, KnowledgeBase knowledgeBase);
 
 }

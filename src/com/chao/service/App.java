@@ -54,9 +54,9 @@ public class App {
                 case 2:home.square();break;
                 case 3:home.team();break;
                 case 4:home.favorite();break;
-                case 5:home.personal_Knowledge_base();break;
+                case 5:home.Knowledge_base(users,item);break;
                 case 6:home.create_knowledge_base();break;
-                case 7:home.cooperate_knowledge_base();break;
+                case 7:home.Knowledge_base(users,item);break;
                 case 8:home.recycleBin();break;
                 case 9:System.exit(0);break;
                 default:

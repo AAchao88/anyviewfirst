@@ -59,6 +59,17 @@ public class Menu {
             //System.out.println("        1.修改文章题目");
         }
 
+        public void menuTeam1(){
+            System.out.println("1.创建团队");
+            System.out.println("2.管理的团队");
+            System.out.println("3.加入的团队");
+            System.out.println("4.加入团队");
+        }
+
+        public void menuTeam2(){
+
+        }
+
 
 }
 

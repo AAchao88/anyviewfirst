@@ -38,9 +38,14 @@ public interface SelectImp {
      * 2表示通过知识库名字获取知识库id
      * @return
      */
-    String[] selectKnowledgeBase(Users users, int flag,String[] storeKnowledgeName);
+    LinkedList<String > selectKnowledgeBase(Users users,int item);
 
     Integer selectIdByName(String name);
+
+    LinkedList<Team> selectManageTeam(Users users);
+
+    LinkedList<Team> selectJoinTeam(Users users);
+
 
 
 }

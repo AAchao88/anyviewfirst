@@ -32,4 +32,6 @@ public interface InsertImp {
      * @param knowledgebase
      */
     void insertKnowledgeBase(KnowledgeBase knowledgebase);
+
+    void insertTeam(Team team);
 }

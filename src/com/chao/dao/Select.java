@@ -164,34 +164,39 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public String[] selectKnowledgeBase(Users users, int flag,String[] storeKnowledgeName) {
+    public LinkedList<String > selectKnowledgeBase(Users users,int item) {
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
-
+        LinkedList<String> listKnowledgeBase = new LinkedList<>();
         try{
             conn = JdbcUtils_DBCP.getConnection();
             String sql = null;
-            sql = "select * from knowledgebase where `create_user_id` = ? and `category` =  ?";
+            sql = "select * from knowledgebase where `create_user_id` = ? and category = ?";
             st = conn.prepareStatement(sql);
             st.setInt(1,users.getId());
-            switch (flag){
-                case 1:
+            switch (item){
+                case 5:
                     st.setString(2,"个人知识库");
                     break;
-                case 2:st.setString(2,"协作知识库");
+                case 7:st.setString(2,"协作知识库");
                     break;
                 default:
             }
             rs = st.executeQuery();
             for(int i=0;rs.next();i++){
-                storeKnowledgeName[i] = rs.getString("knowledgebase_name");
+                 listKnowledgeBase.add(rs.getString("knowledgebase_name"));
             }
         }catch (SQLException e){
+            if(item == 5){
+                System.out.println("您暂无个人知识库！");
+            }else {
+                System.out.println("您暂无协作知识库！");
+            }
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return storeKnowledgeName;
+            return listKnowledgeBase;
         }
 
     }
@@ -208,11 +213,7 @@ public class Select implements SelectImp{
 
             sql = "select `id` from knowledgebase where knowledgebase_name = ?";
             st = conn.prepareStatement(sql);
-            //预编译SQL，先写sql,然后不执行
             st.setString(1,name);
-            //手动给参数赋值
-
-            //注意点：sql/date   数据库       utils.Date  java    new Date().getTime() 获得时间戳
             rs = st.executeQuery();
             if(rs.next()){
                 returnValue2 = rs.getInt("id");
@@ -226,4 +227,70 @@ public class Select implements SelectImp{
             return returnValue2;
         }
     }
+
+    @Override
+    public LinkedList<Team> selectManageTeam(Users users) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        LinkedList<Team> listTeam = new LinkedList<>();
+
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "select * from team where create_user_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
+            rs = st.executeQuery();
+            while(rs.next()){
+                Team team = new Team();
+                team.setId(rs.getInt("id"));
+                team.setTeam_name(rs.getString("team_name"));
+                team.setCreate_user_id(rs.getInt("create_user_id"));
+                team.setInvitationCode1(rs.getString("invitationCode1"));
+                team.setInvitationCode2(rs.getString("invitationCode2"));
+                team.setInvitationCode3(rs.getString("invitationCode3"));
+                listTeam.add(team);
+            }
+        }catch (SQLException e){
+            System.out.println("您暂无管理的团队！请先创建团队。");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listTeam;
+        }
+    }
+
+    @Override
+    public LinkedList<Team> selectJoinTeam(Users users) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        LinkedList<Team> listTeam = new LinkedList<>();
+
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "select team_id,team_name from member where member_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
+            rs = st.executeQuery();
+            while(rs.next()){
+                Team team = new Team();
+                team.setId(rs.getInt("team_id"));
+                team.setTeam_name(rs.getString("team_name"));
+//                team.setCreate_user_id(rs.getInt("create_user_id"));
+//                team.setInvitationCode1(rs.getString("invitationCode1"));
+//                team.setInvitationCode2(rs.getString("invitationCode2"));
+//                team.setInvitationCode3(rs.getString("invitationCode3"));
+                listTeam.add(team);
+            }
+        }catch (SQLException e){
+            System.out.println("您暂无加入的团队！请先加入团队。");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listTeam;
+        }
+    }
+
+
 }

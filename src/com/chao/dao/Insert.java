@@ -126,4 +126,33 @@ public class Insert implements InsertImp {
         }
     }
 
+    @Override
+    public void insertTeam(Team team) {
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = JdbcUtils_DBCP.getConnection();
+
+            String sql = "insert into team(`create_user_id`,`team_name`,`invitationCode1`,`invitationCode2`,`invitationCode3`)values(?,?,?,?,?)";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,team.getCreate_user_id());
+            st.setString(2,team.getTeam_name());
+            st.setString(3,team.getInvitationCode1());
+            st.setString(4,team.getInvitationCode2());
+            st.setString(5,team.getInvitationCode3());
+
+            int i = st.executeUpdate();
+            if (i > 0) {
+                System.out.println("新建团队成功！");
+            }
+        } catch (SQLException e) {
+            System.out.println("新建团队失败！");
+            e.printStackTrace();
+        } finally {
+            JdbcUtils_DBCP.release(conn, st, null);
+            return;
+        }
+    }
+
 }
