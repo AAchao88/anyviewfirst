@@ -52,5 +52,11 @@ public interface SelectImp {
 
     Article selectArticleContent(Article article);
 
+    Member selectIvCode(String input,Users users);
+
+    String selectCode(Team team,int permission);
+
+    //LinkedList<Member> selectM
+
 
 }

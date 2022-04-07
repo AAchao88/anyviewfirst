@@ -303,18 +303,18 @@ public class Select implements SelectImp{
         try{
             conn = JdbcUtils_DBCP.getConnection();
 
-                String sql = "select knowledgebase_id,knowledgebase_name from member where team_id = ?";
+                String sql = "select * from member where team_id = ?";
                 st = conn.prepareStatement(sql);
                 st.setInt(1,team.getId());
                 rs = st.executeQuery();
                 while(rs.next()){
-                    Member member = new Member(rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"));
+                    Member member = new Member(rs.getInt("member_id"),rs.getInt("member_permission"),rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"),rs.getString("member_name"));
                     listMember.add(member);
 
                 }
 
         }catch (SQLException e){
-            System.out.println("您的团队暂无协作知识库！");
+           // System.out.println("您的团队暂无协作知识库！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
@@ -342,7 +342,7 @@ public class Select implements SelectImp{
             }
 
         }catch (SQLException e){
-            System.out.println("您的团队暂无协作知识库！");
+           // System.out.println("您的团队暂无协作知识库！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
@@ -381,5 +381,76 @@ public class Select implements SelectImp{
         }
     }
 
+    @Override
+    public Member selectIvCode(String input,Users users) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Member member = new Member();
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
 
+            String sql = "select invitationCode1,invitationCode2,invitationCode3,team_id from team ";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()){
+                if(rs.getString("invitationCode1").equals(input)){
+                    member.setMember_id(users.getId());
+                    member.setMember_permission(1);
+                    member.setTeam_id(rs.getInt("team_id"));
+                    break;
+                }
+                if(rs.getString("invitationCode2").equals(input)){
+                    member.setMember_id(users.getId());
+                    member.setMember_permission(2);
+                    member.setTeam_id(rs.getInt("team_id"));
+                    break;
+                }
+                if(rs.getString("invitationCode3").equals(input)){
+                    member.setMember_id(users.getId());
+                    member.setMember_permission(3);
+                    member.setTeam_id(rs.getInt("team_id"));
+                    break;
+                }
+            }
+
+        }catch (SQLException e){
+            System.out.println("邀请码错误！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return member;
+        }
+    }
+
+    @Override
+    public String selectCode(Team team,int permission) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        String returnValue = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+
+            String sql = "select invitationCode1,invitationCode2,invitationCode3 from team where id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,team.getId());
+            rs = st.executeQuery();
+            if(rs.next()){
+                switch (permission){
+                    case 1:returnValue = rs.getString("invitationCode1");break;
+                    case 2:returnValue = rs.getString("invitationCode2");break;
+                    case 3:returnValue = rs.getString("invitationCode3");break;
+                    default:
+                }
+            }
+
+        }catch (SQLException e){
+            System.out.println("邀请码错误！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return returnValue;
+        }
+    }
 }

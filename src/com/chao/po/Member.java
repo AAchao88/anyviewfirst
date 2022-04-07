@@ -9,6 +9,15 @@ public class Member {
     private Integer knowledgebase_id;
     private String team_name;
     private String knowledgebase_name;
+    private String member_name;
+
+    public String getMember_name() {
+        return member_name;
+    }
+
+    public void setMember_name(String member_name) {
+        this.member_name = member_name;
+    }
 
     public String getKnowledgebase_name() {
         return knowledgebase_name;
@@ -69,8 +78,11 @@ public class Member {
     public Member() {
     }
 
-    public Member(Integer knowledgebase_id, String knowledgebase_name) {
+    public Member(Integer member_id, Integer member_permission, Integer knowledgebase_id, String knowledgebase_name,String member_name) {
+        this.member_id = member_id;
+        this.member_permission = member_permission;
         this.knowledgebase_id = knowledgebase_id;
         this.knowledgebase_name = knowledgebase_name;
+        this.member_name = member_name;
     }
 }

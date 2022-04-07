@@ -34,4 +34,6 @@ public interface InsertImp {
     void insertKnowledgeBase(KnowledgeBase knowledgebase);
 
     void insertTeam(Team team);
+
+    void insertJoinTeam(Member member);
 }

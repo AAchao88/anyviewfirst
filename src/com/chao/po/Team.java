@@ -2,11 +2,20 @@ package com.chao.po;
 
 public class Team {
     private Integer id;
+    private Integer team_id;
     private Integer create_user_id;
     private String team_name;
     private String invitationCode1;
     private String invitationCode2;
     private String invitationCode3;
+
+    public Integer getTeam_id() {
+        return team_id;
+    }
+
+    public void setTeam_id(Integer team_id) {
+        this.team_id = team_id;
+    }
 
     public Integer getId() {
         return id;

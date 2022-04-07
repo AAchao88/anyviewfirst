@@ -4,13 +4,15 @@ import com.chao.controler.verify.Verify;
 import com.chao.dao.Select;
 import com.chao.dao.Update;
 import com.chao.po.Article;
+import com.chao.po.Member;
+import com.chao.po.Team;
 import com.chao.po.Users;
 
 import java.util.LinkedList;
 
 public class HelperTeam {
 
-    public void editArticle(Users users, Integer kb_id,int permission) {
+    public void joinedTeam(Users users, Integer kb_id,int permission) {
         Select select = new Select();
         //Menu menu = new Menu();
         Verify verify = new Verify();
@@ -53,4 +55,24 @@ public class HelperTeam {
             update.updateArticle(listArticle.get(serialNum),4);
         }
     }
+
+    public void modifyPermission(Team team){
+        Select select = new Select();
+        Update update = new Update();
+        Verify verify = new Verify();
+        LinkedList<Member> listMember = select.selectMember(team);
+        int i = 0;
+        for(i = 0;!listMember.isEmpty();){
+            if(listMember.get(i).getMember_id() != null){
+                System.out.println((i+1)+"."+listMember.get(i).getMember_name());
+                i++;
+            }
+        }
+        System.out.println("请输入序号选择查看的成员：");
+        int serialNum = verify.menuItemVerify(1,i);
+        update.updatePermission(team,listMember.get(serialNum).getMember_permission());
+    }
+
+
+
 }

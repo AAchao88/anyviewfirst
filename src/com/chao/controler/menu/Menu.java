@@ -66,8 +66,23 @@ public class Menu {
             System.out.println("4.加入团队");
         }
 
-        public void menuTeam2(){
+        public void menuManagedTeam(){
+            System.out.println("1.查看协作知识库");
+            System.out.println("2.管理成员");
+            System.out.println("3.邀请成员");
+          //  System.out.println("4.加入团队");
+        }
 
+        public void menuModifyPermission(){
+            System.out.println("1.修改为只读权限");
+            System.out.println("2.修改为可编辑权限");
+            System.out.println("3.修改我可评论权限");
+        }
+
+        public void menuInviteMembers(){
+            System.out.println("1.获取团队只读权限的邀请码");
+            System.out.println("2.获取团队可编辑权限的邀请码");
+            System.out.println("3.获取团队可评论权限的邀请码");
         }
 
 

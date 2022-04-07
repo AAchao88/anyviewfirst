@@ -1,9 +1,6 @@
 package com.chao.dao;
 
-import com.chao.po.Article;
-import com.chao.po.Comment;
-import com.chao.po.Favorite;
-import com.chao.po.Users;
+import com.chao.po.*;
 
 public interface UpdateImp {
     /**
@@ -30,6 +27,7 @@ public interface UpdateImp {
      */
     void updateFavorite(Favorite favorite);
 
+    void updatePermission(Team team, int permission);
 
 
 }

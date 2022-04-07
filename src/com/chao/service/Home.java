@@ -1,6 +1,7 @@
 package com.chao.service;
 
 import com.chao.controler.helper.HelperArticle;
+import com.chao.controler.helper.HelperTeam;
 import com.chao.controler.helper.IvCodeGenerator;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
@@ -56,6 +57,8 @@ public class Home implements HomeImp {
         Verify verify = new Verify();
         Scanner scanner = new Scanner(System.in);
         Insert insert = new Insert();
+        Select select = new Select();
+        HelperTeam helperTeam = new HelperTeam();
         menu.menuTeam1();
         int serialNumber = verify.menuItemVerify(1,4);
 
@@ -75,7 +78,6 @@ public class Home implements HomeImp {
                 break;
             }
             case 2:{
-                Select select = new Select();
                 LinkedList<Team> listMaTeam = new LinkedList<>();
                 listMaTeam = select.selectManageTeam(users);
                 int i = 0;
@@ -87,22 +89,38 @@ public class Home implements HomeImp {
                 }
                 System.out.println("请输入序号选择团队：");
                 int serialNum = verify.menuItemVerify(1,i);
-                LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(i-1));
-                if(listMembers.isEmpty() == true){
-                    break;
-                }
-                for(i = 0;!listMembers.isEmpty();i++){
-                    System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
-                }
-                System.out.println("请输入序号选择协作知识库：");
-                int serialNum2 = verify.menuItemVerify(1,i);
-                editArticle(users,listMembers.get(i-1).getKnowledgebase_id());
 
+                menu.menuManagedTeam();
+                int flag = verify.menuItemVerify(1,3);
 
+                switch (flag){
+                    case 1:{
+                        LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(i-1));
+                        if(listMembers.isEmpty() == true){
+                            break;
+                        }
+                        for(i = 0;!listMembers.isEmpty();i++){
+                            System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                        }
+                        System.out.println("请输入序号选择协作知识库：");
+                        int serialNum2 = verify.menuItemVerify(1,i);
+                        editArticle(users,listMembers.get(i-1).getKnowledgebase_id());
+                        break;
+                    }
+                    case 2:{
+                        helperTeam.modifyPermission(listMaTeam.get(serialNum));break;
+                    }
+                    case 3:{
+                        menu.menuInviteMembers();
+                        int permission = verify.menuItemVerify(1,3);
+                        select.selectCode(listMaTeam.get(serialNum),permission);
+                        break;
+                    }
+                    default:
+                }
 
             }
             case 3:{
-                Select select = new Select();
                 LinkedList<Team> listJoTeam = new LinkedList<>();
                 listJoTeam = select.selectJoinTeam(users);
                 int i = 0;
@@ -126,12 +144,21 @@ public class Home implements HomeImp {
                 }
                 System.out.println("请输入序号选择协作知识库：");
                 int serialNum2 = verify.menuItemVerify(1,i);
-
+                helperTeam.joinedTeam(users,listMembers.get(serialNum2).getKnowledgebase_id(),permission);
+                break;
 
 
             }
             case 4:{
-
+                System.out.println("请输入所要加入团队的邀请码：");
+                String code = scanner.nextLine();
+                Member member = select.selectIvCode(code,users);
+                if(member == null){
+                    break;
+                }else {
+                    insert.insertJoinTeam(member);
+                    break;
+                }
             }
             default:
         }

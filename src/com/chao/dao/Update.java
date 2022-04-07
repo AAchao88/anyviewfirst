@@ -1,9 +1,6 @@
 package com.chao.dao;
 
-import com.chao.po.Article;
-import com.chao.po.Comment;
-import com.chao.po.Favorite;
-import com.chao.po.Users;
+import com.chao.po.*;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -104,5 +101,28 @@ public class Update implements UpdateImp{
     @Override
     public void updateFavorite(Favorite favorite) {
 
+    }
+
+    @Override
+    public void updatePermission(Team team, int permission) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "update member set member_permission = ? where team_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,permission);
+            st.setInt(2,team.getId());
+
+            int i = st.executeUpdate();
+            if(i>0){
+                System.out.println("修改成功！");
+            }
+        }catch (SQLException e){
+            System.out.println("修改失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,null);
+        }
     }
 }
