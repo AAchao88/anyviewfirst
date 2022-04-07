@@ -15,7 +15,7 @@ public interface SelectImp {
      *  查询文章
      * @param knowledgeBase
      */
-    LinkedList<Article> selectArticle(KnowledgeBase knowledgeBase);
+    LinkedList<Article> selectArticle(Integer id);
 
     LinkedList<Article> selectRecycleBin(Users users);
 
@@ -38,7 +38,7 @@ public interface SelectImp {
      * 2表示通过知识库名字获取知识库id
      * @return
      */
-    LinkedList<String > selectKnowledgeBase(Users users,int item);
+    LinkedList<String > selectKnowledgeBase(int id,int item);
 
     Integer selectIdByName(String name);
 
@@ -46,6 +46,11 @@ public interface SelectImp {
 
     LinkedList<Team> selectJoinTeam(Users users);
 
+    LinkedList<Member> selectMember(Team team);
+
+    int selectPermission(Team team,Users users);
+
+    Article selectArticleContent(Article article);
 
 
 }

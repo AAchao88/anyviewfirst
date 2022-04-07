@@ -28,7 +28,7 @@ public interface HomeImp {
      *                   输出所有、编辑、新建、（投稿）、删除文章
      * 2、输出所有、编辑、新建、（投稿）文章，输出权限提示
      */
-     void team(Users users);
+      void team(Users users);
 
 
     /**
@@ -51,7 +51,7 @@ public interface HomeImp {
      *   获取知识库id，将其赋到文章信息
      *   可以输出、新建、编辑、tag标签、删除、（投稿）文章
      */
-     void Knowledge_base(Users users);
+    // void Knowledge_base(Users users);
 
     /**
      *   新建知识库
@@ -82,6 +82,8 @@ public interface HomeImp {
 
     void Knowledge_base(Users users, int item);
 
-    void editArticle(Users users, KnowledgeBase knowledgeBase);
+    //<T>void Knowledge_base(Users users, int item);
+
+    void editArticle(Users users, Integer kb_id);
 
 }

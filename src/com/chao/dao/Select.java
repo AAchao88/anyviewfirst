@@ -84,7 +84,7 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public LinkedList<Article> selectArticle(KnowledgeBase knowledgeBase) {
+    public LinkedList<Article> selectArticle(Integer id) {
         LinkedList<Article> listArticle = new LinkedList<>();
       Connection conn = null;
       PreparedStatement st = null;
@@ -94,7 +94,7 @@ public class Select implements SelectImp{
           String sql = null;
           sql = "select * from article where knowbase_id = ? and delete_status = 0";
           st = conn.prepareStatement(sql);
-          st.setInt(1,knowledgeBase.getId());
+          st.setInt(1,id);
           rs = st.executeQuery();
           int i =0 ;
           while (rs.next()){
@@ -164,7 +164,7 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public LinkedList<String > selectKnowledgeBase(Users users,int item) {
+    public LinkedList<String > selectKnowledgeBase(int id,int item) {
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -174,7 +174,7 @@ public class Select implements SelectImp{
             String sql = null;
             sql = "select * from knowledgebase where `create_user_id` = ? and category = ?";
             st = conn.prepareStatement(sql);
-            st.setInt(1,users.getId());
+            st.setInt(1,id);
             switch (item){
                 case 5:
                     st.setString(2,"个人知识库");
@@ -190,7 +190,8 @@ public class Select implements SelectImp{
         }catch (SQLException e){
             if(item == 5){
                 System.out.println("您暂无个人知识库！");
-            }else {
+            }
+            if(item == 7){
                 System.out.println("您暂无协作知识库！");
             }
             e.printStackTrace();
@@ -289,6 +290,94 @@ public class Select implements SelectImp{
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
             return listTeam;
+        }
+    }
+
+    @Override
+    public LinkedList<Member> selectMember(Team team) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        LinkedList<Member> listMember = new LinkedList<>();
+
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+
+                String sql = "select knowledgebase_id,knowledgebase_name from member where team_id = ?";
+                st = conn.prepareStatement(sql);
+                st.setInt(1,team.getId());
+                rs = st.executeQuery();
+                while(rs.next()){
+                    Member member = new Member(rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"));
+                    listMember.add(member);
+
+                }
+
+        }catch (SQLException e){
+            System.out.println("您的团队暂无协作知识库！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listMember;
+        }
+    }
+
+    @Override
+    public int selectPermission(Team team, Users users) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+       // LinkedList<Member> listMember = new LinkedList<>();
+        int permission = 1;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+
+            String sql = "select member_permission from member where team_id = ? and member_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,team.getId());
+            st.setInt(2,users.getId());
+            rs = st.executeQuery();
+            if(rs.next()){
+                    permission = rs.getInt("member_permission");
+            }
+
+        }catch (SQLException e){
+            System.out.println("您的团队暂无协作知识库！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return permission;
+        }
+    }
+
+    @Override
+    public Article selectArticleContent(Article article) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Article article1 = new Article();
+        // LinkedList<Member> listMember = new LinkedList<>();
+       // int permission = 1;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+
+            String sql = "select content,title from article where id = ? ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,article.getId());
+
+         //   st.setInt(2,users.getId());
+            rs = st.executeQuery();
+            if(rs.next()){
+                article1.setContent(rs.getString("content"));
+                article1.setTitle(rs.getString("title"));
+            }
+
+        }catch (SQLException e){
+            System.out.println("文档为空！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return article1;
         }
     }
 

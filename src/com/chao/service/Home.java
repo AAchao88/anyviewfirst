@@ -8,10 +8,7 @@ import com.chao.dao.Delete;
 import com.chao.dao.Insert;
 import com.chao.dao.Select;
 import com.chao.dao.Update;
-import com.chao.po.Article;
-import com.chao.po.KnowledgeBase;
-import com.chao.po.Team;
-import com.chao.po.Users;
+import com.chao.po.*;
 import com.chao.service.OperateImp.HomeImp;
 import com.chao.service.modify.ModifyMine;
 
@@ -68,12 +65,12 @@ public class Home implements HomeImp {
                 System.out.println("请输入团队名称：");
                 String input = scanner.nextLine();
                 System.out.println("请任意输入一个正数: (系统将自动设置一个只读文档权限邀请码)");
-                int num1 = scanner.nextInt();
+                String code1 = ivCodeGenerator.inviCode(scanner.nextInt());
                 System.out.println("请任意输入一个正数: (系统将自动设置一个评论文档权限邀请码)");
-                int num2 = scanner.nextInt();
+                String code2 = ivCodeGenerator.inviCode(scanner.nextInt());
                 System.out.println("请任意输入一个正数: (系统将自动设置一个修改文档权限邀请码)");
-                int num3 = scanner.nextInt();
-                Team team = new Team(users.getId(),input,ivCodeGenerator.inviCode(num1),ivCodeGenerator.inviCode(num2),ivCodeGenerator.inviCode(num3));
+                String code3 =ivCodeGenerator.inviCode(scanner.nextInt());
+                Team team = new Team(users.getId(),input,code1,code2,code3);
                 insert.insertTeam(team);
                 break;
             }
@@ -81,6 +78,25 @@ public class Home implements HomeImp {
                 Select select = new Select();
                 LinkedList<Team> listMaTeam = new LinkedList<>();
                 listMaTeam = select.selectManageTeam(users);
+                int i = 0;
+                if(listMaTeam.isEmpty() == true){
+                    break;
+                }
+                for(i = 0;!listMaTeam.isEmpty();i++){
+                    System.out.println((i+1)+"."+listMaTeam.get(i).getTeam_name());
+                }
+                System.out.println("请输入序号选择团队：");
+                int serialNum = verify.menuItemVerify(1,i);
+                LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(i-1));
+                if(listMembers.isEmpty() == true){
+                    break;
+                }
+                for(i = 0;!listMembers.isEmpty();i++){
+                    System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                }
+                System.out.println("请输入序号选择协作知识库：");
+                int serialNum2 = verify.menuItemVerify(1,i);
+                editArticle(users,listMembers.get(i-1).getKnowledgebase_id());
 
 
 
@@ -89,6 +105,28 @@ public class Home implements HomeImp {
                 Select select = new Select();
                 LinkedList<Team> listJoTeam = new LinkedList<>();
                 listJoTeam = select.selectJoinTeam(users);
+                int i = 0;
+                if(listJoTeam.isEmpty() == true){
+                    break;
+                }
+                for(i = 0;!listJoTeam.isEmpty();i++){
+                    System.out.println((i+1)+"."+listJoTeam.get(i).getTeam_name());
+                }
+                System.out.println("请输入序号选择团队：");
+                int serialNum = verify.menuItemVerify(1,i);
+                LinkedList<Member> listMembers = select.selectMember(listJoTeam.get(i-1));
+
+                int permission = select.selectPermission(listJoTeam.get(i-1),users);
+                //获取用户关于选定团队的权限
+                if(listMembers.isEmpty() == true){
+                    break;
+                }
+                for(i = 0;!listMembers.isEmpty();i++){
+                    System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                }
+                System.out.println("请输入序号选择协作知识库：");
+                int serialNum2 = verify.menuItemVerify(1,i);
+
 
 
             }
@@ -113,6 +151,7 @@ public class Home implements HomeImp {
      */
     @Override
     public void Knowledge_base(Users users, int item) {
+
         /**
          *
          * 通过user.id查询所有知识库,分为个人知识库和协作知识库
@@ -122,13 +161,13 @@ public class Home implements HomeImp {
         Scanner scanner = new Scanner(System.in);
         KnowledgeBase knowledgeBase = new KnowledgeBase();
         LinkedList<String > storeKnowledgeName =  new LinkedList<>();
-        storeKnowledgeName = select.selectKnowledgeBase(users,item);
+        storeKnowledgeName = select.selectKnowledgeBase(users.getId(),item);
         if(storeKnowledgeName == null){
             return;
         }
-        if(item == 5){
-
-        }
+//        if(item == 5){
+//
+//        }
         int i = 0;
         for(i=0;!storeKnowledgeName.isEmpty();i++){
             System.out.println((i+1)+"."+storeKnowledgeName.get(i));
@@ -145,7 +184,7 @@ public class Home implements HomeImp {
     }
 
     @Override
-    public void editArticle(Users users, KnowledgeBase knowledgeBase) {
+    public void editArticle(Users users, Integer kb_id) {
         Select select = new Select();
         Menu menu = new Menu();
         Verify verify = new Verify();
@@ -153,48 +192,51 @@ public class Home implements HomeImp {
         Delete delete = new Delete();
         Scanner scanner = new Scanner(System.in);
         HelperArticle helperArticle = new HelperArticle();
-        LinkedList<Article> listArticle = select.selectArticle(knowledgeBase);
+        LinkedList<Article> listArticle = select.selectArticle(kb_id);
         int i = 0;
         //循环因子
         for(Article article: listArticle){
-            System.out.println("i."+article);
+            System.out.println((i+1)+"."+article);
             i++;
         }
-        System.out.println("请正确输入要编辑的文档的名字或id：");
-        Boolean judge = true;
-        //双重循环的判断退出变量
-        while(judge){
-            String input = scanner.nextLine();
-            for(i = 0;!listArticle.isEmpty();i++){
-                if(input.equals(listArticle.get(i).getTitle()) || Integer.parseInt(input) == listArticle.get(i).getId()){
-                    judge = false;
-                    break;
-                }
-            }
-            if(judge == true){
-                System.out.println("输入有误，请检查并重新输入。");
-            }
-        }
+//        System.out.println("请正确输入要编辑的文档的名字或id：");
+//        Boolean judge = true;
+//        //双重循环的判断退出变量
+//        while(judge){
+//            String input = scanner.nextLine();
+//            for(i = 0;!listArticle.isEmpty();i++){
+//                if(input.equals(listArticle.get(i).getTitle()) || Integer.parseInt(input) == listArticle.get(i).getId()){
+//                    judge = false;
+//                    break;
+//                }
+//            }
+//            if(judge == true){
+//                System.out.println("输入有误，请检查并重新输入。");
+//            }
+//        }
+        System.out.println("请输入序号选择文档：");
+        int serialNum = verify.menuItemVerify(1,i-1);
+
         menu.menuModeifyArticle();
         int flag = verify.menuItemVerify(1,7);
         switch (flag){
             case 1:
                 System.out.println("请输入新的文档标题：");
                 String inputTitle = scanner.nextLine();
-                listArticle.get(i).setTitle(inputTitle);break;
+                listArticle.get(serialNum).setTitle(inputTitle);break;
             case 2:System.out.println("请输入新的文档标签：");
                 String inputTag = scanner.nextLine();
-                listArticle.get(i).setTitle(inputTag);break;
-            case 3: listArticle.get(i).setContent(helperArticle.helperEdit(listArticle.get(i).getContent()));
+                listArticle.get(serialNum).setTitle(inputTag);break;
+            case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent()));
                     break;
             case 4:break;//回复评论
-            case 5:helperArticle.printInformation(listArticle.get(i));break;
-            case 6:helperArticle.exportLocal(listArticle.get(i));break;
-            case 7:delete.deleteArticle(listArticle.get(i));break;
+            case 5:helperArticle.printInformation(listArticle.get(serialNum));break;
+            case 6:helperArticle.exportLocal(listArticle.get(serialNum));break;
+            case 7:delete.deleteArticle(listArticle.get(serialNum));break;
             default:
         }
         if(flag>=1 && flag<=4){
-            update.updateArticle(listArticle.get(i),flag);
+            update.updateArticle(listArticle.get(serialNum),flag);
         }
 
     }
