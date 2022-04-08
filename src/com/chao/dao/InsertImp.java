@@ -36,4 +36,6 @@ public interface InsertImp {
     void insertTeam(Team team);
 
     void insertJoinTeam(Member member);
+
+    void insertInformation(Users users,Article article,String comment,int flag);
 }

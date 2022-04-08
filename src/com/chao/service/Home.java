@@ -1,6 +1,7 @@
 package com.chao.service;
 
 import com.chao.controler.helper.HelperArticle;
+import com.chao.controler.helper.HelperSquare;
 import com.chao.controler.helper.HelperTeam;
 import com.chao.controler.helper.IvCodeGenerator;
 import com.chao.controler.menu.Menu;
@@ -48,10 +49,54 @@ public class Home implements HomeImp {
 
     @Override
     public void square(Users users) {
-        Select select = new Select();
+        HelperSquare helperSquare = new HelperSquare();
+        Menu menu = new Menu();
         Verify verify = new Verify();
+        Select select = new Select();
+        Update update = new Update();
+        Insert insert = new Insert();
+        HelperArticle helperArticle = new HelperArticle();
 
-        LinkedList<Article> listShared = select.selectSharedArticle();
+        String comment = null;
+        while (true){
+            Article articleChecked = helperSquare.showShared();
+            System.out.println("\n\n");
+            helperSquare.showInformation(articleChecked);
+            menu.menuSquare();
+            int flag = verify.menuItemVerify(1,4);
+            if(flag == 4){
+                break;
+            }
+            switch (flag){
+                case 1:{
+                    if(select.selectRepeat(users,articleChecked,flag)){
+                        insert.insertInformation(users,articleChecked,comment,flag);
+                        update.updateInformation(articleChecked,flag);
+                        break;
+                    }else {
+                        System.out.println("您已经点赞过该文档，不可重复！");
+                        break;
+                    }
+                }
+                case 2:{
+                    if(select.selectRepeat(users,articleChecked,flag)){
+                        insert.insertInformation(users,articleChecked,comment,flag);
+                        update.updateInformation(articleChecked,flag);
+                        break;
+                    }else {
+                        System.out.println("您已经收藏过文档！");
+                        break;
+                    }
+                }
+                case 3:{
+                    comment = helperArticle.helperWrite();
+                    insert.insertInformation(users,articleChecked,comment,flag);
+                    update.updateInformation(articleChecked,flag);
+                    break;
+                }
+                default:
+            }
+        }
 
     }
 
@@ -172,6 +217,30 @@ public class Home implements HomeImp {
 
     @Override
     public void favorite(Users users) {
+        Select select = new Select();
+        Verify verify = new Verify();
+        Delete delete = new Delete();
+        HelperSquare helperSquare = new HelperSquare();
+        LinkedList<Article> listFavorite = select.selectFavorite(users);
+        int i = 0;
+        for(i = 0;!listFavorite.isEmpty();i++){
+            System.out.println((i+1)+"."+listFavorite.get(i).getTitle());
+            System.out.println("\t\t标签-->"+listFavorite.get(i).getTag());
+            i++;
+        }
+
+        System.out.println("请输入序号选择要查看的文档：");
+        int serialNum = verify.menuItemVerify(1,i);
+        System.out.println("1.查看文档\n2.删除文档\n3.返回");
+        int flag = verify.menuItemVerify(1,3);
+        if(flag == 3)return;
+        if(flag == 1){
+            System.out.println("\t\t"+listFavorite.get(serialNum-1).getTitle());
+            System.out.println(listFavorite.get(serialNum-1).getContent());
+            helperSquare.showInformation(listFavorite.get(serialNum-1));
+        }else {
+            delete.deleteFavorite(listFavorite.get(serialNum-1));
+        }
 
     }
 
@@ -210,7 +279,7 @@ public class Home implements HomeImp {
         if(verify.menuItemVerify(1,2) == 1){
             newArticle(users,knowledgeBase);
         }else {
-            editArticle(users,knowledgeBase);
+            editArticle(users,knowledgeBase.getId());
         }
     }
 
@@ -258,12 +327,23 @@ public class Home implements HomeImp {
             case 2:System.out.println("请输入新的文档标签：");
                 String inputTag = scanner.nextLine();
                 listArticle.get(serialNum).setTitle(inputTag);break;
-            case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent()));
+            case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
                     break;
-            case 4:break;//回复评论
+            case 4:{
+                LinkedList<String> listComment = select.selectComment(listArticle.get(serialNum));
+                int k = 0;
+                for(k = 0;!listComment.isEmpty();k++){
+                    System.out.println((k+1)+"."+listComment.get(k));
+                }
+                System.out.println("请输入序号选择评论：");
+                int serial = verify.menuItemVerify(1,k);
+                String comment = helperArticle.helperEdit(listComment.get(serial-1),2);
+                update.updateComment(comment,listArticle.get(serialNum).getId());
+
+            }
             case 5:helperArticle.printInformation(listArticle.get(serialNum));break;
             case 6:helperArticle.exportLocal(listArticle.get(serialNum));break;
-            case 7:delete.deleteArticle(listArticle.get(serialNum));break;
+            case 7:delete.deleteArticleFake(listArticle.get(serialNum));break;
             default:
         }
         if(flag>=1 && flag<=4){
@@ -318,6 +398,7 @@ public class Home implements HomeImp {
         Select select = new Select();
         Verify verify = new Verify();
         Update update = new Update();
+        Delete delete = new Delete();
         HelperArticle helperArticle = new HelperArticle();
         LinkedList<Article> listRecycleBin = select.selectRecycleBin(users);
         LinkedList<Article> listRecovery = new LinkedList<>();
@@ -331,6 +412,8 @@ public class Home implements HomeImp {
                 listRecovery.add(listRecycleBin.get(i));
                 j++;
                 System.out.println(j+"."+listRecovery.get(j-1).getTitle());
+            }else {
+                delete.deleteArticleTrue(listRecycleBin.get(i));
             }
         }
         System.out.println("请输入要复原的文档的序号：");

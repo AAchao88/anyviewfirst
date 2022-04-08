@@ -11,7 +11,7 @@ public class Article {
     private Date update_time;
     private Integer like;
     private Integer favorite;
-    private String comment;
+    private Integer comment;
     private Integer knowledgebase_id;
     private String tag;
     private Integer shared;
@@ -86,7 +86,7 @@ public class Article {
         this.author_id = author_id;
     }
 
-    public Date getCreate_time() {
+    public java.sql.Date getCreate_time() {
         return create_time;
     }
 
@@ -118,11 +118,11 @@ public class Article {
         this.favorite = favorite;
     }
 
-    public String getComment() {
+    public Integer getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(Integer comment) {
         this.comment = comment;
     }
 
@@ -168,7 +168,7 @@ public class Article {
     public Article() {
     }
 
-    public Article(Integer id, String title, String content, Date create_time, Date update_time, Integer like, Integer favorite, String comment,String tag) {
+    public Article(Integer id, String title, String content, Date create_time, Date update_time, Integer like, Integer favorite, Integer comment,String tag) {
         this.id = id;
         this.title = title;
         this.content = content;

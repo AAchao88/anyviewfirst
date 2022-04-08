@@ -53,7 +53,13 @@ public class HelperArticle {
     }
 
 
-    public String helperEdit(String original){
+    /**
+     * flag ==1为编辑文章  ，flag ==2为回复评论
+     * @param original
+     * @param flag
+     * @return
+     */
+    public String helperEdit(String original,int flag){
         StringBuilder sb = new StringBuilder();
         sb.append(original);
         System.out.println(original);
@@ -63,6 +69,9 @@ public class HelperArticle {
         String returnValue = original;
         String str = null;
         System.out.println("\n注意 <换行>输入'退出并保存'或'退出不保存'以结束编辑。");
+        if(flag == 2){
+            sb.append("\n\n作者回复：\n");
+        }
         try{
             do {
                 try {

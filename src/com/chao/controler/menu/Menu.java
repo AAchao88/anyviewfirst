@@ -85,6 +85,13 @@ public class Menu {
             System.out.println("3.获取团队可评论权限的邀请码");
         }
 
+        public void menuSquare(){
+            System.out.println("1.点赞");
+            System.out.println("2.收藏");
+            System.out.println("3.评论");
+            System.out.println("4.返回");
+        }
+
 
 }
 

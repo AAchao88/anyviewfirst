@@ -13,7 +13,7 @@ public interface SelectImp {
 
     /**
      *  查询文章
-     * @param knowledgeBase
+     * @param id
      */
     LinkedList<Article> selectArticle(Integer id);
 
@@ -22,15 +22,15 @@ public interface SelectImp {
 
     /**
      *  查询评论
-     * @param comment
+     * @param article
      */
-    Boolean selectComment(Comment comment);
+    LinkedList<String> selectComment(Article article);
 
     /**
      *     查询收藏
-     * @param favorite
+     * @param users
      */
-    Boolean selectFavorite(Favorite favorite);
+    LinkedList<Article> selectFavorite(Users users);
 
     /**
      * 查询知识库
@@ -59,6 +59,8 @@ public interface SelectImp {
     //LinkedList<Member> selectM
 
     LinkedList<Article> selectSharedArticle();
+
+    Boolean selectRepeat(Users users,Article article,int flag);
 
 
 }

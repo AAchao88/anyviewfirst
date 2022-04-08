@@ -2,7 +2,6 @@ package com.chao.dao;
 
 import com.chao.po.Article;
 import com.chao.po.Comment;
-import com.chao.po.Favorite;
 import com.chao.po.Users;
 
 public interface DeleteImp {
@@ -16,7 +15,9 @@ public interface DeleteImp {
      *
      * @param article
      */
-    void deleteArticle(Article article);
+    void deleteArticleFake(Article article);
+
+    void deleteArticleTrue(Article article);
 
     /**
      *
@@ -28,5 +29,5 @@ public interface DeleteImp {
      *
      * @param favorite
      */
-    void deleteFavorite(Favorite favorite);
+    void deleteFavorite(Article article);
 }

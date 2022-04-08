@@ -106,7 +106,7 @@ public class Select implements SelectImp{
               listArticle.get(i).setUpdate_time(rs.getDate("update_time"));
               listArticle.get(i).setLike(rs.getInt("like"));
               listArticle.get(i).setFavorite(rs.getInt("favorite"));
-              listArticle.get(i).setComment(rs.getString("comment"));
+              listArticle.get(i).setComment(rs.getInt("comment"));
               listArticle.get(i).setTag(rs.getString("tag"));
               listArticle.get(i).setKnowledgebase_id(rs.getInt("knowledge_id"));
               listArticle.get(i).setShared(rs.getInt("shared"));
@@ -154,14 +154,62 @@ public class Select implements SelectImp{
     }
 
     @Override
-    public Boolean selectComment(Comment comment) {
-        return true;
+    public LinkedList<String > selectComment(Article article) {
+        LinkedList<String> listComment = new LinkedList<>();
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+            sql = "select content from comment where article_id = ? ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,article.getId());
+            rs = st.executeQuery();
+            while (rs.next()){
+                listComment.add(rs.getString("content"));
+            }
+        }catch (SQLException e){
+            System.out.println("查询失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listComment;
+        }
+
     }
 
     @Override
-    public Boolean selectFavorite(Favorite favorite) {
-        return true;
+    public LinkedList<Article> selectFavorite(Users users) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        LinkedList<Article> listFavorite = new LinkedList<>();
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "select * from favorite f inner join article a on a.id = f.article_id " +
+                    "where f.create_user_id = ? ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
+            rs = st.executeQuery();
+            int i =0 ;
+            while (rs.next()){
+                Article article = new Article(rs.getInt("a.id"),rs.getString("title"),
+                        rs.getString("content"),rs.getDate("create_time"),
+                        rs.getDate("update_time"),rs.getInt("like"),
+                        rs.getInt("favorite"),rs.getInt("comment"),
+                        rs.getString("tag"));
+                listFavorite.add(article);
+            }
+        }catch (SQLException e){
+            System.out.println("查询失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,rs);
+            return listFavorite;
+        }
     }
+
 
     @Override
     public LinkedList<String > selectKnowledgeBase(int id,int item) {
@@ -469,7 +517,7 @@ public class Select implements SelectImp{
                 Article article = new Article(rs.getInt("id"),rs.getString("title"),
                         rs.getString("content"),rs.getDate("create_time"),
                         rs.getDate("update_time"),rs.getInt("like"),
-                        rs.getInt("favorite"),rs.getString("comment"),
+                        rs.getInt("favorite"),rs.getInt("comment"),
                         rs.getString("tag"));
                 list.add(article);
             }
@@ -480,6 +528,37 @@ public class Select implements SelectImp{
         } finally {
             JdbcUtils_DBCP.release(conn, st, rs);
             return list;
+        }
+    }
+
+    @Override
+    public Boolean selectRepeat(Users users, Article article,int flag) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Boolean returnValue = true;
+        try {
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+            if(flag == 1){
+                sql = "select id from like where create_user_id = ? and article_id = ?";
+            }else {
+                sql = "select id from favorite where user_id = ? and article_id = ?";
+            }
+            st = conn.prepareStatement(sql);
+            st.setInt(1,users.getId());
+            st.setInt(2,article.getId());
+            rs = st.executeQuery();
+            if(rs.next()){
+                returnValue = false;
+                //说明已经点过赞或收藏过
+            }
+        } catch (SQLException e) {
+            //System.out.println("错误！");
+            e.printStackTrace();
+        } finally {
+            JdbcUtils_DBCP.release(conn, st, rs);
+            return returnValue;
         }
     }
 }

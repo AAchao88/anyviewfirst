@@ -94,8 +94,26 @@ public class Update implements UpdateImp{
     }
 
     @Override
-    public void updateComment(Comment comment) {
+    public void updateComment(String comment,Integer id) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "update comment set content = ? where article_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setString(1,comment);
+            st.setInt(2,id);
 
+            int i = st.executeUpdate();
+            if(i>0){
+                System.out.println("修改成功！");
+            }
+        }catch (SQLException e){
+            System.out.println("修改失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,null);
+        }
     }
 
     @Override
@@ -120,6 +138,52 @@ public class Update implements UpdateImp{
             }
         }catch (SQLException e){
             System.out.println("修改失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,null);
+        }
+    }
+
+    @Override
+    public void updateInformation(Article article,int flag) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+            switch (flag){
+                case 1:{
+                    sql =  "update article set like = ? where article_id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,article.getLike()+1);
+                    break;
+                }
+                case 2:{
+                    sql = "update article set favorite = ? where article_id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,article.getFavorite()+1);
+                    break;
+                }
+                case 3:{
+                    sql = "update article set comment = ? where article_id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,article.getComment()+1);
+                    break;
+                }
+                default:
+            }
+            st.setInt(2,article.getId());
+            int i = st.executeUpdate();
+            if(i>0){
+                if(flag == 1){
+                    System.out.println("点赞成功！");
+                }
+                if(flag == 2){
+                    System.out.println("收藏成功！");
+                }
+            }
+        }catch (SQLException e){
+          //  System.out.println("修改失败！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,null);

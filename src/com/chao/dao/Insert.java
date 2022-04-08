@@ -182,4 +182,50 @@ public class Insert implements InsertImp {
         }
     }
 
+    @Override
+    public void insertInformation(Users users, Article article,String comment, int flag) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = null;
+            switch (flag){
+                case 1:{
+                    sql =  "insert into like (create_user_id,article_id)values(?,?) ";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,users.getId());
+                    st.setInt(2,article.getId());
+                    break;
+                }
+                case 2:{
+                    sql =  "insert into favorite (user_id,article_id)values(?,?) ";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,users.getId());
+                    st.setInt(2,article.getId());
+                    break;
+                }
+                case 3:{
+                    sql =  "insert into comment (create_user_id,article_id,content)values(?,?,?) ";
+                    st = conn.prepareStatement(sql);
+                    st.setInt(1,users.getId());
+                    st.setInt(2,article.getId());
+                    st.setString(3,comment);
+                    break;
+                }
+                default:
+            }
+
+            int i = st.executeUpdate();
+            if (i > 0) {
+                System.out.println("成功！");
+            }
+        } catch (SQLException e) {
+            System.out.println("失败！");
+            e.printStackTrace();
+        } finally {
+            JdbcUtils_DBCP.release(conn, st, null);
+            return;
+        }
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.chao.service;
 
+import com.chao.controler.helper.HelperSquare;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.po.Article;
 import com.chao.po.Users;
 
 /**
@@ -24,13 +26,14 @@ public class App {
         //new 所需对象
         Menu menu = new Menu();
         Verify verify = new Verify();
+        Home home = new Home();
         while(true){
             menu.menuMain();
             int item = verify.menuItemVerify(1,4);
             switch(item){
                 case 1: Login login = new Login(); login.input(); break;
                 case 2: Register register = new Register(); register.input(); break;
-                case 3: //游客   break;
+                case 3: homeTourist();break;
                 case 4: System.exit(0); break;
                 default:
             }
@@ -51,13 +54,13 @@ public class App {
             int item = verify.menuItemVerify(1,9);
             switch(item){
                 case 1:home.mine(users);break;
-                case 2:home.square();break;
-                case 3:home.team();break;
-                case 4:home.favorite();break;
+                case 2:home.square(users);break;
+                case 3:home.team(users);break;
+                case 4:home.favorite(users);break;
                 case 5:home.Knowledge_base(users,item);break;
-                case 6:home.create_knowledge_base();break;
+                case 6:home.create_knowledge_base(users);break;
                 case 7:home.Knowledge_base(users,item);break;
-                case 8:home.recycleBin();break;
+                case 8:home.recycleBin(users);break;
                 case 9:System.exit(0);break;
                 default:
             }
@@ -67,9 +70,10 @@ public class App {
     /**
      * 未注册游客首页
      */
-    public void HomeTourist(){
-        Menu menu = new Menu();
-        Verify verify = new Verify();
-
+    public void homeTourist(){
+        HelperSquare helperSquare = new HelperSquare();
+        Article articleChecked = helperSquare.showShared();
+        System.out.println("\n\n");
+        helperSquare.showInformation(articleChecked);
     }
 }

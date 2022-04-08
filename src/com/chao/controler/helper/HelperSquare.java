@@ -8,7 +8,12 @@ import java.util.LinkedList;
 
 public class HelperSquare {
 
-    public LinkedList<Article> showShared(){
+    /**
+     * 在广场中查询共享文档，让用户选择文档，并输出文档标题和内容
+     * 返回选中的文档
+     * @return
+     */
+    public Article showShared(){
         Select select = new Select();
         Verify verify = new Verify();
 
@@ -22,9 +27,21 @@ public class HelperSquare {
         System.out.println("请输入序号选择要查看的文档：");
         int serialNum = verify.menuItemVerify(1,i);
         System.out.println("\t\t"+listShared.get(serialNum-1).getTitle());
-        System.out.println(listShared.get(serialNum-1));
+        System.out.println(listShared.get(serialNum-1).getContent());
 
-        return listShared;
+        return listShared.get(serialNum-1);
+    }
+
+    /**
+     * 传入一个文档article，输出它的相关信息
+     */
+    public void showInformation(Article article){
+        System.out.println("\n该文档的点赞数为："+article.getLike());
+        System.out.println("该文档的收藏数为："+article.getFavorite());
+        System.out.println("该文档的评论数为："+article.getComment());
+        System.out.println("该文档的创建时间是："+article.getCreate_time());
+        System.out.println("该文档的最新更改时间是："+article.getUpdate_time());
+
     }
 
 
