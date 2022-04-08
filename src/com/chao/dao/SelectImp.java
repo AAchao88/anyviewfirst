@@ -58,5 +58,7 @@ public interface SelectImp {
 
     //LinkedList<Member> selectM
 
+    LinkedList<Article> selectSharedArticle();
+
 
 }

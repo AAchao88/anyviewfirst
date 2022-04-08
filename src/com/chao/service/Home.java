@@ -48,6 +48,10 @@ public class Home implements HomeImp {
 
     @Override
     public void square(Users users) {
+        Select select = new Select();
+        Verify verify = new Verify();
+
+        LinkedList<Article> listShared = select.selectSharedArticle();
 
     }
 

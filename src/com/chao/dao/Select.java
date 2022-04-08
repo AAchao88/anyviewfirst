@@ -453,4 +453,33 @@ public class Select implements SelectImp{
             return returnValue;
         }
     }
+
+    @Override
+    public LinkedList<Article> selectSharedArticle() {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        LinkedList<Article> list = new LinkedList<>();
+        try {
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "select * from article where shared = 1 and delete_status = 0 order by `like` DESC ";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()){
+                Article article = new Article(rs.getInt("id"),rs.getString("title"),
+                        rs.getString("content"),rs.getDate("create_time"),
+                        rs.getDate("update_time"),rs.getInt("like"),
+                        rs.getInt("favorite"),rs.getString("comment"),
+                        rs.getString("tag"));
+                list.add(article);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("错误！");
+            e.printStackTrace();
+        } finally {
+            JdbcUtils_DBCP.release(conn, st, rs);
+            return list;
+        }
+    }
 }
