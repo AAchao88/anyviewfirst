@@ -8,8 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Update implements UpdateImp{
-
-
+    /**
+     * 该方法用于用户修改个人信息，通过传入int flag(1,2,3,4,5)
+     * 分辨更改哪个信息，提高代码复用性
+     * @param users
+     * @param flag
+     */
     @Override
     public void updateUsers(Users users,int flag) {
         Connection conn = null;
@@ -18,14 +22,34 @@ public class Update implements UpdateImp{
             conn = JdbcUtils_DBCP.getConnection();
             String sql = null;
             switch(flag){
-                case 1: sql ="";st = conn.prepareStatement(sql);st.setString(1,users.getUsername()); break;
-                case 2:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getPassword()); break;
-                case 3:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getSex()); break;
-                case 4:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getTelephone()); break;
-                case 5:sql = "";st = conn.prepareStatement(sql);st.setString(1,users.getEmail()); break;
+                case 1:{
+                    sql ="update users set username = ? where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,users.getUsername()); break;
+                }
+                case 2:{
+                    sql = "update users set password = MD5(?) where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,users.getPassword()); break;
+                }
+                case 3:{
+                    sql = "update users set sex = ? where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,users.getSex()); break;
+                }
+                case 4:{
+                    sql = "update users set telephone = ? where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,users.getTelephone()); break;
+                }
+                case 5:{
+                    sql = "update users set email = ? where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,users.getEmail()); break;
+                }
                 default:
-            }
-
+                }
+            st.setInt(2,users.getId());
             int i = st.executeUpdate();
             if(i>0){
                 System.out.println("修改成功！");
@@ -40,7 +64,9 @@ public class Update implements UpdateImp{
 
 
     /**
-     *  5是修改文档的删除状态 deleteStatus
+     * 该方法用于修改文档信息，通过传入int flag(1,2,3,4,5)
+     * 分辨更改哪个信息，提高代码复用性
+     *  5是修改文档的删除状态 deleteStatus，用于复原7天内删除的文档
      * @param article
      * @param flag
      */
@@ -93,6 +119,11 @@ public class Update implements UpdateImp{
         }
     }
 
+    /**
+     * 将作者回复的评论加入到原来的评论中
+     * @param comment
+     * @param id
+     */
     @Override
     public void updateComment(String comment,Integer id) {
         Connection conn = null;
@@ -116,11 +147,11 @@ public class Update implements UpdateImp{
         }
     }
 
-    @Override
-    public void updateFavorite(Favorite favorite) {
-
-    }
-
+    /**
+     * 在团队中管理员修改成员权限
+     * @param team
+     * @param permission
+     */
     @Override
     public void updatePermission(Team team, int permission) {
         Connection conn = null;
@@ -144,6 +175,11 @@ public class Update implements UpdateImp{
         }
     }
 
+    /**
+     * 更新文档的点赞、收藏、评论数
+     * @param article
+     * @param flag
+     */
     @Override
     public void updateInformation(Article article,int flag) {
         Connection conn = null;

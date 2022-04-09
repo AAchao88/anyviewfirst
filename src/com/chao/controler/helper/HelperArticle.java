@@ -6,8 +6,13 @@ import java.io.*;
 import java.util.Date;
 import java.util.Scanner;
 
-public class HelperArticle {
+public class HelperArticle implements HelperArticleImp{
 
+    /**
+     * 新建文档时，输入文本
+     * @return
+     */
+    @Override
     public String helperWrite(){
         //使用 BufferedReader 在控制台读取字符
         // 使用 System.in 创建 BufferedReader
@@ -59,6 +64,7 @@ public class HelperArticle {
      * @param flag
      * @return
      */
+    @Override
     public String helperEdit(String original,int flag){
         StringBuilder sb = new StringBuilder();
         sb.append(original);
@@ -106,6 +112,11 @@ public class HelperArticle {
         }
     }
 
+    /**
+     * 用于打印文档的有关信息
+     * @param article
+     */
+    @Override
     public void printInformation(Article article){
         System.out.println("文档当前的点赞数为："+article.getLike());
         System.out.println("文档当前的收藏数为："+article.getFavorite());
@@ -117,6 +128,11 @@ public class HelperArticle {
         }
     }
 
+    /**
+     * 把文档导出到本地
+     * @param article
+     */
+    @Override
     public void exportLocal(Article article){
         Scanner scanner = new Scanner(System.in);
         FileWriter fw = null;
@@ -146,6 +162,13 @@ public class HelperArticle {
         }
     }
 
+    /**
+     * 计算删除的文档是否已经超过7天
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
     public Long computationDayTime(Date startTime, Date endTime) {
         final long ND = 86400000;
         try {

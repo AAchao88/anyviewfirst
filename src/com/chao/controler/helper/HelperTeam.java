@@ -14,11 +14,9 @@ public class HelperTeam {
 
     public void joinedTeam(Users users, Integer kb_id,int permission) {
         Select select = new Select();
-        //Menu menu = new Menu();
+        HelperComment helperComment = new HelperComment();
         Verify verify = new Verify();
         Update update = new Update();
-        //Delete delete = new Delete();
-       // Scanner scanner = new Scanner(System.in);
         HelperArticle helperArticle = new HelperArticle();
         LinkedList<Article> listArticle = select.selectArticle(kb_id);
         int i = 0;
@@ -40,10 +38,13 @@ public class HelperTeam {
                 helperArticle.printInformation(listArticle.get(serialNum));
                 break;
             case 2:
-                listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent()));
+                listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
                 break;
-            case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent()));
+            case 3: {
+                listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
+                helperComment.replyComment(listArticle.get(serialNum));
                 break;
+            }
             //加评论
             default:
         }

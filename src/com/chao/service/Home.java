@@ -1,9 +1,6 @@
 package com.chao.service;
 
-import com.chao.controler.helper.HelperArticle;
-import com.chao.controler.helper.HelperSquare;
-import com.chao.controler.helper.HelperTeam;
-import com.chao.controler.helper.IvCodeGenerator;
+import com.chao.controler.helper.*;
 import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Delete;
@@ -131,24 +128,26 @@ public class Home implements HomeImp {
                 listMaTeam = select.selectManageTeam(users);
                 int i = 0;
                 if(listMaTeam.isEmpty() == true){
+                    System.out.println("您尚未创建过团队！");
                     break;
                 }
-                for(i = 0;!listMaTeam.isEmpty();i++){
+                for(i = 0;listMaTeam.size()>i;i++){
                     System.out.println((i+1)+"."+listMaTeam.get(i).getTeam_name());
                 }
                 System.out.println("请输入序号选择团队：");
                 int serialNum = verify.menuItemVerify(1,i);
 
                 menu.menuManagedTeam();
-                int flag = verify.menuItemVerify(1,3);
+                int flag = verify.menuItemVerify(1,4);
 
                 switch (flag){
                     case 1:{
                         LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(i-1));
                         if(listMembers.isEmpty() == true){
+                            System.out.println("尚未创建协作知识库！");
                             break;
                         }
-                        for(i = 0;!listMembers.isEmpty();i++){
+                        for(i = 0;listMembers.size()>i;i++){
                             System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
                         }
                         System.out.println("请输入序号选择协作知识库：");
@@ -157,12 +156,17 @@ public class Home implements HomeImp {
                         break;
                     }
                     case 2:{
-                        helperTeam.modifyPermission(listMaTeam.get(serialNum));break;
+                        helperTeam.modifyPermission(listMaTeam.get(serialNum));
+                        break;
                     }
                     case 3:{
                         menu.menuInviteMembers();
                         int permission = verify.menuItemVerify(1,3);
                         select.selectCode(listMaTeam.get(serialNum),permission);
+                        break;
+                    }
+                    case 4:{
+                        insert.insertKnowledgebaseInTeam(create_knowledge_base(users,2),listMaTeam.get(serialNum));
                         break;
                     }
                     default:
@@ -176,7 +180,7 @@ public class Home implements HomeImp {
                 if(listJoTeam.isEmpty() == true){
                     break;
                 }
-                for(i = 0;!listJoTeam.isEmpty();i++){
+                for(i = 0;listJoTeam.size()>i;i++){
                     System.out.println((i+1)+"."+listJoTeam.get(i).getTeam_name());
                 }
                 System.out.println("请输入序号选择团队：");
@@ -188,7 +192,7 @@ public class Home implements HomeImp {
                 if(listMembers.isEmpty() == true){
                     break;
                 }
-                for(i = 0;!listMembers.isEmpty();i++){
+                for(i = 0;listMembers.size()>i;i++){
                     System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
                 }
                 System.out.println("请输入序号选择协作知识库：");
@@ -223,7 +227,7 @@ public class Home implements HomeImp {
         HelperSquare helperSquare = new HelperSquare();
         LinkedList<Article> listFavorite = select.selectFavorite(users);
         int i = 0;
-        for(i = 0;!listFavorite.isEmpty();i++){
+        for(i = 0;listFavorite.size()>i;i++){
             System.out.println((i+1)+"."+listFavorite.get(i).getTitle());
             System.out.println("\t\t标签-->"+listFavorite.get(i).getTag());
             i++;
@@ -260,27 +264,24 @@ public class Home implements HomeImp {
         Verify verify = new Verify();
         Scanner scanner = new Scanner(System.in);
         KnowledgeBase knowledgeBase = new KnowledgeBase();
-        LinkedList<String > storeKnowledgeName =  new LinkedList<>();
-        storeKnowledgeName = select.selectKnowledgeBase(users.getId(),item);
-        if(storeKnowledgeName == null){
-            return;
-        }
-//        if(item == 5){
-//
-//        }
-        int i = 0;
-        for(i=0;!storeKnowledgeName.isEmpty();i++){
-            System.out.println((i+1)+"."+storeKnowledgeName.get(i));
-        }
-        System.out.println("请正确输入想进入的知识库的序号：");
-        int serialNumber = verify.menuItemVerify(1,i);
-        knowledgeBase.setId(select.selectIdByName(storeKnowledgeName.get(serialNumber-1)));
-        System.out.println("1.新建文章     2.编辑已有文章  ");
-        if(verify.menuItemVerify(1,2) == 1){
-            newArticle(users,knowledgeBase);
-        }else {
-            editArticle(users,knowledgeBase.getId());
-        }
+            LinkedList<String > storeKnowledgeName =  new LinkedList<>();
+            storeKnowledgeName = select.selectKnowledgeBase(users.getId(),item);
+            if(storeKnowledgeName.isEmpty()){
+                return;
+            }
+            int i = 0;
+            for(i=0;storeKnowledgeName.size()>i;i++){
+                System.out.println((i+1)+"."+storeKnowledgeName.get(i));
+            }
+            System.out.println("请正确输入想进入的知识库的序号：");
+            int serialNumber = verify.menuItemVerify(1,i);
+            knowledgeBase.setId(select.selectIdByName(storeKnowledgeName.get(serialNumber-1)));
+            System.out.println("1.新建文章     2.编辑已有文章  ");
+            if(verify.menuItemVerify(1,2) == 1){
+                newArticle(users,knowledgeBase);
+            }else {
+                editArticle(users,knowledgeBase.getId());
+            }
     }
 
     @Override
@@ -292,6 +293,7 @@ public class Home implements HomeImp {
         Delete delete = new Delete();
         Scanner scanner = new Scanner(System.in);
         HelperArticle helperArticle = new HelperArticle();
+        HelperComment helperComment = new HelperComment();
         LinkedList<Article> listArticle = select.selectArticle(kb_id);
         int i = 0;
         //循环因子
@@ -330,15 +332,7 @@ public class Home implements HomeImp {
             case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
                     break;
             case 4:{
-                LinkedList<String> listComment = select.selectComment(listArticle.get(serialNum));
-                int k = 0;
-                for(k = 0;!listComment.isEmpty();k++){
-                    System.out.println((k+1)+"."+listComment.get(k));
-                }
-                System.out.println("请输入序号选择评论：");
-                int serial = verify.menuItemVerify(1,k);
-                String comment = helperArticle.helperEdit(listComment.get(serial-1),2);
-                update.updateComment(comment,listArticle.get(serialNum).getId());
+               helperComment.replyComment(listArticle.get(serialNum));
 
             }
             case 5:helperArticle.printInformation(listArticle.get(serialNum));break;
@@ -359,10 +353,12 @@ public class Home implements HomeImp {
      *   联系数据库
      */
     @Override
-    public void create_knowledge_base(Users users) {
+    public KnowledgeBase create_knowledge_base(Users users,int flag) {
         KnowledgeBase knowledgeBase = new KnowledgeBase();
         Scanner scanner = new Scanner(System.in);
         Insert insert = new Insert();
+        Verify verify = new Verify();
+        Select select = new Select();
 
         knowledgeBase.setCreate_user_id(users.getId());
         System.out.println("请输入知识库的名称：\t（注意不超过20个字）");
@@ -371,25 +367,22 @@ public class Home implements HomeImp {
         System.out.println("请输入知识库的标签：\t（注意不超过30个字）");
         String inputTag = scanner.nextLine();
         knowledgeBase.setTag(inputTag);
-
-        System.out.println("请输入数字选择知识库的类别：");
-        System.out.println("1.个人知识库     2.协作知识库   ");
-        String regex1 = "[1]{1}";
-        String regex2 = "[2]{1}";
-        while(true){
-            String input = scanner.nextLine();
-            if(input.matches(regex1)){
-                knowledgeBase.setCategory("个人知识库");break;
+        if(flag == 1){
+            System.out.println("请输入数字选择知识库的类别：");
+            System.out.println("1.个人知识库     2.协作知识库   ");
+            int judge = verify.menuItemVerify(1,2);
+            if(judge == 1){
+                knowledgeBase.setCategory("个人知识库");
+            }else {
+                knowledgeBase.setCategory("协作知识库");
             }
-            if(input.matches(regex2)){
-                knowledgeBase.setCategory("协作知识库");break;
-            }
-            System.out.println("输入有误，请重新输入。");
+        }else {
+            knowledgeBase.setCategory("协作知识库");
         }
-
         knowledgeBase.setCreate_time(new Date(System.currentTimeMillis()));
         insert.insertKnowledgeBase(knowledgeBase);
-        return;
+
+        return knowledgeBase;
     }
 
 
@@ -407,7 +400,7 @@ public class Home implements HomeImp {
         Long now = System.currentTimeMillis();
         Date nowTime = new Date(now);
         //获取当前时间
-        for(i = 0,j=0; !listRecycleBin.isEmpty();i++){
+        for(i = 0,j=0; listRecycleBin.size()>i;i++){
             if(helperArticle.computationDayTime(listRecycleBin.get(i).getDeleteTime(),nowTime) <= 7){
                 listRecovery.add(listRecycleBin.get(i));
                 j++;
@@ -419,8 +412,6 @@ public class Home implements HomeImp {
         System.out.println("请输入要复原的文档的序号：");
         int serialNumber = verify.menuItemVerify(1,j);
         update.updateArticle(listRecovery.get(serialNumber-1),5);
-
-
 
     }
 
@@ -442,9 +433,9 @@ public class Home implements HomeImp {
         article.setTag(inputTag);
 
         article.setContent(helperArticle.helperWrite());
-        System.out.println("1.共享文档    2.非共享文档    3.暂不设置");
-        System.out.println("请输入数字设置对文章共享的管理：");
-        article.setShared(verify.menuItemVerify(1,3));
+        System.out.println("1.共享文档    2.非共享文档    ");
+        System.out.println("请输入数字设置对文章共享的管理：（共享文档即可在广场中找到的文档）");
+        article.setShared(verify.menuItemVerify(1,2));
         article.setCreate_time(new Date(System.currentTimeMillis()));
         insert.insertArticle(article);
     }

@@ -86,7 +86,7 @@ public class Article {
         this.author_id = author_id;
     }
 
-    public java.sql.Date getCreate_time() {
+    public Date getCreate_time() {
         return create_time;
     }
 

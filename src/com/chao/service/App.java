@@ -58,7 +58,7 @@ public class App {
                 case 3:home.team(users);break;
                 case 4:home.favorite(users);break;
                 case 5:home.Knowledge_base(users,item);break;
-                case 6:home.create_knowledge_base(users);break;
+                case 6:home.create_knowledge_base(users,1);break;
                 case 7:home.Knowledge_base(users,item);break;
                 case 8:home.recycleBin(users);break;
                 case 9:System.exit(0);break;

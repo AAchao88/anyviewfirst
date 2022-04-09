@@ -59,7 +59,7 @@ public interface HomeImp {
      *   要求输入知识库的信息（分类为个人还是协作，name,tag,）
      *   联系数据库
      */
-     void create_knowledge_base(Users users);
+     KnowledgeBase create_knowledge_base(Users users,int flag);
 
     /**
      *   协作知识库

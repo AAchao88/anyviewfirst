@@ -2,8 +2,6 @@ package com.chao.dao;
 
 import com.chao.controler.verify.Verify;
 import com.chao.po.Article;
-import com.chao.po.Comment;
-import com.chao.po.Users;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -12,11 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Delete implements DeleteImp{
-    @Override
-    public void deleteUsers(Users users) {
 
-    }
-
+    /**
+     * 假性删除文档，
+     * 即7天内可在回收站复原
+     * @param article
+     */
     @Override
     public void deleteArticleFake(Article article) {
         Verify verify = new Verify();
@@ -49,6 +48,11 @@ public class Delete implements DeleteImp{
         }
     }
 
+    /**
+     * 真正删除文档，不可复原
+     * 该方法在回收站中被调用
+     * @param article
+     */
     @Override
     public void deleteArticleTrue(Article article) {
         Connection conn = null;
@@ -71,12 +75,10 @@ public class Delete implements DeleteImp{
         }
     }
 
-
-    @Override
-    public void deleteComment(Comment comment) {
-
-    }
-
+    /**
+     * 删除收藏的文档
+     * @param article
+     */
     @Override
     public void deleteFavorite(Article article) {
         Verify verify = new Verify();

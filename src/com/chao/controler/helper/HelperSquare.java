@@ -19,7 +19,7 @@ public class HelperSquare {
 
         LinkedList<Article> listShared = select.selectSharedArticle();
         int i = 0;
-        for(i = 0;!listShared.isEmpty();i++){
+        for(i = 0;listShared.size()>i;i++){
             System.out.println((i+1)+"."+listShared.get(i).getTitle());
             System.out.println("\t\t标签-->"+listShared.get(i).getTag());
             i++;

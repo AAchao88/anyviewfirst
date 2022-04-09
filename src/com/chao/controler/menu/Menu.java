@@ -25,14 +25,14 @@ public class Menu {
 
         }
 
-        public void menuHomeTourist(){
-            System.out.println("----------------------欢迎进入广场-----------------------");
-//            System.out.println("-                        1.登录                          -");
-//            System.out.println("-                        2.注册                          -");
-//            System.out.println("-                        3.游客身份进入                   -");
-//            System.out.println("-                        4.退出                          -");
-            System.out.println("----------------------------------------------------------");
-        }
+//        public void menuHomeTourist(){
+//            System.out.println("----------------------欢迎进入广场-----------------------");
+////            System.out.println("-                        1.登录                          -");
+////            System.out.println("-                        2.注册                          -");
+////            System.out.println("-                        3.游客身份进入                   -");
+////            System.out.println("-                        4.退出                          -");
+//            System.out.println("----------------------------------------------------------");
+//        }
 
         public void menuModifyMine(){
 
@@ -55,8 +55,6 @@ public class Menu {
             System.out.println("        5.显示文档的相关信息（点赞数、收藏数、评论数、修改时间等）");
             System.out.println("        6.导出文档到本地");
             System.out.println("        7.删除文档");
-            //System.out.println("        1.修改文章题目");
-            //System.out.println("        1.修改文章题目");
         }
 
         public void menuTeam1(){
@@ -70,7 +68,7 @@ public class Menu {
             System.out.println("1.查看协作知识库");
             System.out.println("2.管理成员");
             System.out.println("3.邀请成员");
-          //  System.out.println("4.加入团队");
+            System.out.println("4.新建协作知识库");
         }
 
         public void menuModifyPermission(){

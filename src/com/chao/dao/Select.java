@@ -1,6 +1,9 @@
 package com.chao.dao;
 
-import com.chao.po.*;
+import com.chao.po.Article;
+import com.chao.po.Member;
+import com.chao.po.Team;
+import com.chao.po.Users;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -10,6 +13,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class Select implements SelectImp{
+
+    private Boolean returnValue1 = true;
+    private Integer returnValue2;
+
     /**
      * flag变量用来判断查询的内容，实现一个方法完成多个功能，
      *      1代表通过用户id查询user表的一整行数据，即一个用户的全部信息，用于查看个人信息
@@ -20,8 +27,6 @@ public class Select implements SelectImp{
      * @param flag
      * @return
      */
-    private Boolean returnValue1;
-    private Integer returnValue2;
     @Override
     public <T>Boolean selectUsers(T input,int flag,Users users) {
         Connection conn = null;
@@ -30,7 +35,7 @@ public class Select implements SelectImp{
 
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = null;
+            String sql = "";
             switch(flag){
                 case 1:sql = "select * from users where id = ?";
                         st = conn.prepareStatement(sql);
@@ -42,33 +47,30 @@ public class Select implements SelectImp{
                         break;
                 case 3:sql = "select * from users where username  = ? ";st = conn.prepareStatement(sql);
                     st.setObject(1,input);break;
-                case 4:sql = "select `password` from users where username = ?";
+                case 4:sql = "select `password` from users where username = ?and password = MD5(?)";
                                 st = conn.prepareStatement(sql);
                                 st.setObject(1,users.getUsername());
+                                st.setObject(2,input);
                                 break;
                 default:
             }
            rs = st.executeQuery();
            if(rs.next()){
-               //System.out.println(rs.getString("name"));
                switch(flag){
-                   case 1:
-                       System.out.println("您的用户id是："+rs.getInt("id"));
+                   case 1:{
+                       System.out.println("您的用户id是："+String.format("%08d",rs.getInt("id")));
                        System.out.println("您的用户名是："+rs.getString("username"));
                        System.out.println("您的性别是："+rs.getString("sex"));
                        System.out.println("您的联系电话是："+rs.getString("telephone"));
                        System.out.println("您的电子邮箱是："+rs.getString("email"));
-                       returnValue1 = true;break;
-                   case 2:users.setId(rs.getInt("id"));
                        returnValue1 = true; break;
-                   case 3:returnValue1 = true;break;
-                   case 4:if(input.equals(rs.getString("passoword"))){
-                       returnValue1 = true;
-                       break;
-                   }else{
-                       returnValue1 = false;
-                       break;
                    }
+                   case 2:{
+                       users.setId(rs.getInt("id"));
+                       returnValue1 = true; break;
+                   }
+                   case 3:returnValue1 = true;  break;
+                   case 4: returnValue1 = true; break;
                    default:
                }
            }else{
@@ -76,13 +78,18 @@ public class Select implements SelectImp{
                returnValue1 = false;
            }
         }catch (SQLException e){
-            e.printStackTrace();
+           // e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
             return returnValue1;
         }
     }
 
+    /**
+     * 查询文档信息
+     * @param id
+     * @return
+     */
     @Override
     public LinkedList<Article> selectArticle(Integer id) {
         LinkedList<Article> listArticle = new LinkedList<>();
@@ -123,6 +130,12 @@ public class Select implements SelectImp{
 
     }
 
+    /**
+     * 查询所有假性删除的文档，
+     * 返回给回收站，回收站将删除时间判断是否超过7天
+     * @param users
+     * @return
+     */
     @Override
     public LinkedList<Article> selectRecycleBin(Users users) {
         LinkedList<Article> listArticle = new LinkedList<>();
@@ -153,6 +166,11 @@ public class Select implements SelectImp{
 
     }
 
+    /**
+     * 查询文档的所有评论
+     * @param article
+     * @return
+     */
     @Override
     public LinkedList<String > selectComment(Article article) {
         LinkedList<String> listComment = new LinkedList<>();
@@ -179,6 +197,11 @@ public class Select implements SelectImp{
 
     }
 
+    /**
+     * 查询收藏的文档
+     * @param users
+     * @return
+     */
     @Override
     public LinkedList<Article> selectFavorite(Users users) {
         Connection conn = null;
@@ -210,7 +233,13 @@ public class Select implements SelectImp{
         }
     }
 
-
+    /**
+     * 查询知识库，这里的item与home首页方法中的item一致
+     * 用于判断查询个人知识库还是协作知识库
+     * @param id
+     * @param item
+     * @return
+     */
     @Override
     public LinkedList<String > selectKnowledgeBase(int id,int item) {
         Connection conn = null;
@@ -250,6 +279,11 @@ public class Select implements SelectImp{
 
     }
 
+    /**
+     *通过id查询name
+     * @param name
+     * @return
+     */
     @Override
     public Integer selectIdByName(String name) {
         Connection conn = null;
@@ -277,6 +311,11 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 查询用户所有创建的团队（即管理的团队）
+     * @param users
+     * @return
+     */
     @Override
     public LinkedList<Team> selectManageTeam(Users users) {
         Connection conn = null;
@@ -309,6 +348,11 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 查询用户加入的所有团队
+     * @param users
+     * @return
+     */
     @Override
     public LinkedList<Team> selectJoinTeam(Users users) {
         Connection conn = null;
@@ -341,6 +385,11 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 在团队中查询所有的成员（不包括管理员）
+     * @param team
+     * @return
+     */
     @Override
     public LinkedList<Member> selectMember(Team team) {
         Connection conn = null;
@@ -370,6 +419,12 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 查询用户在团队中的权限
+     * @param team
+     * @param users
+     * @return
+     */
     @Override
     public int selectPermission(Team team, Users users) {
         Connection conn = null;
@@ -388,7 +443,6 @@ public class Select implements SelectImp{
             if(rs.next()){
                     permission = rs.getInt("member_permission");
             }
-
         }catch (SQLException e){
            // System.out.println("您的团队暂无协作知识库！");
             e.printStackTrace();
@@ -398,22 +452,23 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 查询文档的标题和内容，用于广场
+     * @param article
+     * @return
+     */
     @Override
     public Article selectArticleContent(Article article) {
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
         Article article1 = new Article();
-        // LinkedList<Member> listMember = new LinkedList<>();
-       // int permission = 1;
         try{
             conn = JdbcUtils_DBCP.getConnection();
 
             String sql = "select content,title from article where id = ? ";
             st = conn.prepareStatement(sql);
             st.setInt(1,article.getId());
-
-         //   st.setInt(2,users.getId());
             rs = st.executeQuery();
             if(rs.next()){
                 article1.setContent(rs.getString("content"));
@@ -429,6 +484,12 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 新建团队时生成邀请码
+     * @param input
+     * @param users
+     * @return
+     */
     @Override
     public Member selectIvCode(String input,Users users) {
         Connection conn = null;
@@ -471,6 +532,12 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 管理员获取相应邀请码
+     * @param team
+     * @param permission
+     * @return
+     */
     @Override
     public String selectCode(Team team,int permission) {
         Connection conn = null;
@@ -494,7 +561,7 @@ public class Select implements SelectImp{
             }
 
         }catch (SQLException e){
-            System.out.println("邀请码错误！");
+            System.out.println("错误！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
@@ -502,6 +569,10 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 查询共享文档，并按点赞数降序输出
+     * @return
+     */
     @Override
     public LinkedList<Article> selectSharedArticle() {
         Connection conn = null;
@@ -531,6 +602,14 @@ public class Select implements SelectImp{
         }
     }
 
+    /**
+     * 用于判断用户对某文档已经点赞或收藏过
+     * 避免重复点赞
+     * @param users
+     * @param article
+     * @param flag
+     * @return
+     */
     @Override
     public Boolean selectRepeat(Users users, Article article,int flag) {
         Connection conn = null;
