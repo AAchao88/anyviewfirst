@@ -178,6 +178,7 @@ public class Home implements HomeImp {
                 listJoTeam = select.selectJoinTeam(users);
                 int i = 0;
                 if(listJoTeam.isEmpty() == true){
+                    System.out.println("尚未加入团队，请先加入团队！");
                     break;
                 }
                 for(i = 0;listJoTeam.size()>i;i++){
@@ -190,6 +191,7 @@ public class Home implements HomeImp {
                 int permission = select.selectPermission(listJoTeam.get(i-1),users);
                 //获取用户关于选定团队的权限
                 if(listMembers.isEmpty() == true){
+                    System.out.println("团队还没有成员，请先邀请成员！");
                     break;
                 }
                 for(i = 0;listMembers.size()>i;i++){
@@ -207,6 +209,7 @@ public class Home implements HomeImp {
                 String code = scanner.nextLine();
                 Member member = select.selectIvCode(code,users);
                 if(member == null){
+                    System.out.println("邀请码错误！");
                     break;
                 }else {
                     insert.insertJoinTeam(member);
@@ -226,13 +229,16 @@ public class Home implements HomeImp {
         Delete delete = new Delete();
         HelperSquare helperSquare = new HelperSquare();
         LinkedList<Article> listFavorite = select.selectFavorite(users);
+        if(listFavorite.isEmpty()){
+            System.out.println("尚未收藏过文档，请先收藏文档！");
+            return;
+        }
         int i = 0;
         for(i = 0;listFavorite.size()>i;i++){
             System.out.println((i+1)+"."+listFavorite.get(i).getTitle());
             System.out.println("\t\t标签-->"+listFavorite.get(i).getTag());
             i++;
         }
-
         System.out.println("请输入序号选择要查看的文档：");
         int serialNum = verify.menuItemVerify(1,i);
         System.out.println("1.查看文档\n2.删除文档\n3.返回");
@@ -267,6 +273,7 @@ public class Home implements HomeImp {
             LinkedList<String > storeKnowledgeName =  new LinkedList<>();
             storeKnowledgeName = select.selectKnowledgeBase(users.getId(),item);
             if(storeKnowledgeName.isEmpty()){
+                System.out.println("暂无知识库，请先创建知识库！");
                 return;
             }
             int i = 0;
@@ -295,6 +302,10 @@ public class Home implements HomeImp {
         HelperArticle helperArticle = new HelperArticle();
         HelperComment helperComment = new HelperComment();
         LinkedList<Article> listArticle = select.selectArticle(kb_id);
+        if(listArticle.isEmpty()){
+            System.out.println("没有文档，请先新建文档！");
+            return;
+        }
         int i = 0;
         //循环因子
         for(Article article: listArticle){
@@ -395,6 +406,10 @@ public class Home implements HomeImp {
         HelperArticle helperArticle = new HelperArticle();
         LinkedList<Article> listRecycleBin = select.selectRecycleBin(users);
         LinkedList<Article> listRecovery = new LinkedList<>();
+        if (listRecycleBin.isEmpty()){
+            System.out.println("没有删除过的文档！");
+            return;
+        }
         int i = 0,j=0;
         //循环因子
         Long now = System.currentTimeMillis();

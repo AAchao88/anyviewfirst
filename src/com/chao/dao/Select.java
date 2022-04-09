@@ -35,23 +35,33 @@ public class Select implements SelectImp{
 
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = "";
+            String sql = null;
             switch(flag){
-                case 1:sql = "select * from users where id = ?";
-                        st = conn.prepareStatement(sql);
-                        st.setObject(1, input);
-                        break;
-                case 2:sql = "select `id` from users where username = ?";
-                        st = conn.prepareStatement(sql);
-                        st.setObject(1,input);
-                        break;
-                case 3:sql = "select * from users where username  = ? ";st = conn.prepareStatement(sql);
-                    st.setObject(1,input);break;
-                case 4:sql = "select `password` from users where username = ?and password = MD5(?)";
-                                st = conn.prepareStatement(sql);
-                                st.setObject(1,users.getUsername());
-                                st.setObject(2,input);
-                                break;
+                case 1:{
+                    sql = "select * from users where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setObject(1, input);
+                    break;
+                }
+                case 2:{
+                    sql = "select `id` from users where username = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setObject(1,input);
+                    break;
+                }
+                case 3:{
+                    sql = "select * from users where username  = ? ";
+                    st = conn.prepareStatement(sql);
+                    st.setObject(1,input);
+                    break;
+                }
+                case 4:{
+                    sql = "select `password` from users where username = ?and password = MD5(?)";
+                    st = conn.prepareStatement(sql);
+                    st.setObject(1,users.getUsername());
+                    st.setObject(2,input);
+                    break;
+                }
                 default:
             }
            rs = st.executeQuery();
@@ -69,8 +79,14 @@ public class Select implements SelectImp{
                        users.setId(rs.getInt("id"));
                        returnValue1 = true; break;
                    }
-                   case 3:returnValue1 = true;  break;
-                   case 4: returnValue1 = true; break;
+                   case 3:{
+                       returnValue1 = true;
+                       break;
+                   }
+                   case 4: {
+                       returnValue1 = true;
+                       break;
+                   }
                    default:
                }
            }else{
@@ -78,7 +94,7 @@ public class Select implements SelectImp{
                returnValue1 = false;
            }
         }catch (SQLException e){
-           // e.printStackTrace();
+            e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
             return returnValue1;
@@ -210,8 +226,7 @@ public class Select implements SelectImp{
         LinkedList<Article> listFavorite = new LinkedList<>();
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = "select * from favorite f inner join article a on a.id = f.article_id " +
-                    "where f.create_user_id = ? ";
+            String sql = "select * from favorite AS f inner join article AS a ON a.id = f.article_id where f.user_id = ? ";
             st = conn.prepareStatement(sql);
             st.setInt(1,users.getId());
             rs = st.executeQuery();
@@ -485,7 +500,8 @@ public class Select implements SelectImp{
     }
 
     /**
-     * 新建团队时生成邀请码
+     * 加入团队时返回一个member对象，
+     * 用来验证邀请码是否正确
      * @param input
      * @param users
      * @return
@@ -495,7 +511,7 @@ public class Select implements SelectImp{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
-        Member member = new Member();
+        Member member = null;
         try{
             conn = JdbcUtils_DBCP.getConnection();
 
@@ -524,7 +540,6 @@ public class Select implements SelectImp{
             }
 
         }catch (SQLException e){
-            System.out.println("邀请码错误！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);

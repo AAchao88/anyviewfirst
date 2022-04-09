@@ -18,6 +18,10 @@ public class HelperSquare {
         Verify verify = new Verify();
 
         LinkedList<Article> listShared = select.selectSharedArticle();
+        if(listShared.isEmpty()){
+            System.out.println("暂无共享文档！");
+            return null;
+        }
         int i = 0;
         for(i = 0;listShared.size()>i;i++){
             System.out.println((i+1)+"."+listShared.get(i).getTitle());
