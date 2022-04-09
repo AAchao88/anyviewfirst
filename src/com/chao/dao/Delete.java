@@ -14,7 +14,6 @@ public class Delete implements DeleteImp{
     /**
      * 假性删除文档，
      * 即7天内可在回收站复原
-     * @param article
      */
     @Override
     public void deleteArticleFake(Article article) {
@@ -51,7 +50,6 @@ public class Delete implements DeleteImp{
     /**
      * 真正删除文档，不可复原
      * 该方法在回收站中被调用
-     * @param article
      */
     @Override
     public void deleteArticleTrue(Article article) {
@@ -77,7 +75,6 @@ public class Delete implements DeleteImp{
 
     /**
      * 删除收藏的文档
-     * @param article
      */
     @Override
     public void deleteFavorite(Article article) {

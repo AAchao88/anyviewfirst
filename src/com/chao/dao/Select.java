@@ -97,8 +97,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return returnValue1;
         }
+        return returnValue1;
     }
 
     /**
@@ -140,9 +140,8 @@ public class Select implements SelectImp{
           e.printStackTrace();
       }finally{
           JdbcUtils_DBCP.release(conn,st,rs);
-          return listArticle;
       }
-
+        return listArticle;
 
     }
 
@@ -177,9 +176,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listArticle;
         }
-
+        return listArticle;
     }
 
     /**
@@ -208,9 +206,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listComment;
         }
-
+        return listComment;
     }
 
     /**
@@ -244,8 +241,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listFavorite;
         }
+        return listFavorite;
     }
 
     /**
@@ -289,9 +286,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listKnowledgeBase;
         }
-
+        return listKnowledgeBase;
     }
 
     /**
@@ -322,8 +318,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return returnValue2;
         }
+        return returnValue2;
     }
 
     /**
@@ -359,8 +355,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listTeam;
         }
+        return listTeam;
     }
 
     /**
@@ -396,8 +392,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listTeam;
         }
+        return listTeam;
     }
 
     /**
@@ -430,8 +426,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return listMember;
         }
+        return listMember;
     }
 
     /**
@@ -463,8 +459,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return permission;
         }
+        return permission;
     }
 
     /**
@@ -495,8 +491,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return article1;
         }
+        return article1;
     }
 
     /**
@@ -543,8 +539,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return member;
         }
+        return member;
     }
 
     /**
@@ -580,8 +576,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
-            return returnValue;
         }
+        return returnValue;
     }
 
     /**
@@ -613,8 +609,8 @@ public class Select implements SelectImp{
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, rs);
-            return list;
         }
+        return list;
     }
 
     /**
@@ -633,7 +629,7 @@ public class Select implements SelectImp{
         Boolean returnValue = true;
         try {
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = null;
+            String sql ;
             if(flag == 1){
                 sql = "select id from like where create_user_id = ? and article_id = ?";
             }else {
@@ -652,7 +648,7 @@ public class Select implements SelectImp{
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, rs);
-            return returnValue;
         }
+        return returnValue;
     }
 }

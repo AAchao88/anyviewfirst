@@ -115,7 +115,6 @@ public class Update implements UpdateImp{
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,null);
-            return;
         }
     }
 
@@ -189,19 +188,19 @@ public class Update implements UpdateImp{
             String sql = null;
             switch (flag){
                 case 1:{
-                    sql =  "update article set like = ? where article_id = ?";
+                    sql =  "update article set like = ? where id = ?";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,article.getLike()+1);
                     break;
                 }
                 case 2:{
-                    sql = "update article set favorite = ? where article_id = ?";
+                    sql = "update article set favorite = ? where id = ?";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,article.getFavorite()+1);
                     break;
                 }
                 case 3:{
-                    sql = "update article set comment = ? where article_id = ?";
+                    sql = "update article set comment = ? where id = ?";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,article.getComment()+1);
                     break;

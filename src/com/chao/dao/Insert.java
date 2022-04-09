@@ -104,7 +104,6 @@ public class Insert implements InsertImp {
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, null);
-            return;
         }
     }
 
@@ -137,7 +136,6 @@ public class Insert implements InsertImp {
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, null);
-            return;
         }
     }
 
@@ -168,7 +166,6 @@ public class Insert implements InsertImp {
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, null);
-            return;
         }
     }
 
@@ -224,7 +221,6 @@ public class Insert implements InsertImp {
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, null);
-            return;
         }
     }
 
@@ -255,7 +251,6 @@ public class Insert implements InsertImp {
             e.printStackTrace();
         } finally {
             JdbcUtils_DBCP.release(conn, st, null);
-            return;
         }
     }
 
