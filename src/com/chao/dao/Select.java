@@ -68,7 +68,7 @@ public class Select implements SelectImp{
            if(rs.next()){
                switch(flag){
                    case 1:{
-                       System.out.println("您的用户id是："+String.format("%08d",rs.getInt("id")));
+                       System.out.println("您的用户id是："+rs.getInt("id"));
                        System.out.println("您的用户名是："+rs.getString("username"));
                        System.out.println("您的性别是："+rs.getString("sex"));
                        System.out.println("您的联系电话是："+rs.getString("telephone"));
@@ -119,21 +119,13 @@ public class Select implements SelectImp{
           st = conn.prepareStatement(sql);
           st.setInt(1,id);
           rs = st.executeQuery();
-          int i =0 ;
           while (rs.next()){
-                listArticle.get(i).setId(rs.getInt("id"));
-                listArticle.get(i).setTitle(rs.getString("title"));
-              listArticle.get(i).setContent(rs.getString("content"));
-              listArticle.get(i).setId(rs.getInt("author_id"));
-              listArticle.get(i).setCreate_time(rs.getDate("create_time"));
-              listArticle.get(i).setUpdate_time(rs.getDate("update_time"));
-              listArticle.get(i).setLike(rs.getInt("like"));
-              listArticle.get(i).setFavorite(rs.getInt("favorite"));
-              listArticle.get(i).setComment(rs.getInt("comment"));
-              listArticle.get(i).setTag(rs.getString("tag"));
-              listArticle.get(i).setKnowledgebase_id(rs.getInt("knowledge_id"));
-              listArticle.get(i).setShared(rs.getInt("shared"));
-              i++;
+               Article article = new Article(rs.getInt("id"),rs.getString("title")
+               ,rs.getString("content"),rs.getDate("create_time"),
+                       rs.getDate("update_time"),rs.getInt("like"),
+                       rs.getInt("favorite"),rs.getInt("comment"),
+                       rs.getString("tag"), rs.getInt("shared"));
+               listArticle.add(article);
           }
       }catch (SQLException e){
           System.out.println("查询失败！");
@@ -164,12 +156,10 @@ public class Select implements SelectImp{
             st = conn.prepareStatement(sql);
             st.setInt(1,users.getId());
             rs = st.executeQuery();
-            int i =0 ;
             while (rs.next()){
-                listArticle.get(i).setId(rs.getInt("id"));
-                listArticle.get(i).setTitle(rs.getString("title"));
-                listArticle.get(i).setDeleteTime(rs.getDate("delete_time"));
-                i++;
+                Article article = new Article(rs.getInt("id"),
+                        rs.getString("title"),rs.getDate("delete_time"));
+                listArticle.add(article);
             }
         }catch (SQLException e){
             System.out.println("查询失败！");
@@ -233,7 +223,7 @@ public class Select implements SelectImp{
                         rs.getString("content"),rs.getDate("create_time"),
                         rs.getDate("update_time"),rs.getInt("like"),
                         rs.getInt("favorite"),rs.getInt("comment"),
-                        rs.getString("tag"));
+                        rs.getString("tag"),rs.getInt("shared"));
                 listFavorite.add(article);
             }
         }catch (SQLException e){
@@ -600,7 +590,7 @@ public class Select implements SelectImp{
                         rs.getString("content"),rs.getDate("create_time"),
                         rs.getDate("update_time"),rs.getInt("like"),
                         rs.getInt("favorite"),rs.getInt("comment"),
-                        rs.getString("tag"));
+                        rs.getString("tag"),rs.getInt("shared"));
                 list.add(article);
             }
 

@@ -42,8 +42,8 @@ public class KnowledgeBase {
         this.create_user_id = create_user_id;
     }
 
-    public java.sql.Date getCreate_time() {
-        return (java.sql.Date) create_time;
+    public Date getCreate_time() {
+        return  create_time;
     }
 
     public void setCreate_time(Date create_time) {

@@ -11,9 +11,9 @@ import com.chao.po.Users;
  */
 public class App {
 
-    //public static Integer userId = null;
-
-    //程序入口
+    /**
+     * 程序入口
+     */
     public static void main(String[] args) {
         App app = new App();
         app.start();

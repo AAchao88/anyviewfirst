@@ -237,7 +237,7 @@ public class Home implements HomeImp {
         for(i = 0;listFavorite.size()>i;i++){
             System.out.println((i+1)+"."+listFavorite.get(i).getTitle());
             System.out.println("\t\t标签-->"+listFavorite.get(i).getTag());
-            i++;
+
         }
         System.out.println("请输入序号选择要查看的文档：");
         int serialNum = verify.menuItemVerify(1,i);
@@ -301,34 +301,23 @@ public class Home implements HomeImp {
         Scanner scanner = new Scanner(System.in);
         HelperArticle helperArticle = new HelperArticle();
         HelperComment helperComment = new HelperComment();
-        LinkedList<Article> listArticle = select.selectArticle(kb_id);
+        HelperSquare helperSquare = new HelperSquare();
+       // LinkedList<Article> listArticle = select.selectArticle(kb_id);
+        LinkedList<Article> listArticle = new LinkedList<>();
+        listArticle.addAll(select.selectArticle(kb_id));
         if(listArticle.isEmpty()){
             System.out.println("没有文档，请先新建文档！");
             return;
         }
         int i = 0;
         //循环因子
-        for(Article article: listArticle){
-            System.out.println((i+1)+"."+article);
-            i++;
+        for(i = 0;listArticle.size()>i;i++){
+            System.out.println((i+1)+"."+listArticle.get(i).getTitle());
+            System.out.println("\t标签："+listArticle.get(i).getTag()+"\n");
         }
-//        System.out.println("请正确输入要编辑的文档的名字或id：");
-//        Boolean judge = true;
-//        //双重循环的判断退出变量
-//        while(judge){
-//            String input = scanner.nextLine();
-//            for(i = 0;!listArticle.isEmpty();i++){
-//                if(input.equals(listArticle.get(i).getTitle()) || Integer.parseInt(input) == listArticle.get(i).getId()){
-//                    judge = false;
-//                    break;
-//                }
-//            }
-//            if(judge == true){
-//                System.out.println("输入有误，请检查并重新输入。");
-//            }
-//        }
+
         System.out.println("请输入序号选择文档：");
-        int serialNum = verify.menuItemVerify(1,i-1);
+        int serialNum = verify.menuItemVerify(1,i);
 
         menu.menuModeifyArticle();
         int flag = verify.menuItemVerify(1,7);
@@ -336,23 +325,26 @@ public class Home implements HomeImp {
             case 1:
                 System.out.println("请输入新的文档标题：");
                 String inputTitle = scanner.nextLine();
-                listArticle.get(serialNum).setTitle(inputTitle);break;
+                listArticle.get(serialNum-1).setTitle(inputTitle);break;
             case 2:System.out.println("请输入新的文档标签：");
                 String inputTag = scanner.nextLine();
-                listArticle.get(serialNum).setTitle(inputTag);break;
-            case 3: listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
+                listArticle.get(serialNum-1).setTitle(inputTag);break;
+            case 3: listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
                     break;
             case 4:{
-               helperComment.replyComment(listArticle.get(serialNum));
+               helperComment.replyComment(listArticle.get(serialNum-1));
 
             }
-            case 5:helperArticle.printInformation(listArticle.get(serialNum));break;
-            case 6:helperArticle.exportLocal(listArticle.get(serialNum));break;
-            case 7:delete.deleteArticleFake(listArticle.get(serialNum));break;
+            case 5:{
+              //  helperArticle.printInformation(listArticle.get(serialNum-1));break;
+                helperSquare.showInformation(listArticle.get(serialNum-1));break;
+            }
+            case 6:helperArticle.exportLocal(listArticle.get(serialNum-1));break;
+            case 7:delete.deleteArticleFake(listArticle.get(serialNum-1));break;
             default:
         }
         if(flag>=1 && flag<=4){
-            update.updateArticle(listArticle.get(serialNum),flag);
+            update.updateArticle(listArticle.get(serialNum-1),flag);
         }
 
     }
@@ -446,7 +438,7 @@ public class Home implements HomeImp {
         System.out.println("请输入文章的标签：\t（注意不超过20个字）");
         String inputTag = scanner.nextLine();
         article.setTag(inputTag);
-
+      //  scanner.close();
         article.setContent(helperArticle.helperWrite());
         System.out.println("1.共享文档    2.非共享文档    ");
         System.out.println("请输入数字设置对文章共享的管理：（共享文档即可在广场中找到的文档）");

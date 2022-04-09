@@ -26,7 +26,6 @@ public class HelperSquare {
         for(i = 0;listShared.size()>i;i++){
             System.out.println((i+1)+"."+listShared.get(i).getTitle());
             System.out.println("\t\t标签-->"+listShared.get(i).getTag());
-            i++;
         }
         System.out.println("请输入序号选择要查看的文档：");
         int serialNum = verify.menuItemVerify(1,i);
@@ -43,8 +42,13 @@ public class HelperSquare {
         System.out.println("\n该文档的点赞数为："+article.getLike());
         System.out.println("该文档的收藏数为："+article.getFavorite());
         System.out.println("该文档的评论数为："+article.getComment());
+        if(article.getShared() == 1){
+            System.out.println("文档当前为：共享文档");
+        }else {
+            System.out.println("文档当前为：非共享文档");
+        }
         System.out.println("该文档的创建时间是："+article.getCreate_time());
-        System.out.println("该文档的最新更改时间是："+article.getUpdate_time());
+        System.out.println("该文档的最新更改时间是："+article.getUpdate_time()+"\n");
 
     }
 

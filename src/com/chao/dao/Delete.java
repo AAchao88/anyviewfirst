@@ -5,7 +5,6 @@ import com.chao.po.Article;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -31,7 +30,7 @@ public class Delete implements DeleteImp{
             st = conn.prepareStatement(sql);
 
             st.setInt(1,1);
-            st.setDate(2,new Date(System.currentTimeMillis()));
+            st.setDate(2,new java.sql.Date(System.currentTimeMillis()));
             st.setInt(3,article.getId());
 
             int i = st.executeUpdate();

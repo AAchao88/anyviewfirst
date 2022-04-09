@@ -42,19 +42,20 @@ public class HelperArticle implements HelperArticleImp{
             }while (true);
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            try{
-                if(br != null){
-                    br.close();
-                }
-                if(ir != null){
-                    ir.close();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return returnValue;
         }
+//        finally {
+//            try{
+//                if(br != null){
+//                    br.close();
+//                }
+//                if(ir != null){
+//                    ir.close();
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+        return returnValue;
     }
 
 
@@ -97,19 +98,20 @@ public class HelperArticle implements HelperArticleImp{
             }while (true);
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            try{
-                if(br != null){
-                    br.close();
-                }
-                if(ir != null){
-                    ir.close();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return returnValue;
         }
+//        finally {
+//            try{
+//                if(br != null){
+//                    br.close();
+//                }
+//                if(ir != null){
+//                    ir.close();
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+        return returnValue;
     }
 
     /**

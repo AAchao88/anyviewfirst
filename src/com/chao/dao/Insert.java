@@ -4,7 +4,6 @@ import com.chao.po.*;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -62,7 +61,7 @@ public class Insert implements InsertImp {
             st.setString(4,article.getTag());
             st.setString(5,article.getContent());
             st.setInt(6,article.getShared());
-            st.setDate(7, (Date) article.getCreate_time());
+            st.setDate(7,new java.sql.Date(article.getCreate_time().getTime()));
             int i = st.executeUpdate();
             if (i > 0) {
                 System.out.println("保存成功！");
@@ -92,7 +91,7 @@ public class Insert implements InsertImp {
             st = conn.prepareStatement(sql);
             st.setString(1,knowledgebase.getKnowledgebase_name());
             st.setInt(2,knowledgebase.getCreate_user_id());
-            st.setDate(3,knowledgebase.getCreate_time());
+            st.setDate(3, new java.sql.Date(knowledgebase.getCreate_time().getTime()));
             st.setString(4,knowledgebase.getTag());
             st.setString(5,knowledgebase.getCategory());
 

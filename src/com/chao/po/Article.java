@@ -150,25 +150,12 @@ public class Article {
         this.shared = shared;
     }
 
-//    public Article(Integer id, String title, String content, Integer author_id, Date create_time, Date update_time, Integer like, Integer favorite, String comment, Integer knowledgebase_id, String tag, Integer shared) {
-//        this.id = id;
-//        this.title = title;
-//        this.content = content;
-//        this.author_id = author_id;
-//        this.create_time = create_time;
-//        this.update_time = update_time;
-//        this.like = like;
-//        this.favorite = favorite;
-//        this.comment = comment;
-//        this.knowledgebase_id = knowledgebase_id;
-//        this.tag = tag;
-//        this.shared = shared;
-//    }
+
 
     public Article() {
     }
 
-    public Article(Integer id, String title, String content, Date create_time, Date update_time, Integer like, Integer favorite, Integer comment,String tag) {
+    public Article(Integer id, String title, String content, Date create_time, Date update_time, Integer like, Integer favorite, Integer comment,String tag,Integer shared) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -178,5 +165,12 @@ public class Article {
         this.favorite = favorite;
         this.comment = comment;
         this.tag = tag;
+        this.shared = shared;
+    }
+
+    public Article(Integer id, String title, Date deleteTime) {
+        this.id = id;
+        this.title = title;
+        this.deleteTime = deleteTime;
     }
 }
