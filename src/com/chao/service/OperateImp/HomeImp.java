@@ -78,7 +78,7 @@ public interface HomeImp {
      */
      void recycleBin(Users users);
 
-     void newArticle(Users users, KnowledgeBase knowledgeBase);
+     void newArticle(Users users, Integer kb_id);
 
     void Knowledge_base(Users users, int item);
 

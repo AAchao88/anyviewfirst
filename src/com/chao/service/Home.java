@@ -156,7 +156,17 @@ public class Home implements HomeImp {
                             }
                             System.out.println("请输入序号选择协作知识库：");
                             int serialNum2 = verify.menuItemVerify(1,i);
-                            editArticle(users,listMembers.get(serialNum2-1).getKnowledgebase_id());
+
+                            System.out.println("1.新建文章   2.编辑已有文章   3.返回");
+                            int judge2 = verify.menuItemVerify(1,3);
+                            if(judge2 == 3){
+                                break;
+                            }
+                            if(judge2 == 1){
+                                newArticle(users,listMembers.get(serialNum2-1).getKnowledgebase_id());
+                            }else {
+                                editArticle(users,listMembers.get(serialNum2-1).getKnowledgebase_id());
+                            }
                             break;
                         }
                         case 2:{
@@ -297,7 +307,7 @@ public class Home implements HomeImp {
                 return;
             }
             if(judge == 1){
-                newArticle(users,knowledgeBase);
+                newArticle(users,knowledgeBase.getId());
             }else {
                 editArticle(users,knowledgeBase.getId());
             }
@@ -418,7 +428,7 @@ public class Home implements HomeImp {
         }
         knowledgeBase.setCreate_time(new Date(System.currentTimeMillis()));
         insert.insertKnowledgeBase(knowledgeBase);
-
+        knowledgeBase.setId(select.selectIdByName(knowledgeBase.getKnowledgebase_name()));
         return knowledgeBase;
     }
 
@@ -457,7 +467,7 @@ public class Home implements HomeImp {
     }
 
     @Override
-    public void newArticle(Users users,KnowledgeBase knowledgeBase) {
+    public void newArticle(Users users,Integer kb_id) {
         Insert insert = new Insert();
         Article article = new Article();
         HelperArticle helperArticle = new HelperArticle();
@@ -465,14 +475,13 @@ public class Home implements HomeImp {
         Verify verify = new Verify();
 
         article.setAuthor_id(users.getId());
-        article.setKnowledgebase_id(knowledgeBase.getId());
+        article.setKnowledgebase_id(kb_id);
         System.out.println("请输入文章的题目：\t（注意不超过30个字）");
         String inputName = scanner.nextLine();
         article.setTitle(inputName);
         System.out.println("请输入文章的标签：\t（注意不超过20个字）");
         String inputTag = scanner.nextLine();
         article.setTag(inputTag);
-      //  scanner.close();
         article.setContent(helperArticle.helperWrite());
         System.out.println("1.共享文档    2.非共享文档    ");
         System.out.println("请输入数字设置对文章共享的管理：（共享文档即可在广场中找到的文档）");

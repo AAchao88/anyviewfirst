@@ -1,6 +1,5 @@
 package com.chao.controler.helper;
 
-import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Select;
 import com.chao.po.Article;
@@ -17,6 +16,7 @@ public class HelperSquare {
     public Article showShared(){
         Select select = new Select();
         Verify verify = new Verify();
+        HelperComment helperComment = new HelperComment();
 
         LinkedList<Article> listShared = select.selectSharedArticle();
         if(listShared.isEmpty()){
@@ -34,21 +34,7 @@ public class HelperSquare {
         System.out.println(listShared.get(serialNum-1).getContent());
 
         //查看评论
-        Menu menu = new Menu();
-        menu.menuComment();
-        int flag = verify.menuItemVerify(1,2);
-        if(flag == 1){
-            LinkedList<String> listComment = select.selectComment(listShared.get(serialNum-1));
-            if(listComment.isEmpty()){
-                System.out.println("该文档暂无评论！");
-            }else {
-                System.out.println("评论：");
-                for(i = 0;listComment.size()>i;i++){
-                    System.out.println((i+1)+"."+listComment.get(i));
-                }
-            }
-        }
-
+        helperComment.showComment(listShared.get(serialNum-1));
         return listShared.get(serialNum-1);
     }
 

@@ -1,5 +1,6 @@
 package com.chao.controler.helper;
 
+import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
 import com.chao.dao.Select;
 import com.chao.dao.Update;
@@ -26,5 +27,25 @@ public class HelperComment {
         int serial = verify.menuItemVerify(1,k);
         String comment = helperArticle.helperEdit(listComment.get(serial-1),2);
         update.updateComment(comment,article.getId());
+    }
+
+    public void showComment(Article article){
+        Menu menu = new Menu();
+        Verify verify = new Verify();
+        Select select = new Select();
+        int i = 0;
+        menu.menuComment();
+        int flag = verify.menuItemVerify(1,2);
+        if(flag == 1){
+            LinkedList<String> listComment = select.selectComment(article);
+            if(listComment.isEmpty()){
+                System.out.println("该文档暂无评论！");
+            }else {
+                System.out.println("评论：");
+                for(i = 0;listComment.size()>i;i++){
+                    System.out.println((i+1)+"."+listComment.get(i));
+                }
+            }
+        }
     }
 }

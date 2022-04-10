@@ -10,6 +10,7 @@ import com.chao.po.Member;
 import com.chao.po.Team;
 import com.chao.po.Users;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 public class HelperTeam {
@@ -20,42 +21,70 @@ public class HelperTeam {
         Verify verify = new Verify();
         Update update = new Update();
         HelperArticle helperArticle = new HelperArticle();
+        HelperComment helperComment1 = new HelperComment();
+
         LinkedList<Article> listArticle = select.selectArticle(kb_id);
+        if(listArticle.isEmpty()){
+            System.out.println("该协作知识库暂无文档！");
+            return;
+        }
         int i = 0;
         //循环因子
-        for(Article article: listArticle){
-            System.out.println((i+1)+"."+article);
-            i++;
+//        for(Article article: listArticle){
+//            System.out.println((i+1)+"."+article.getTitle());
+//            i++;
+//        }
+        for(i = 0;listArticle.size()>i;i++){
+            System.out.println((i+1)+"."+listArticle.get(i).getTitle());
         }
 
         System.out.println("请输入序号选择文档：");
-        int serialNum = verify.menuItemVerify(1,i-1);
+        int serialNum = verify.menuItemVerify(1,i);
 
-//        menu.menuModeifyArticle();
-//        int flag = verify.menuItemVerify(1,7);
+        Article article = select.selectArticleContent(listArticle.get(serialNum-1));
+        System.out.println(article.getTitle());
+        System.out.println(article.getContent());
+        helperComment.showComment(listArticle.get(serialNum-1));
+        helperArticle.printInformation(listArticle.get(serialNum-1));
+
         switch (permission){
-            case 1:
-                System.out.println(select.selectArticleContent(listArticle.get(i-1)).getTitle());
-                System.out.println(select.selectArticleContent(listArticle.get(i-1)).getContent());
-                helperArticle.printInformation(listArticle.get(serialNum));
-                break;
-            case 2:
-                listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
-                break;
-            case 3: {
-                listArticle.get(serialNum).setContent(helperArticle.helperEdit(listArticle.get(serialNum).getContent(),1));
-                helperComment.replyComment(listArticle.get(serialNum));
+            case 1:{
+                //System.out.println("您在该团队只有只读权限，有问题请联系管理员。");
                 break;
             }
-            //加评论
+            case 2:{
+                System.out.println("\n--->您在该团队有可编辑权限，有问题请联系管理员。<---\n");
+                System.out.println("1.修改文档    2.不修改文档");
+                int judge = verify.menuItemVerify(1,2);
+                if (judge == 1){
+                    listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
+                    listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
+                }
+                break;
+            }
+            case 3: {
+                System.out.println("\n--->您在该团队有可回复评论权限，有问题请联系管理员。<---\n");
+                System.out.println("1.修改文档    2.不修改文档");
+                int judge = verify.menuItemVerify(1,2);
+                if (judge == 1){
+                    listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
+                    listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
+                }
+                System.out.println("1.回复评论    2.不回复评论");
+                int judge2 = verify.menuItemVerify(1,2);
+                if (judge2 == 1){
+                    helperComment.replyComment(listArticle.get(serialNum-1));
+                }
+                break;
+            }
             default:
         }
         if(permission == 2){
-            update.updateArticle(listArticle.get(serialNum),3);
+            update.updateArticle(listArticle.get(serialNum-1),3);
         }
         if(permission == 3){
-            update.updateArticle(listArticle.get(serialNum),3);
-            update.updateArticle(listArticle.get(serialNum),4);
+            update.updateArticle(listArticle.get(serialNum-1),3);
+            update.updateArticle(listArticle.get(serialNum-1),4);
         }
     }
 
