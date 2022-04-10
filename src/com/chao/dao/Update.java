@@ -86,7 +86,8 @@ public class Update implements UpdateImp{
                     break;
                 }
                 case 2:{
-                    sql = "update article set tag = ? where id = ?";st = conn.prepareStatement(sql);
+                    sql = "update article set tag = ? where id = ?";
+                    st = conn.prepareStatement(sql);
                     st.setString(1,article.getTag());
                     st.setInt(2,article.getId());
                     break;

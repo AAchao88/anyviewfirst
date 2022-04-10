@@ -330,50 +330,57 @@ public class Home implements HomeImp {
 
         System.out.println("请输入序号选择文档：");
         int serialNum = verify.menuItemVerify(1,i);
+        //返回的判断变量
+        Boolean judge = true;
+        while (judge){
+            menu.menuModeifyArticle();
+            int flag = verify.menuItemVerify(1,8);
+            switch (flag){
+                case 1:{
+                    System.out.println("请输入新的文档标题：");
+                    String inputTitle = scanner.nextLine();
+                    listArticle.get(serialNum-1).setTitle(inputTitle);
+                    break;
+                }
+                case 2:{
+                    System.out.println("请输入新的文档标签：");
+                    String inputTag = scanner.nextLine();
+                    listArticle.get(serialNum-1).setTag(inputTag);
+                    break;
+                }
+                case 3:{
+                    listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
+                    listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
+                    break;
+                }
+                case 4:{
+                    helperComment.replyComment(listArticle.get(serialNum-1));
+                    break;
+                }
+                case 5:{
+                    //  helperArticle.printInformation(listArticle.get(serialNum-1));break;
+                    helperSquare.showInformation(listArticle.get(serialNum-1));
+                    break;
+                }
+                case 6:{
+                    helperArticle.exportLocal(listArticle.get(serialNum-1));
+                    break;
+                }
+                case 7:{
+                    delete.deleteArticleFake(listArticle.get(serialNum-1));
+                    break;
+                }
+                case 8:{
+                    judge = false;
+                    break;
+                }
+                default:
+            }
+            if(flag>=1 && flag<=3){
+                update.updateArticle(listArticle.get(serialNum-1),flag);
+            }
 
-        menu.menuModeifyArticle();
-        int flag = verify.menuItemVerify(1,7);
-        switch (flag){
-            case 1:{
-                System.out.println("请输入新的文档标题：");
-                String inputTitle = scanner.nextLine();
-                listArticle.get(serialNum-1).setTitle(inputTitle);
-                break;
-            }
-            case 2:{
-                System.out.println("请输入新的文档标签：");
-                String inputTag = scanner.nextLine();
-                listArticle.get(serialNum-1).setTitle(inputTag);
-                break;
-            }
-            case 3:{
-                listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
-                listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
-                break;
-            }
-            case 4:{
-                helperComment.replyComment(listArticle.get(serialNum-1));
-                break;
-            }
-            case 5:{
-              //  helperArticle.printInformation(listArticle.get(serialNum-1));break;
-                helperSquare.showInformation(listArticle.get(serialNum-1));
-                break;
-            }
-            case 6:{
-                helperArticle.exportLocal(listArticle.get(serialNum-1));
-                break;
-            }
-            case 7:{
-                delete.deleteArticleFake(listArticle.get(serialNum-1));
-                break;
-            }
-            default:
         }
-        if(flag>=1 && flag<=3){
-            update.updateArticle(listArticle.get(serialNum-1),flag);
-        }
-
     }
 
     /**

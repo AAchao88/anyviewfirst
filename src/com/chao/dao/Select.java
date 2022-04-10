@@ -68,7 +68,7 @@ public class Select implements SelectImp{
            if(rs.next()){
                switch(flag){
                    case 1:{
-                       System.out.println("您的用户id是："+rs.getInt("id"));
+                       System.out.println("您的用户id是："+String.format("%08d",rs.getInt("id")));
                        System.out.println("您的用户名是："+rs.getString("username"));
                        System.out.println("您的性别是："+rs.getString("sex"));
                        System.out.println("您的联系电话是："+rs.getString("telephone"));

@@ -46,7 +46,8 @@ public class Menu {
             System.out.println("        4.回复评论");
             System.out.println("        5.显示文档的相关信息（点赞数、收藏数、评论数、修改时间等）");
             System.out.println("        6.导出文档到本地");
-            System.out.println("        7.删除文档\n");
+            System.out.println("        7.删除文档");
+            System.out.println("        8.返回\n");
         }
 
         public void menuTeam1(){

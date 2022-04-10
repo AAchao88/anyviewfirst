@@ -77,7 +77,7 @@ public class HelperArticle implements HelperArticleImp{
         String str = null;
         System.out.println("\n注意 <换行>输入'退出并保存'或'退出不保存'以结束编辑。");
         if(flag == 2){
-            sb.append("\n\n作者回复：\n");
+            sb.append("\n作者回复：\n");
         }
         try{
             do {
