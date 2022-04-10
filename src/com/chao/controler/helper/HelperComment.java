@@ -22,7 +22,7 @@ public class HelperComment {
         for(k = 0;listComment.size()>k;k++){
             System.out.println((k+1)+"."+listComment.get(k));
         }
-        System.out.println("\n请输入序号选择评论：");
+        System.out.println("请输入序号选择评论：");
         int serial = verify.menuItemVerify(1,k);
         String comment = helperArticle.helperEdit(listComment.get(serial-1),2);
         update.updateComment(comment,article.getId());

@@ -1,6 +1,8 @@
 package com.chao.controler.helper;
 
+import com.chao.controler.menu.Menu;
 import com.chao.controler.verify.Verify;
+import com.chao.dao.Delete;
 import com.chao.dao.Select;
 import com.chao.dao.Update;
 import com.chao.po.Article;
@@ -57,23 +59,38 @@ public class HelperTeam {
         }
     }
 
+    /**
+     * 管理成员
+     * @param team
+     */
     public void modifyPermission(Team team){
         Select select = new Select();
         Update update = new Update();
         Verify verify = new Verify();
+        Menu menu = new Menu();
+        Delete delete = new Delete();
         LinkedList<Member> listMember = select.selectMember(team);
-        int i = 0;
-        for(i = 0;!listMember.isEmpty();){
-            if(listMember.get(i).getMember_id() != null){
-                System.out.println((i+1)+"."+listMember.get(i).getMember_name());
-                i++;
-            }
+        if(listMember.isEmpty()){
+            System.out.println("暂无成员，请先邀请成员！");
+            return;
         }
-        System.out.println("请输入序号选择查看的成员：");
+        int i = 0;
+        for(i = 0;listMember.size()>i;i++){
+            System.out.println((i+1)+"."+listMember.get(i).getMember_name());
+        }
+        System.out.println("请输入序号选择要管理的成员：");
         int serialNum = verify.menuItemVerify(1,i);
-        update.updatePermission(team,listMember.get(serialNum).getMember_permission());
+        menu.menuModifyPermission();
+        int flag = verify.menuItemVerify(1,5);
+        if(flag == 5){
+            return;
+        }
+        if(flag == 4){
+            delete.deleteMember(listMember.get(serialNum-1));
+        }else {
+            update.updatePermission(listMember.get(serialNum-1),flag);
+        }
+
     }
-
-
 
 }

@@ -2,6 +2,7 @@ package com.chao.dao;
 
 import com.chao.controler.verify.Verify;
 import com.chao.po.Article;
+import com.chao.po.Member;
 import com.chao.util.JdbcUtils_DBCP;
 
 import java.sql.Connection;
@@ -90,6 +91,34 @@ public class Delete implements DeleteImp{
             String sql = "delete from favorite where article_id = ?";
             st = conn.prepareStatement(sql);
             st.setInt(1,article.getId());
+
+            int i = st.executeUpdate();
+            if(i>0){
+                System.out.println("删除成功！");
+            }
+        }catch (SQLException e){
+            System.out.println("删除失败！");
+            e.printStackTrace();
+        }finally{
+            JdbcUtils_DBCP.release(conn,st,null);
+        }
+    }
+
+    @Override
+    public void deleteMember(Member member) {
+        Verify verify = new Verify();
+        System.out.println("1.确定删除该成员      2.返回     ");
+        int flag = verify.menuItemVerify(1,2);
+        if(flag == 2){
+            return;
+        }
+        Connection conn = null;
+        PreparedStatement st = null;
+        try{
+            conn = JdbcUtils_DBCP.getConnection();
+            String sql = "delete from member where member_id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1,member.getMember_id());
 
             int i = st.executeUpdate();
             if(i>0){

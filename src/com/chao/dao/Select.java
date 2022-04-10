@@ -282,6 +282,8 @@ public class Select implements SelectImp{
 
     /**
      *通过id查询name
+     * flag == 1 查询知识库表
+     * flag == 2 查询成员表
      * @param name
      * @return
      */
@@ -294,8 +296,12 @@ public class Select implements SelectImp{
         try{
             conn = JdbcUtils_DBCP.getConnection();
             String sql = null;
-
             sql = "select `id` from knowledgebase where knowledgebase_name = ?";
+//            if(flag == 1){
+//
+//            }else {
+//                sql = "select ";
+//            }
             st = conn.prepareStatement(sql);
             st.setString(1,name);
             rs = st.executeQuery();
@@ -408,11 +414,9 @@ public class Select implements SelectImp{
                 while(rs.next()){
                     Member member = new Member(rs.getInt("member_id"),rs.getInt("member_permission"),rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"),rs.getString("member_name"));
                     listMember.add(member);
-
                 }
 
         }catch (SQLException e){
-           // System.out.println("您的团队暂无协作知识库！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);
@@ -497,30 +501,33 @@ public class Select implements SelectImp{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
-        Member member = null;
+        Member member = new Member();
         try{
             conn = JdbcUtils_DBCP.getConnection();
 
-            String sql = "select invitationCode1,invitationCode2,invitationCode3,team_id from team ";
+            String sql = "select invitationCode1,invitationCode2,invitationCode3,id,team_name from team ";
             st = conn.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()){
                 if(rs.getString("invitationCode1").equals(input)){
                     member.setMember_id(users.getId());
                     member.setMember_permission(1);
-                    member.setTeam_id(rs.getInt("team_id"));
+                    member.setTeam_id(rs.getInt("id"));
+                    member.setTeam_name(rs.getString("team_name"));
                     break;
                 }
                 if(rs.getString("invitationCode2").equals(input)){
                     member.setMember_id(users.getId());
                     member.setMember_permission(2);
-                    member.setTeam_id(rs.getInt("team_id"));
+                    member.setTeam_id(rs.getInt("id"));
+                    member.setTeam_name(rs.getString("team_name"));
                     break;
                 }
                 if(rs.getString("invitationCode3").equals(input)){
                     member.setMember_id(users.getId());
                     member.setMember_permission(3);
-                    member.setTeam_id(rs.getInt("team_id"));
+                    member.setTeam_id(rs.getInt("id"));
+                    member.setTeam_name(rs.getString("team_name"));
                     break;
                 }
             }
@@ -535,6 +542,7 @@ public class Select implements SelectImp{
 
     /**
      * 管理员获取相应邀请码
+     * 邀请成员加入
      * @param team
      * @param permission
      * @return
@@ -621,7 +629,7 @@ public class Select implements SelectImp{
             conn = JdbcUtils_DBCP.getConnection();
             String sql ;
             if(flag == 1){
-                sql = "select id from like where create_user_id = ? and article_id = ?";
+                sql = "select id from `like` where create_user_id = ? and article_id = ?";
             }else {
                 sql = "select id from favorite where user_id = ? and article_id = ?";
             }

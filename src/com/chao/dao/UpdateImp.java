@@ -29,10 +29,10 @@ public interface UpdateImp {
 
     /**
      * 在团队中管理员修改成员权限
-     * @param team
+     * @param member
      * @param permission
      */
-    void updatePermission(Team team, int permission);
+    void updatePermission(Member member, int permission);
 
 
     /**

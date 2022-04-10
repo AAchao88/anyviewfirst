@@ -150,11 +150,13 @@ public class Insert implements InsertImp {
         try {
             conn = JdbcUtils_DBCP.getConnection();
 
-            String sql = "insert into member (team_id,member_id,member_permission)values(?,?,?) ";
+            String sql = "insert into member (team_id,member_id,member_permission,member_name,team_name)values(?,?,?,?,?) ";
             st = conn.prepareStatement(sql);
             st.setInt(1,member.getTeam_id());
             st.setInt(2,member.getMember_id());
             st.setInt(3,member.getMember_permission());
+            st.setString(4,member.getMember_name());
+            st.setString(5,member.getTeam_name());
 
             int i = st.executeUpdate();
             if (i > 0) {
@@ -187,7 +189,7 @@ public class Insert implements InsertImp {
             String sql = null;
             switch (flag){
                 case 1:{
-                    sql =  "insert into like (create_user_id,article_id)values(?,?) ";
+                    sql =  "insert into `like` (create_user_id,article_id)values(?,?) ";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,users.getId());
                     st.setInt(2,article.getId());

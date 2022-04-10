@@ -59,8 +59,8 @@ public interface SelectImp {
 
     /**
      *通过id查询name
-     * @param name
-     * @return
+     * flag == 1 查询知识库表
+     * flag == 2 查询成员表
      */
     Integer selectIdByName(String name);
 

@@ -1,6 +1,7 @@
 package com.chao.dao;
 
 import com.chao.po.Article;
+import com.chao.po.Member;
 
 public interface DeleteImp {
 
@@ -23,4 +24,9 @@ public interface DeleteImp {
      * @param article
      */
     void deleteFavorite(Article article);
+
+    /**
+     * 删除成员
+     */
+    void deleteMember(Member member);
 }

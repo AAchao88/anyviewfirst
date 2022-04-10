@@ -80,28 +80,35 @@ public class Update implements UpdateImp{
             switch(flag){
                 case 1: {
                     sql ="update article set title = ? where id = ? ";
-                    st = conn.prepareStatement(sql);st.setString(1,article.getTitle());
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,article.getTitle());
+                    st.setInt(2,article.getId());
                     break;
                 }
                 case 2:{
                     sql = "update article set tag = ? where id = ?";st = conn.prepareStatement(sql);
-                    st.setString(1,article.getTag()); break;
+                    st.setString(1,article.getTag());
+                    st.setInt(2,article.getId());
+                    break;
                 }
                 case 3:{
-                    sql = "update article set content = ? where id = ?";st = conn.prepareStatement(sql);
-                    st.setString(1,article.getContent()); break;
-                }
-                case 4:{
-
+                    sql = "update article set content = ?,update_time = ? where id = ?";
+                    st = conn.prepareStatement(sql);
+                    st.setString(1,article.getContent());
+                    st.setDate(2,new java.sql.Date(article.getUpdate_time().getTime()));
+                    st.setInt(3,article.getId());
+                    break;
                 }
                 case 5:{
                     sql = "update article set delete_status = ? where id = ?";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,0);
+                    st.setInt(2,article.getId());
+                    break;
                 }
                 default:
             }
-            st.setInt(2,article.getId());
+
             int i = st.executeUpdate();
             if(i>0){
                 if(flag == 5){
@@ -148,19 +155,18 @@ public class Update implements UpdateImp{
 
     /**
      * 在团队中管理员修改成员权限
-     * @param team
-     * @param permission
+     *
      */
     @Override
-    public void updatePermission(Team team, int permission) {
+    public void updatePermission(Member member, int permission) {
         Connection conn = null;
         PreparedStatement st = null;
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = "update member set member_permission = ? where team_id = ?";
+            String sql = "update member set member_permission = ? where member_id = ?";
             st = conn.prepareStatement(sql);
             st.setInt(1,permission);
-            st.setInt(2,team.getId());
+            st.setInt(2,member.getMember_id());
 
             int i = st.executeUpdate();
             if(i>0){
@@ -188,7 +194,7 @@ public class Update implements UpdateImp{
             String sql = null;
             switch (flag){
                 case 1:{
-                    sql =  "update article set like = ? where id = ?";
+                    sql =  "update article set `like` = ? where id = ?";
                     st = conn.prepareStatement(sql);
                     st.setInt(1,article.getLike()+1);
                     break;

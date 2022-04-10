@@ -24,10 +24,10 @@ public class HelperSquare {
         }
         int i = 0;
         for(i = 0;listShared.size()>i;i++){
-            System.out.println((i+1)+"."+listShared.get(i).getTitle());
+            System.out.println((i+1)+". 题目："+listShared.get(i).getTitle());
             System.out.println("\t\t标签-->"+listShared.get(i).getTag());
         }
-        System.out.println("请输入序号选择要查看的文档：");
+        System.out.println("\n请输入序号选择要查看的文档：");
         int serialNum = verify.menuItemVerify(1,i);
         System.out.println("\t\t"+listShared.get(serialNum-1).getTitle());
         System.out.println(listShared.get(serialNum-1).getContent());

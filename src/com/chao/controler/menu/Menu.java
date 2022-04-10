@@ -53,7 +53,8 @@ public class Menu {
             System.out.println("\n1.创建团队");
             System.out.println("2.管理的团队");
             System.out.println("3.加入的团队");
-            System.out.println("4.加入团队\n");
+            System.out.println("4.加入团队");
+            System.out.println("5.返回\n");
         }
 
         public void menuManagedTeam(){
@@ -66,7 +67,9 @@ public class Menu {
         public void menuModifyPermission(){
             System.out.println("\n1.修改为只读权限");
             System.out.println("2.修改为可编辑权限");
-            System.out.println("3.修改我可评论权限\n");
+            System.out.println("3.修改我可评论权限");
+            System.out.println("4.踢出该成员");
+            System.out.println("5.返回\n");
         }
 
         public void menuInviteMembers(){
@@ -76,9 +79,9 @@ public class Menu {
         }
 
         public void menuSquare(){
-            System.out.println("\n1.点赞");
-            System.out.println("2.收藏");
-            System.out.println("3.评论");
+            System.out.println("1.点赞该文档");
+            System.out.println("2.收藏该文档");
+            System.out.println("3.评论该文档");
             System.out.println("4.返回\n");
         }
 

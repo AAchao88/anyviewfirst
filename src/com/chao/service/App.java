@@ -71,9 +71,17 @@ public class App {
      * 未注册游客首页
      */
     public void homeTourist(){
-        HelperSquare helperSquare = new HelperSquare();
-        Article articleChecked = helperSquare.showShared();
-        System.out.println("\n\n");
-        helperSquare.showInformation(articleChecked);
+        Verify verify = new Verify();
+        while (true){
+            HelperSquare helperSquare = new HelperSquare();
+            Article articleChecked = helperSquare.showShared();
+            helperSquare.showInformation(articleChecked);
+            System.out.println("1.继续查看文档");
+            System.out.println("2.返回");
+            int flag = verify.menuItemVerify(1,2);
+            if (flag == 2){
+                break;
+            }
+        }
     }
 }

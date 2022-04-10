@@ -55,44 +55,47 @@ public class Home implements HomeImp {
         HelperArticle helperArticle = new HelperArticle();
 
         String comment = null;
-        while (true){
-            Article articleChecked = helperSquare.showShared();
-            System.out.println("\n\n");
-            helperSquare.showInformation(articleChecked);
-            menu.menuSquare();
-            int flag = verify.menuItemVerify(1,4);
-            if(flag == 4){
-                break;
+
+        Article articleChecked = helperSquare.showShared();
+        System.out.println("\n\n");
+        helperSquare.showInformation(articleChecked);
+        menu.menuSquare();
+        int flag = verify.menuItemVerify(1,4);
+        if(flag == 4){
+            return;
+        }
+        switch (flag){
+            case 1:{
+                if(select.selectRepeat(users,articleChecked,flag)){
+                    insert.insertInformation(users,articleChecked,comment,flag);
+                    update.updateInformation(articleChecked,flag);
+                    break;
+                }else {
+                    System.out.println("您已经点赞过该文档，不可重复！");
+                    break;
+                }
             }
-            switch (flag){
-                case 1:{
-                    if(select.selectRepeat(users,articleChecked,flag)){
-                        insert.insertInformation(users,articleChecked,comment,flag);
-                        update.updateInformation(articleChecked,flag);
-                        break;
-                    }else {
-                        System.out.println("您已经点赞过该文档，不可重复！");
-                        break;
-                    }
+            case 2:{
+                if(select.selectRepeat(users,articleChecked,flag)){
+                    insert.insertInformation(users,articleChecked,comment,flag);
+                    update.updateInformation(articleChecked,flag);
+                    break;
+                }else {
+                    System.out.println("您已经收藏过文档！");
+                    break;
                 }
-                case 2:{
-                    if(select.selectRepeat(users,articleChecked,flag)){
-                        insert.insertInformation(users,articleChecked,comment,flag);
-                        update.updateInformation(articleChecked,flag);
-                        break;
-                    }else {
-                        System.out.println("您已经收藏过文档！");
-                        break;
-                    }
-                }
-                case 3:{
-                    comment = helperArticle.helperWrite();
+            }
+            case 3:{
+                comment = helperArticle.helperWrite();
+                if(comment == null){
+                    break;
+                }else {
                     insert.insertInformation(users,articleChecked,comment,flag);
                     update.updateInformation(articleChecked,flag);
                     break;
                 }
-                default:
             }
+            default:
         }
 
     }
@@ -105,118 +108,123 @@ public class Home implements HomeImp {
         Insert insert = new Insert();
         Select select = new Select();
         HelperTeam helperTeam = new HelperTeam();
-        menu.menuTeam1();
-        int serialNumber = verify.menuItemVerify(1,4);
-
-        switch (serialNumber){
-            case 1:{
-                IvCodeGenerator ivCodeGenerator = new IvCodeGenerator();
-                System.out.println("请输入团队名称：");
-                String input = scanner.nextLine();
-                System.out.println("请任意输入一个正数: (系统将自动设置一个只读文档权限邀请码)");
-                String code1 = ivCodeGenerator.inviCode(scanner.nextInt());
-                System.out.println("请任意输入一个正数: (系统将自动设置一个评论文档权限邀请码)");
-                String code2 = ivCodeGenerator.inviCode(scanner.nextInt());
-                System.out.println("请任意输入一个正数: (系统将自动设置一个修改文档权限邀请码)");
-                String code3 =ivCodeGenerator.inviCode(scanner.nextInt());
-                Team team = new Team(users.getId(),input,code1,code2,code3);
-                insert.insertTeam(team);
-                break;
-            }
-            case 2:{
-                LinkedList<Team> listMaTeam = new LinkedList<>();
-                listMaTeam = select.selectManageTeam(users);
-                int i = 0;
-                if(listMaTeam.isEmpty() == true){
-                    System.out.println("您尚未创建过团队！");
+        Boolean judge = true;
+        while (judge){
+            menu.menuTeam1();
+            int serialNumber = verify.menuItemVerify(1,5);
+            switch (serialNumber){
+                case 1:{
+                    IvCodeGenerator ivCodeGenerator = new IvCodeGenerator();
+                    System.out.println("请输入团队名称：");
+                    String input = scanner.nextLine();
+                    System.out.println("请任意输入一个正数: (系统将自动设置一个只读文档权限邀请码)");
+                    String code1 = ivCodeGenerator.inviCode(scanner.nextInt());
+                    System.out.println("请任意输入一个正数: (系统将自动设置一个评论文档权限邀请码)");
+                    String code2 = ivCodeGenerator.inviCode(scanner.nextInt());
+                    System.out.println("请任意输入一个正数: (系统将自动设置一个修改文档权限邀请码)");
+                    String code3 =ivCodeGenerator.inviCode(scanner.nextInt());
+                    Team team = new Team(users.getId(),input,code1,code2,code3);
+                    insert.insertTeam(team);
                     break;
                 }
-                for(i = 0;listMaTeam.size()>i;i++){
-                    System.out.println((i+1)+"."+listMaTeam.get(i).getTeam_name());
-                }
-                System.out.println("请输入序号选择团队：");
-                int serialNum = verify.menuItemVerify(1,i);
+                case 2:{
+                    LinkedList<Team> listMaTeam = new LinkedList<>();
+                    listMaTeam = select.selectManageTeam(users);
+                    int i = 0;
+                    if(listMaTeam.isEmpty() == true){
+                        System.out.println("您尚未创建过团队！");
+                        break;
+                    }
+                    for(i = 0;listMaTeam.size()>i;i++){
+                        System.out.println((i+1)+"."+listMaTeam.get(i).getTeam_name());
+                    }
+                    System.out.println("请输入序号选择团队：");
+                    int serialNum = verify.menuItemVerify(1,i);
 
-                menu.menuManagedTeam();
-                int flag = verify.menuItemVerify(1,4);
+                    menu.menuManagedTeam();
+                    int flag = verify.menuItemVerify(1,4);
 
-                switch (flag){
-                    case 1:{
-                        LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(i-1));
-                        if(listMembers.isEmpty() == true){
-                            System.out.println("尚未创建协作知识库！");
+                    switch (flag){
+                        case 1:{
+                            LinkedList<Member> listMembers = select.selectMember(listMaTeam.get(serialNum-1));
+                            if(listMembers.isEmpty() == true){
+                                System.out.println("尚未创建协作知识库！");
+                                break;
+                            }
+                            for(i = 0;listMembers.size()>i;i++){
+                                System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                            }
+                            System.out.println("请输入序号选择协作知识库：");
+                            int serialNum2 = verify.menuItemVerify(1,i);
+                            editArticle(users,listMembers.get(serialNum2-1).getKnowledgebase_id());
                             break;
                         }
-                        for(i = 0;listMembers.size()>i;i++){
-                            System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                        case 2:{
+                            helperTeam.modifyPermission(listMaTeam.get(serialNum-1));
+                            break;
                         }
-                        System.out.println("请输入序号选择协作知识库：");
-                        int serialNum2 = verify.menuItemVerify(1,i);
-                        editArticle(users,listMembers.get(i-1).getKnowledgebase_id());
-                        break;
+                        case 3:{
+                            menu.menuInviteMembers();
+                            int permission = verify.menuItemVerify(1,3);
+                            System.out.println("邀请码："+select.selectCode(listMaTeam.get(serialNum-1),permission));;
+                            break;
+                        }
+                        case 4:{
+                            insert.insertKnowledgebaseInTeam(create_knowledge_base(users,2),listMaTeam.get(serialNum-1));
+                            break;
+                        }
+                        default:
                     }
-                    case 2:{
-                        helperTeam.modifyPermission(listMaTeam.get(serialNum));
-                        break;
-                    }
-                    case 3:{
-                        menu.menuInviteMembers();
-                        int permission = verify.menuItemVerify(1,3);
-                        select.selectCode(listMaTeam.get(serialNum),permission);
-                        break;
-                    }
-                    case 4:{
-                        insert.insertKnowledgebaseInTeam(create_knowledge_base(users,2),listMaTeam.get(serialNum));
-                        break;
-                    }
-                    default:
+                    break;
                 }
+                case 3:{
+                    LinkedList<Team> listJoTeam = new LinkedList<>();
+                    listJoTeam = select.selectJoinTeam(users);
+                    int i = 0;
+                    if(listJoTeam.isEmpty() == true){
+                        System.out.println("尚未加入团队，请先加入团队！");
+                        break;
+                    }
+                    for(i = 0;listJoTeam.size()>i;i++){
+                        System.out.println((i+1)+"."+listJoTeam.get(i).getTeam_name());
+                    }
+                    System.out.println("请输入序号选择团队：");
+                    int serialNum = verify.menuItemVerify(1,i);
+                    LinkedList<Member> listMembers = select.selectMember(listJoTeam.get(serialNum-1));
 
+                    int permission = select.selectPermission(listJoTeam.get(serialNum-1),users);
+                    //获取用户关于选定团队的权限
+                    if(listMembers.isEmpty() == true){
+                        System.out.println("团队还没有成员，请先邀请成员！");
+                        break;
+                    }
+                    for(i = 0;listMembers.size()>i;i++){
+                        System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
+                    }
+                    System.out.println("请输入序号选择协作知识库：");
+                    int serialNum2 = verify.menuItemVerify(1,i);
+                    helperTeam.joinedTeam(users,listMembers.get(serialNum2-1).getKnowledgebase_id(),permission);
+                    break;
+                }
+                case 4:{
+                    System.out.println("请输入所要加入团队的邀请码：");
+                    String code = scanner.nextLine();
+                    Member member = select.selectIvCode(code,users);
+                    if(member == null){
+                        System.out.println("邀请码错误！");
+                        break;
+                    }else {
+                        member.setMember_name(users.getUsername());
+                        insert.insertJoinTeam(member);
+                        break;
+                    }
+                }
+                case 5:{
+                    judge = false;
+                    break;
+                }
+                default:
             }
-            case 3:{
-                LinkedList<Team> listJoTeam = new LinkedList<>();
-                listJoTeam = select.selectJoinTeam(users);
-                int i = 0;
-                if(listJoTeam.isEmpty() == true){
-                    System.out.println("尚未加入团队，请先加入团队！");
-                    break;
-                }
-                for(i = 0;listJoTeam.size()>i;i++){
-                    System.out.println((i+1)+"."+listJoTeam.get(i).getTeam_name());
-                }
-                System.out.println("请输入序号选择团队：");
-                int serialNum = verify.menuItemVerify(1,i);
-                LinkedList<Member> listMembers = select.selectMember(listJoTeam.get(i-1));
-
-                int permission = select.selectPermission(listJoTeam.get(i-1),users);
-                //获取用户关于选定团队的权限
-                if(listMembers.isEmpty() == true){
-                    System.out.println("团队还没有成员，请先邀请成员！");
-                    break;
-                }
-                for(i = 0;listMembers.size()>i;i++){
-                    System.out.println((i+1)+"."+listMembers.get(i).getKnowledgebase_name());
-                }
-                System.out.println("请输入序号选择协作知识库：");
-                int serialNum2 = verify.menuItemVerify(1,i);
-                helperTeam.joinedTeam(users,listMembers.get(serialNum2).getKnowledgebase_id(),permission);
-                break;
-
-
-            }
-            case 4:{
-                System.out.println("请输入所要加入团队的邀请码：");
-                String code = scanner.nextLine();
-                Member member = select.selectIvCode(code,users);
-                if(member == null){
-                    System.out.println("邀请码错误！");
-                    break;
-                }else {
-                    insert.insertJoinTeam(member);
-                    break;
-                }
-            }
-            default:
         }
     }
 
@@ -280,11 +288,14 @@ public class Home implements HomeImp {
             for(i=0;storeKnowledgeName.size()>i;i++){
                 System.out.println((i+1)+"."+storeKnowledgeName.get(i));
             }
-            System.out.println("请正确输入想进入的知识库的序号：");
+            System.out.println("\n请正确输入想进入的知识库的序号：");
             int serialNumber = verify.menuItemVerify(1,i);
             knowledgeBase.setId(select.selectIdByName(storeKnowledgeName.get(serialNumber-1)));
-            System.out.println("1.新建文章     2.编辑已有文章  ");
-            if(verify.menuItemVerify(1,2) == 1){
+            System.out.println("1.新建文章   2.编辑已有文章   3.返回");
+            if(verify.menuItemVerify(1,3) == 3){
+                return;
+            }
+            if(verify.menuItemVerify(1,3) == 1){
                 newArticle(users,knowledgeBase);
             }else {
                 editArticle(users,knowledgeBase.getId());
@@ -322,28 +333,43 @@ public class Home implements HomeImp {
         menu.menuModeifyArticle();
         int flag = verify.menuItemVerify(1,7);
         switch (flag){
-            case 1:
+            case 1:{
                 System.out.println("请输入新的文档标题：");
                 String inputTitle = scanner.nextLine();
-                listArticle.get(serialNum-1).setTitle(inputTitle);break;
-            case 2:System.out.println("请输入新的文档标签：");
+                listArticle.get(serialNum-1).setTitle(inputTitle);
+                break;
+            }
+            case 2:{
+                System.out.println("请输入新的文档标签：");
                 String inputTag = scanner.nextLine();
-                listArticle.get(serialNum-1).setTitle(inputTag);break;
-            case 3: listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
-                    break;
+                listArticle.get(serialNum-1).setTitle(inputTag);
+                break;
+            }
+            case 3:{
+                listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
+                listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
+                break;
+            }
             case 4:{
-               helperComment.replyComment(listArticle.get(serialNum-1));
-
+                helperComment.replyComment(listArticle.get(serialNum-1));
+                break;
             }
             case 5:{
               //  helperArticle.printInformation(listArticle.get(serialNum-1));break;
-                helperSquare.showInformation(listArticle.get(serialNum-1));break;
+                helperSquare.showInformation(listArticle.get(serialNum-1));
+                break;
             }
-            case 6:helperArticle.exportLocal(listArticle.get(serialNum-1));break;
-            case 7:delete.deleteArticleFake(listArticle.get(serialNum-1));break;
+            case 6:{
+                helperArticle.exportLocal(listArticle.get(serialNum-1));
+                break;
+            }
+            case 7:{
+                delete.deleteArticleFake(listArticle.get(serialNum-1));
+                break;
+            }
             default:
         }
-        if(flag>=1 && flag<=4){
+        if(flag>=1 && flag<=3){
             update.updateArticle(listArticle.get(serialNum-1),flag);
         }
 
