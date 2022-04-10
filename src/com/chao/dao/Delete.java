@@ -104,6 +104,10 @@ public class Delete implements DeleteImp{
         }
     }
 
+    /**
+     * 踢出成员
+     * @param member
+     */
     @Override
     public void deleteMember(Member member) {
         Verify verify = new Verify();

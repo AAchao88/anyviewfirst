@@ -15,14 +15,20 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
+/**
+ * Home类最主要的功能实现类
+ */
 public class Home implements HomeImp {
 
+
+    /**
+     *        我的
+     *先显示所有用户信息和修改界面
+     */
     @Override
     public void mine(Users users) {
-        /**
-         *        我的
-         *先显示所有用户信息和修改界面
-         */
+
         Menu menu = new Menu();
         Verify verify = new Verify();
         ModifyMine modifyMine = new ModifyMine();
@@ -44,6 +50,10 @@ public class Home implements HomeImp {
         }
     }
 
+    /**
+     * 广场的实现方法
+     * @param users
+     */
     @Override
     public void square(Users users) {
         HelperSquare helperSquare = new HelperSquare();
@@ -100,6 +110,10 @@ public class Home implements HomeImp {
 
     }
 
+    /**
+     * 团队的实现方法
+     * @param users
+     */
     @Override
     public void team(Users users) {
         Menu menu = new Menu();
@@ -239,7 +253,10 @@ public class Home implements HomeImp {
     }
 
 
-
+    /**
+     * 收藏的实现方法
+     * @param users
+     */
     @Override
     public void favorite(Users users) {
         Select select = new Select();
@@ -273,17 +290,12 @@ public class Home implements HomeImp {
     }
 
     /**
-     *   知识库
-     *   获取知识库id，将其赋到文章信息
-     *   可以输出、新建、编辑、tag标签、删除
+     *
+     * 通过user.id查询所有知识库,分为个人知识库和协作知识库
      */
     @Override
     public void Knowledge_base(Users users, int item) {
 
-        /**
-         *
-         * 通过user.id查询所有知识库,分为个人知识库和协作知识库
-         */
         Select select = new Select();
         Verify verify = new Verify();
         Scanner scanner = new Scanner(System.in);
@@ -313,6 +325,11 @@ public class Home implements HomeImp {
             }
     }
 
+    /**
+     * 编辑已有文档的实现方法
+     * @param users
+     * @param kb_id
+     */
     @Override
     public void editArticle(Users users, Integer kb_id) {
         Select select = new Select();
@@ -395,7 +412,6 @@ public class Home implements HomeImp {
 
     /**
      *   新建知识库
-     *   获取知识库id，将其赋到文章信息
      *   要求输入知识库的信息（分类为个人还是协作，name,tag,）
      *   联系数据库
      */
@@ -432,7 +448,10 @@ public class Home implements HomeImp {
         return knowledgeBase;
     }
 
-
+    /**
+     * 回收站的实现方法
+     * @param users
+     */
     @Override
     public void recycleBin(Users users) {
         Select select = new Select();
@@ -466,6 +485,11 @@ public class Home implements HomeImp {
 
     }
 
+    /**
+     * 新建文档的实现方法
+     * @param users
+     * @param kb_id
+     */
     @Override
     public void newArticle(Users users,Integer kb_id) {
         Insert insert = new Insert();

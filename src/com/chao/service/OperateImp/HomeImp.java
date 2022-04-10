@@ -3,6 +3,10 @@ package com.chao.service.OperateImp;
 import com.chao.po.KnowledgeBase;
 import com.chao.po.Users;
 
+
+/**
+ * Home类最主要的功能实现类
+ */
 public interface HomeImp {
     /**
      *        我的
@@ -10,23 +14,18 @@ public interface HomeImp {
      */
     void mine(Users users);
 
-
     /**
-     * 广场
-     * 1.依据文章的点赞数排序，显示？篇文章，分页功能
-     *    要跳出搜索框，用户可以查找（根据关键字或文章标签即分类）
-     * 2.调用数据库文章表，输出文章的内容、点赞数、收藏数、作者、写作时间、修改时间，可以评论
-     * 3.用户可以点赞、收藏、评论文章，此时变量articleId应该被赋值，通过这个对文章进行操作
+     * 广场的实现方法
+     * @param users
      */
      void square(Users users);
 
 
     /**
      * 团队
-     * 分为1、你创建的协作知识库和2、你加入的协作知识库
      * 1、作为管理员可以  获取邀请码让其他用户加入、踢出成员、设置成员的知识库的权限（比如限制文章的读、修改、评论）
      *                   输出所有、编辑、新建、（投稿）、删除文章
-     * 2、输出所有、编辑、新建、（投稿）文章，输出权限提示
+     * 2、输出所有、编辑、新建、（共享）文章，输出权限提示
      */
       void team(Users users);
 
@@ -46,12 +45,6 @@ public interface HomeImp {
      */
      void favorite(Users users);
 
-    /**
-     *   个人知识库
-     *   获取知识库id，将其赋到文章信息
-     *   可以输出、新建、编辑、tag标签、删除、（投稿）文章
-     */
-    // void Knowledge_base(Users users);
 
     /**
      *   新建知识库
@@ -60,13 +53,6 @@ public interface HomeImp {
      *   联系数据库
      */
      KnowledgeBase create_knowledge_base(Users users,int flag);
-
-    /**
-     *   协作知识库
-     *   获取知识库id，将其赋到文章信息
-     *   显示知识库信息，管理员、文章、自己的权限、tag
-     *   可以根据权限   输出、新建、编辑、tag标签、删除、（投稿）文章
-     */
 
 
     /**
@@ -78,12 +64,26 @@ public interface HomeImp {
      */
      void recycleBin(Users users);
 
+    /**
+     * 新建文档的实现方法
+     * @param users
+     * @param kb_id
+     */
      void newArticle(Users users, Integer kb_id);
 
+
+    /**
+     *
+     * 通过user.id查询所有知识库,分为个人知识库和协作知识库
+     */
     void Knowledge_base(Users users, int item);
 
-    //<T>void Knowledge_base(Users users, int item);
 
+    /**
+     * 编辑已有文档的实现方法
+     * @param users
+     * @param kb_id
+     */
     void editArticle(Users users, Integer kb_id);
 
 }
