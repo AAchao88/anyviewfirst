@@ -60,7 +60,6 @@ public class Verify {
 
     public Boolean usernameVerify_register(String s,Users users){
         Select select = new Select();
-        //Users users = new Users();
         //在数据库中查找，是否存在
         if(select.selectUsers(s,3,users)){
             System.out.println("该用户名已经存在，请更换一个用户名!");
@@ -74,7 +73,6 @@ public class Verify {
         String regex = "[0-9a-zA-Z]{6,40}";
         Users users = new Users();
         if(s.matches(regex)){
-           // users.setPassword(s);
             return true;
         }else{
             System.out.println("输入的密码不符合格式，请重新输入！");
@@ -84,7 +82,6 @@ public class Verify {
 
     public int sexVerify(){
         Scanner scanner = new Scanner(System.in);
-        //Select select = new Select();
         String regex1 = "[1]{1}";
         String regex2 = "[2]{1}";
         System.out.println("1.男   2.女 ");

@@ -297,11 +297,7 @@ public class Select implements SelectImp{
             conn = JdbcUtils_DBCP.getConnection();
             String sql = null;
             sql = "select `id` from knowledgebase where knowledgebase_name = ?";
-//            if(flag == 1){
-//
-//            }else {
-//                sql = "select ";
-//            }
+
             st = conn.prepareStatement(sql);
             st.setString(1,name);
             rs = st.executeQuery();
@@ -377,10 +373,7 @@ public class Select implements SelectImp{
                 Team team = new Team();
                 team.setId(rs.getInt("team_id"));
                 team.setTeam_name(rs.getString("team_name"));
-//                team.setCreate_user_id(rs.getInt("create_user_id"));
-//                team.setInvitationCode1(rs.getString("invitationCode1"));
-//                team.setInvitationCode2(rs.getString("invitationCode2"));
-//                team.setInvitationCode3(rs.getString("invitationCode3"));
+
                 listTeam.add(team);
             }
         }catch (SQLException e){
@@ -449,7 +442,6 @@ public class Select implements SelectImp{
                     permission = rs.getInt("member_permission");
             }
         }catch (SQLException e){
-           // System.out.println("您的团队暂无协作知识库！");
             e.printStackTrace();
         }finally{
             JdbcUtils_DBCP.release(conn,st,rs);

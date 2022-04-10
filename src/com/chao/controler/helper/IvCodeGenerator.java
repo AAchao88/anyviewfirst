@@ -1,5 +1,8 @@
 package com.chao.controler.helper;
 
+/**
+ * 邀请码生成器
+ */
 public class IvCodeGenerator {
 
     private static Integer CODE_LENGTH = 6;

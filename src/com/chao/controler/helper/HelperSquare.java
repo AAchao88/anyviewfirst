@@ -52,8 +52,5 @@ public class HelperSquare {
         }
         System.out.println("该文档的创建时间是："+article.getCreate_time());
         System.out.println("该文档的最新更改时间是："+article.getUpdate_time()+"\n");
-
     }
-
-
 }

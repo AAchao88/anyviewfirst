@@ -9,6 +9,11 @@ import com.chao.po.Article;
 import java.util.LinkedList;
 
 public class HelperComment {
+
+    /**
+     * 回复评论的方法
+     * @param article
+     */
     public void replyComment(Article article){
         Select select = new Select();
         Verify verify = new Verify();
@@ -29,6 +34,10 @@ public class HelperComment {
         update.updateComment(comment,article.getId());
     }
 
+    /**
+     * 展示评论的方法
+     * @param article
+     */
     public void showComment(Article article){
         Menu menu = new Menu();
         Verify verify = new Verify();

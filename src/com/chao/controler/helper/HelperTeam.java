@@ -15,6 +15,13 @@ import java.util.LinkedList;
 
 public class HelperTeam {
 
+    /**
+     * 查看加入的团队的方法，
+     * 涉及到成员的权限
+     * @param users
+     * @param kb_id
+     * @param permission
+     */
     public void joinedTeam(Users users, Integer kb_id,int permission) {
         Select select = new Select();
         HelperComment helperComment = new HelperComment();
@@ -29,11 +36,6 @@ public class HelperTeam {
             return;
         }
         int i = 0;
-        //循环因子
-//        for(Article article: listArticle){
-//            System.out.println((i+1)+"."+article.getTitle());
-//            i++;
-//        }
         for(i = 0;listArticle.size()>i;i++){
             System.out.println((i+1)+"."+listArticle.get(i).getTitle());
         }
@@ -49,7 +51,7 @@ public class HelperTeam {
 
         switch (permission){
             case 1:{
-                //System.out.println("您在该团队只有只读权限，有问题请联系管理员。");
+                System.out.println("\n--->您在该团队只有只读权限，有问题请联系管理员。<---\n");
                 break;
             }
             case 2:{
