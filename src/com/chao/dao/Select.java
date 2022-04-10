@@ -412,7 +412,7 @@ public class Select implements SelectImp{
                 st.setInt(1,team.getId());
                 rs = st.executeQuery();
                 while(rs.next()){
-                    Member member = new Member(rs.getInt("member_id"),rs.getInt("member_permission"),rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"),rs.getString("member_name"));
+                    Member member = new Member(rs.getInt("member_id"),rs.getInt("member_permission"),rs.getInt("knowledgebase_id"),rs.getString("knowledgebase_name"),rs.getString("member_name"),rs.getInt("team_id"));
                     listMember.add(member);
                 }
 

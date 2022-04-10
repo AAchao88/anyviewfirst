@@ -163,10 +163,11 @@ public class Update implements UpdateImp{
         PreparedStatement st = null;
         try{
             conn = JdbcUtils_DBCP.getConnection();
-            String sql = "update member set member_permission = ? where member_id = ?";
+            String sql = "update member set member_permission = ? where member_id = ? and team_id = ?";
             st = conn.prepareStatement(sql);
             st.setInt(1,permission);
             st.setInt(2,member.getMember_id());
+            st.setInt(3,member.getTeam_id());
 
             int i = st.executeUpdate();
             if(i>0){

@@ -85,6 +85,11 @@ public class Menu {
             System.out.println("4.返回\n");
         }
 
+        public void menuComment(){
+            System.out.println("1.查看该文档的评论");
+            System.out.println("2.不查看该文档的评论");
+            //System.out.println("3.返回");
+        }
 
 }
 

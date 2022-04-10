@@ -85,4 +85,15 @@ public class Member {
         this.knowledgebase_name = knowledgebase_name;
         this.member_name = member_name;
     }
+
+    public Member(Integer member_id, Integer member_permission, Integer knowledgebase_id, String knowledgebase_name,String member_name,Integer team_id) {
+        this.member_id = member_id;
+        this.member_permission = member_permission;
+        this.knowledgebase_id = knowledgebase_id;
+        this.knowledgebase_name = knowledgebase_name;
+        this.member_name = member_name;
+        this.team_id = team_id;
+    }
+
+
 }

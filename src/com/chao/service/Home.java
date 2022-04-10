@@ -57,7 +57,7 @@ public class Home implements HomeImp {
         String comment = null;
 
         Article articleChecked = helperSquare.showShared();
-        System.out.println("\n\n");
+        System.out.println("\n");
         helperSquare.showInformation(articleChecked);
         menu.menuSquare();
         int flag = verify.menuItemVerify(1,4);
@@ -292,10 +292,11 @@ public class Home implements HomeImp {
             int serialNumber = verify.menuItemVerify(1,i);
             knowledgeBase.setId(select.selectIdByName(storeKnowledgeName.get(serialNumber-1)));
             System.out.println("1.新建文章   2.编辑已有文章   3.返回");
-            if(verify.menuItemVerify(1,3) == 3){
+            int judge = verify.menuItemVerify(1,3);
+            if(judge == 3){
                 return;
             }
-            if(verify.menuItemVerify(1,3) == 1){
+            if(judge == 1){
                 newArticle(users,knowledgeBase);
             }else {
                 editArticle(users,knowledgeBase.getId());
