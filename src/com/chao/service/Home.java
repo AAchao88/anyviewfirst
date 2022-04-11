@@ -234,7 +234,7 @@ public class Home implements HomeImp {
                     System.out.println("请输入所要加入团队的邀请码：");
                     String code = scanner.nextLine();
                     Member member = select.selectIvCode(code,users);
-                    if(member == null){
+                    if(member.getMember_id() == null){
                         System.out.println("邀请码错误！");
                         break;
                     }else {
