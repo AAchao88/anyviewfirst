@@ -48,7 +48,7 @@ public class HelperTeam {
         System.out.println(article.getContent());
         helperComment.showComment(listArticle.get(serialNum-1));
         helperArticle.printInformation(listArticle.get(serialNum-1));
-
+        int judge = 2,judge1 = 2;
         switch (permission){
             case 1:{
                 System.out.println("\n--->您在该团队只有只读权限，有问题请联系管理员。<---\n");
@@ -57,7 +57,7 @@ public class HelperTeam {
             case 2:{
                 System.out.println("\n--->您在该团队有可编辑权限，有问题请联系管理员。<---\n");
                 System.out.println("1.修改文档    2.不修改文档");
-                int judge = verify.menuItemVerify(1,2);
+                judge = verify.menuItemVerify(1,2);
                 if (judge == 1){
                     listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
                     listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
@@ -67,26 +67,26 @@ public class HelperTeam {
             case 3: {
                 System.out.println("\n--->您在该团队有可回复评论权限，有问题请联系管理员。<---\n");
                 System.out.println("1.修改文档    2.不修改文档");
-                int judge = verify.menuItemVerify(1,2);
+                judge = verify.menuItemVerify(1,2);
                 if (judge == 1){
                     listArticle.get(serialNum-1).setContent(helperArticle.helperEdit(listArticle.get(serialNum-1).getContent(),1));
                     listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
                 }
                 System.out.println("1.回复评论    2.不回复评论");
-                int judge2 = verify.menuItemVerify(1,2);
-                if (judge2 == 1){
+                judge1 = verify.menuItemVerify(1,2);
+                if (judge1 == 1){
                     helperComment.replyComment(listArticle.get(serialNum-1));
+                    //listArticle.get(serialNum-1).setUpdate_time(new Date(System.currentTimeMillis()));
                 }
                 break;
             }
             default:
         }
-        if(permission == 2){
+        if(permission == 2 && judge == 1){
             update.updateArticle(listArticle.get(serialNum-1),3);
         }
-        if(permission == 3){
+        if(permission == 3 && judge == 1){
             update.updateArticle(listArticle.get(serialNum-1),3);
-            update.updateArticle(listArticle.get(serialNum-1),4);
         }
     }
 
